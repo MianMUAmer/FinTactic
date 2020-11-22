@@ -1,2 +1,2 @@
 # FinTactic
-An Educational and Trading Platform for Financial Investments in Stock, Shares and Commodities. Platform uses machine learning approach and various financial indicators to find correlation/trends.
+An Educational and Trading Platform for Financial Investments in Stock, Shares and Commodities. Platform uses machine learning approach and various financial indicators to find correlation/trends. The heavy use of data analysis will allow the users to invest wisely, by letting them trade on the platform. Although it will not be real transactions, the users can evaluate their decisions based on proposed predictions and their confidence levels.
