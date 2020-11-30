@@ -18,7 +18,6 @@ function App() {
         <p>
           This will be our Project
         </p>
-        <p>A successful PR request</p>
         <a
           className="App-link"
           href="https://reactjs.org"
