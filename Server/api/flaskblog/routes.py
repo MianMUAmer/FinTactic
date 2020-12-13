@@ -1,28 +1,12 @@
 from flask import render_template, url_for, flash, redirect, request, jsonify
 from flaskblog import app, db, bcrypt
-from flaskblog.forms import RegistrationForm, LoginForm
-from flaskblog.models import User, Post
+from flaskblog.models import User
 from flask_login import login_user, current_user, logout_user, login_required
-
-posts = [
-    {
-        'author': 'Kasım Varol',
-        'title' : 'Blog Post1',
-        'content':'First post',
-        'date':'2nd December, 2020'
-    },
-    {
-        'author': 'Beyza Yıldırım',
-        'title' : 'Blog Post2',
-        'content':'Second post',
-        'date':'2nd December, 2020'
-    }
-]
 
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template("home.html", posts=posts)
+    return render_template("home.html")
 
 @app.route("/about")
 def about():
@@ -30,41 +14,42 @@ def about():
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username = form.username.data, email=form.email.data, password=hashed_password)
+    username = request.json.get('username')
+    email = request.json.get('email')
+    password = request.json.get('password')
+    errors = {}
+    user = User.query.filter_by(username=username).first()
+    if user:
+        errors['username'] = 'exists'
+    mail = User.query.filter_by(email=email).first()
+    if mail:
+        errors['email'] = 'exists'
+
+    if(len(errors)==0):
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+        user = User(username = username, email=email, password=hashed_password)
         db.session.add(user)
         db.session.commit()
-        flash('Registration is successful', 'success')
-        return redirect(url_for('login'))
-    return render_template("register.html", title='Register', form=form)
+        return {'success':'true'}, 200
+    return jsonify(errors), 400
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    username = request.json.get('username')
+    email = request.json.get('email')
     password = request.json.get('password')
-    # if current_user.is_authenticated:
-    #     return redirect(url_for('home'))
-    # form = LoginForm()
-    # if form.validate_on_submit():
-    #     user = User.query.filter_by(email=form.email.data).first()
-    #     if user and bcrypt.check_password_hash(user.password, form.password.data):
-    #         login_user(user, remember=form.remember.data)
-    #         next_page = request.args.get('next')
-    #         return redirect(url_for(next_page[1:])) if next_page else redirect(url_for('home'))
-    #     else:
-    #         flash('Login unsuccessful.', 'danger')
-    return (jsonify({ 'username': username}), 201)
-
-@app.route("/logout")
+    user = User.query.filter_by(email=email).first()
+    if user and bcrypt.check_password_hash(user.password, password):
+        login_user(user, False)
+        return {'currentuser': current_user.to_json()}, 200
+    return {'currentuser': "invalid"}, 400
+    
+@app.route('/logout')
+@login_required
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    return {"success": 200}
     
 @app.route("/account")
 @login_required
 def account():
-    return render_template("account.html", title='Account')
+    
