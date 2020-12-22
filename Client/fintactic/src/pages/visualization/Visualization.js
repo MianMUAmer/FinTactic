@@ -1,98 +1,77 @@
 import React from "react";
+import Plot from 'react-plotly.js';
 import { Row, Col, Button } from "reactstrap";
-
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import uuid from "uuid/v4";
 import Widget from "../../components/Widget/Widget";
 import s from "./Notifications.module.scss";
+import { rgbToHsl } from "@amcharts/amcharts4/.internal/core/utils/Colors";
 
 class Visualization extends React.Component {
-  state = {
-    options: {
-      position: "top-right",
-      autoClose: 5000,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: true,
-    },
-  };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      stockChartXValues: [],
+      stockChartYValues: []
+    }
+  }
+
+  componentDidMount() {
+    this.fetchStock();
+  }
+
+  fetchStock = () => {
+    const apiKey = "OMF5LH7HQ3XLVQI8";
+    let stockSymbol = "AMZN";
+    let API_CALL = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${stockSymbol}&outputsize=compact&apikey=${apiKey}`;
   
+    let apiStockXValues = [];
+    let apiStockYValues = [];
+  
+    fetch(API_CALL)
+    .then((response) => {
+      return response.json();
+    }).then((data) => {
+      for (var key in data['Time Series (Daily)']) {
+        apiStockXValues.push(key);
+        apiStockYValues.push(data['Time Series (Daily)'][key]['1. open']);
+      }
+  
+      this.setState({
+        stockChartXValues: apiStockXValues,
+        stockChartYValues: apiStockYValues
+      });
+    })
+  }
 
-  addSuccessNotification = () =>
-    toast.success(
-      "Showing success message was successful!",
-      this.state.options
-    );
-
-  toggleLocation = (location) => {
-    this.setState((prevState) => ({
-      options: {
-        ...prevState.options,
-        position: location,
-      },
-    }));
-  };
-
-  addInfoNotification = () => {
-    let id = uuid();
-    toast.info(
-      <div>
-        Launching thermonuclear war...
-        <Button
-          onClick={() => this.launchNotification(id)}
-          outline
-          size="xs"
-          className="width-100 mb-xs mr-xs mt-1"
-        >
-          Cancel launch
-        </Button>
-      </div>,
-      { ...this.state.options, toastId: id }
-    );
-  };
-
-  launchNotification = (id) =>
-    toast.update(id, {
-      ...this.state.options,
-      render: "Thermonuclear war averted",
-      type: toast.TYPE.SUCCESS,
-    });
-
-  addErrorNotification = () => {
-    let id = uuid();
-    toast.error(
-      <div>
-        Error destroying alien planet <br />
-        <Button
-          onClick={() => this.retryNotification(id)}
-          outline
-          size="xs"
-          className="width-100 mb-xs mr-xs mt-1"
-        >
-          Retry
-        </Button>
-      </div>,
-      { ...this.state.options, toastId: id }
-    );
-  };
-
-  retryNotification = (id) =>
-    toast.update(id, {
-      ...this.state.options,
-      render: "Alien planet destroyed!",
-      type: toast.TYPE.SUCCESS,
-    });
+  //Notification code here if need be
 
   render() {
+    const {stockChartXValues, stockChartYValues} = this.state;
     return (
       <div className={s.root}>
         <h1 className="page-title">
           Visualization
         </h1>
 
-       
+        <div>
+          Stock Market
+        </div>
+        <Plot
+          data={[
+            {
+              x: stockChartXValues,
+              y: stockChartYValues,
+              type: 'scatter',
+              mode: 'lines+markers',
+              marker: {color: 'red'},
+            },
+            // {type: 'bar', x: [1, 2, 3], y: [2, 5, 3]},
+          ]}
+          layout={{width: 720, height: 440, title: 'A Fancy Plot'}}
+      />
       </div>
     );
   }
