@@ -1,7 +1,7 @@
 import React from "react";
 import CandleStickPlot from './CandleStickPlot'
 import Plot from 'react-plotly.js';
-import { Row, Col, Button } from "reactstrap";
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import uuid from "uuid/v4";
@@ -18,9 +18,23 @@ class Visualization extends React.Component {
       stockChartCloseValues: [],
       stockChartHighValues: [],
       stockChartLowValues: [],
-      stockChartOpenValues: []
+      stockChartOpenValues: [],
+
+      ticker: "AMZN",
+      graphType: "Candle Stick",
+      rangeStart: "",
+      rangeEnd: "",
+      gTypeDropdownOpen: false,
+      tickerDropdownOpen: false,
+      startRangeDropdownOpen: false,
+      endRangeDropdownOpen: false
     }
   }
+
+  toggleGTypeDD = () => this.setState({gTypeDropdownOpen: !this.state.gTypeDropdownOpen});
+  toggleTickerDD = () => this.setState({tickerDropdownOpen: !this.state.tickerDropdownOpen});
+  toggleRangeStartDD = () => this.setState({startRangeDropdownOpen: !this.state.startRangeDropdownOpen});
+  toggleRangeEndDD = () => this.setState({endRangeDropdownOpen: !this.state.endRangeDropdownOpen});
 
   componentDidMount() {
     this.fetchStock();
@@ -28,7 +42,7 @@ class Visualization extends React.Component {
 
   fetchStock = () => {
     const apiKey = "OMF5LH7HQ3XLVQI8";
-    let stockSymbol = "AMZN";
+    let stockSymbol = this.state.ticker;
     let API_CALL = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${stockSymbol}&outputsize=compact&apikey=${apiKey}`;
   
     let apiStockXValues = [];
@@ -62,8 +76,8 @@ class Visualization extends React.Component {
   //Notification code here if need be
 
   render() {
-    console.log("dsdsdsd")
     const {stockChartXValues, stockChartOpenValues, stockChartHighValues, stockChartLowValues, stockChartCloseValues} = this.state;
+    const {graphType, ticker, gTypeDropdownOpen, tickerDropdownOpen, endRangeDropdownOpen, startRangeDropdownOpen} = this.state;
     const data = {stockChartXValues, stockChartOpenValues, stockChartHighValues, stockChartLowValues, stockChartCloseValues};
     return (
       <div className={s.root}>
@@ -74,7 +88,45 @@ class Visualization extends React.Component {
         <h3>
           Stock Market
         </h3>
-        { stockChartXValues.length !== 0 && <CandleStickPlot data={data}/>}
+        <div style={{display: "flex", justifyContent: "space-around"}}>
+          <Dropdown isOpen={gTypeDropdownOpen} toggle={this.toggleGTypeDD}>
+            <DropdownToggle caret>{graphType}</DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem header>Graph Type</DropdownItem>
+              <DropdownItem onClick={() => this.setState({graphType: "Candle Stick"})}>Candle Stick</DropdownItem>
+              <DropdownItem onClick={() => this.setState({graphType: "Line Graph"})}>Line Graph</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+
+          <Dropdown isOpen={tickerDropdownOpen} toggle={this.toggleTickerDD}>
+            <DropdownToggle caret>{ticker}</DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem header>Ticker</DropdownItem>
+              <DropdownItem onClick={() => {this.setState({ticker: "AMZN"}); this.fetchStock()}}>Amazon</DropdownItem>
+              <DropdownItem onClick={() => {this.setState({ticker: "GOOGL"}); this.fetchStock()}}>Google</DropdownItem>
+              <DropdownItem onClick={() => {this.setState({ticker: "AAPL"}); this.fetchStock()}}>Apple</DropdownItem>
+              <DropdownItem onClick={() => {this.setState({ticker: "MSFT"}); this.fetchStock()}}>Microsoft</DropdownItem>
+              <DropdownItem onClick={() => {this.setState({ticker: "FB"}); this.fetchStock()}}>Facebook</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+
+          <Dropdown isOpen={startRangeDropdownOpen} toggle={this.toggleRangeStartDD}>
+            <DropdownToggle caret>Range:Start</DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem header>Start Date</DropdownItem>
+              <DropdownItem disabled>Calender</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+
+          <Dropdown isOpen={endRangeDropdownOpen} toggle={this.toggleRangeEndDD}>
+            <DropdownToggle caret>Range:End</DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem header>End Date</DropdownItem>
+              <DropdownItem disabled>Calender</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+        { graphType === "Candle Stick" && stockChartXValues.length !== 0 && <CandleStickPlot data={data}/>}
       </div>
     );
   }
