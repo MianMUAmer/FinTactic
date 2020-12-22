@@ -34,7 +34,7 @@ class App extends React.PureComponent {
    
     return (
         <div>
-            <p>Time Coming from Flask Backend : {this.props.BE_time} </p>
+            {/* <p>Time Coming from Flask Backend : {this.props.BE_time} </p> */}
             <ToastContainer
                 autoClose={5000}
                 hideProgressBar

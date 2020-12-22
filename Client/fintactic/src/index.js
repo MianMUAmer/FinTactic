@@ -17,7 +17,7 @@ ReactDOM.render(
     <Provider store={store}>
       <div>
       <FuncComp />
-      <App />
+      {/* <App /> */}
       </div>
     </Provider>,
     document.getElementById('root')

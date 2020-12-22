@@ -1,6 +1,6 @@
 import { REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS } from '../actions/register';
 
-export default function register(state = {
+function register(state = {
     isFetching: false,
     errorMessage: ''
 }, action) {
@@ -23,3 +23,4 @@ export default function register(state = {
             return state; 
     }
 }
+export default register;
