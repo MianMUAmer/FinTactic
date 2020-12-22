@@ -1,4 +1,5 @@
 import React from "react";
+import CandleStickPlot from './CandleStickPlot'
 import Plot from 'react-plotly.js';
 import { Row, Col, Button } from "reactstrap";
 import { toast } from "react-toastify";
@@ -14,7 +15,10 @@ class Visualization extends React.Component {
     super(props);
     this.state = {
       stockChartXValues: [],
-      stockChartYValues: []
+      stockChartCloseValues: [],
+      stockChartHighValues: [],
+      stockChartLowValues: [],
+      stockChartOpenValues: []
     }
   }
 
@@ -28,7 +32,10 @@ class Visualization extends React.Component {
     let API_CALL = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${stockSymbol}&outputsize=compact&apikey=${apiKey}`;
   
     let apiStockXValues = [];
-    let apiStockYValues = [];
+    let apiStockCloseValues = [];
+    let apiStockHighValues = [];
+    let apiStockLowValues = [];
+    let apiStockOpenValues = [];
   
     fetch(API_CALL)
     .then((response) => {
@@ -36,12 +43,18 @@ class Visualization extends React.Component {
     }).then((data) => {
       for (var key in data['Time Series (Daily)']) {
         apiStockXValues.push(key);
-        apiStockYValues.push(data['Time Series (Daily)'][key]['1. open']);
+        apiStockOpenValues.push(data['Time Series (Daily)'][key]['1. open']);
+        apiStockHighValues.push(data['Time Series (Daily)'][key]['2. high']);
+        apiStockLowValues.push(data['Time Series (Daily)'][key]['3. low']);
+        apiStockCloseValues.push(data['Time Series (Daily)'][key]['4. close']);
       }
   
       this.setState({
         stockChartXValues: apiStockXValues,
-        stockChartYValues: apiStockYValues
+        stockChartOpenValues: apiStockOpenValues,
+        stockChartHighValues: apiStockHighValues,
+        stockChartLowValues: apiStockLowValues,
+        stockChartCloseValues: apiStockCloseValues
       });
     })
   }
@@ -49,29 +62,19 @@ class Visualization extends React.Component {
   //Notification code here if need be
 
   render() {
-    const {stockChartXValues, stockChartYValues} = this.state;
+    console.log("dsdsdsd")
+    const {stockChartXValues, stockChartOpenValues, stockChartHighValues, stockChartLowValues, stockChartCloseValues} = this.state;
+    const data = {stockChartXValues, stockChartOpenValues, stockChartHighValues, stockChartLowValues, stockChartCloseValues};
     return (
       <div className={s.root}>
         <h1 className="page-title">
           Visualization
         </h1>
 
-        <div>
+        <h3>
           Stock Market
-        </div>
-        <Plot
-          data={[
-            {
-              x: stockChartXValues,
-              y: stockChartYValues,
-              type: 'scatter',
-              mode: 'lines+markers',
-              marker: {color: 'red'},
-            },
-            // {type: 'bar', x: [1, 2, 3], y: [2, 5, 3]},
-          ]}
-          layout={{width: 720, height: 440, title: 'A Fancy Plot'}}
-      />
+        </h3>
+        { stockChartXValues.length !== 0 && <CandleStickPlot data={data}/>}
       </div>
     );
   }
