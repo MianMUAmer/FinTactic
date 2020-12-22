@@ -6,7 +6,7 @@ class BreadcrumbHistory extends Component {
 
   renderBreadCrumbs = () => {
     
-    let route = this.props.url.split('/')
+    /*let route = this.props.url.split('/')
     .slice(1)
     .map(route => route
       .split('-')
@@ -18,7 +18,7 @@ class BreadcrumbHistory extends Component {
       length === index + 1 ? 
       <BreadcrumbItem key={uuid()} className="active"><strong>{item}</strong></BreadcrumbItem> : 
       <BreadcrumbItem key={uuid()}>{item}</BreadcrumbItem>
-    ))
+    ))*/
   }
   
   render() {
@@ -27,7 +27,7 @@ class BreadcrumbHistory extends Component {
         { this.props.url !== '/app/chat' ?
           <div>
             <Breadcrumb tag="nav" listTag="div">
-              <BreadcrumbItem>YOU ARE HERE</BreadcrumbItem>
+              <BreadcrumbItem></BreadcrumbItem>
               {this.renderBreadCrumbs()}
             </Breadcrumb>
           </div>
