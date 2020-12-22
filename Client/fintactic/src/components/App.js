@@ -17,7 +17,7 @@ import { logoutUser } from '../actions/user';
 
 const PrivateRoute = ({dispatch, component, ...rest }) => {
     if (!Login.isAuthenticated(JSON.parse(localStorage.getItem('authenticated')))) {
-        dispatch(logoutUser());
+        //dispatch(logoutUser());
         return (<Redirect to="/login"/>)
     } else {
         return ( // eslint-disable-line

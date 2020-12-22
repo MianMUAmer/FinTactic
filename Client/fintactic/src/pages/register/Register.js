@@ -6,7 +6,7 @@ import { Container, Alert, Button, FormGroup, InputGroup, InputGroupAddon, Input
 import Widget from '../../components/Widget';
 import { registerUser, registerError } from '../../actions/register';
 import Login from '../login';
-import Logo from 'C:/Users/user/Desktop/FinTactic/Client/fintactic/src/images/people/a2.jpg';
+import Logo from '../images/people/a2.jpg';
 
 
 class Register extends React.Component {
