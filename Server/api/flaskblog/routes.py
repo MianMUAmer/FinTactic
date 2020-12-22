@@ -48,4 +48,5 @@ def login():
 def logout():
     logout_user()
     return {"success": 200}
+    
 

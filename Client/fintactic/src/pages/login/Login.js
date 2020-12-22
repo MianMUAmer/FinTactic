@@ -59,10 +59,8 @@ class Login extends React.Component {
         return (
             <div className="auth-page">
                 <Container>
-                    <Widget className="widget-auth mx-auto" title={<h3 className="mt-0">Login to FinTactic</h3>}>
-                        <p className="widget-auth-info">
-                            Use your email to sign in.
-                        </p>
+                    <Widget className="widget-auth mx-auto" title={<h3 className="mt-0">Welcome to <b>FinTacTic!</b></h3>}>
+                       
                         <form onSubmit={this.doLogin}>
                             {
                                 this.props.errorMessage && (
@@ -105,15 +103,17 @@ class Login extends React.Component {
                                   {this.props.isFetching ? 'Loading...' : 'Login'}
                                 </Button>
                                 <p className="widget-auth-info mt-4">
-                                    Don't have an account? Sign up now!
+                                    Don't have an account? 
                                 </p>
-                                <Link className="d-block text-center mb-4" to="register">Create an Account</Link>
+                                <Link className="d-block text-center mb-4" to="register">Sign up Now!</Link>
                                 
                             </div>
                         </form>
                     </Widget>
                 </Container>
-                
+                <footer className="auth-footer">
+                {new Date().getFullYear()} &copy; All rights reserved! <a href="" rel="noopener noreferrer" target="_blank">FinTacTic</a>.                    
+                </footer>
             </div>
         );
     }

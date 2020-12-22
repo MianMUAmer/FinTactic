@@ -17,7 +17,7 @@ import { logoutUser } from '../actions/user';
 
 const PrivateRoute = ({dispatch, component, ...rest }) => {
     if (!Login.isAuthenticated(JSON.parse(localStorage.getItem('authenticated')))) {
-        dispatch(logoutUser());
+        //dispatch(logoutUser());
         return (<Redirect to="/login"/>)
     } else {
         return ( // eslint-disable-line
@@ -34,7 +34,7 @@ class App extends React.PureComponent {
    
     return (
         <div>
-            <p>Time Coming from Flask Backend : {this.props.BE_time} </p>
+            {/* <p>Time Coming from Flask Backend : {this.props.BE_time} </p> */}
             <ToastContainer
                 autoClose={5000}
                 hideProgressBar
