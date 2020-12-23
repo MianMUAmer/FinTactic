@@ -1,7 +1,13 @@
 import React from "react";
-import CandleStickPlot from './CandleStickPlot'
-import Plot from 'react-plotly.js';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
+import CandleStickPlot from "./CandleStickPlot";
+import LineGraph from "./LineGraph";
+import Plot from "react-plotly.js";
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import uuid from "uuid/v4";
@@ -10,11 +16,12 @@ import s from "./Notifications.module.scss";
 import { rgbToHsl } from "@amcharts/amcharts4/.internal/core/utils/Colors";
 
 class Visualization extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
       data: {
+        name: "",
+        symbol: "",
         stockChartXValues: [],
         stockChartCloseValues: [],
         stockChartHighValues: [],
@@ -24,20 +31,26 @@ class Visualization extends React.Component {
       refresh: false,
 
       ticker: "AMZN",
-      graphType: "Candle Stick",
+      graphType: "Line Graph",
       rangeStart: "",
       rangeEnd: "",
       gTypeDropdownOpen: false,
       tickerDropdownOpen: false,
       startRangeDropdownOpen: false,
-      endRangeDropdownOpen: false
-    }
+      endRangeDropdownOpen: false,
+    };
   }
 
-  toggleGTypeDD = () => this.setState({gTypeDropdownOpen: !this.state.gTypeDropdownOpen});
-  toggleTickerDD = () => this.setState({tickerDropdownOpen: !this.state.tickerDropdownOpen});
-  toggleRangeStartDD = () => this.setState({startRangeDropdownOpen: !this.state.startRangeDropdownOpen});
-  toggleRangeEndDD = () => this.setState({endRangeDropdownOpen: !this.state.endRangeDropdownOpen});
+  toggleGTypeDD = () =>
+    this.setState({ gTypeDropdownOpen: !this.state.gTypeDropdownOpen });
+  toggleTickerDD = () =>
+    this.setState({ tickerDropdownOpen: !this.state.tickerDropdownOpen });
+  toggleRangeStartDD = () =>
+    this.setState({
+      startRangeDropdownOpen: !this.state.startRangeDropdownOpen,
+    });
+  toggleRangeEndDD = () =>
+    this.setState({ endRangeDropdownOpen: !this.state.endRangeDropdownOpen });
 
   componentDidMount() {
     this.fetchStock();
@@ -47,66 +60,79 @@ class Visualization extends React.Component {
     const apiKey = "OMF5LH7HQ3XLVQI8";
     let stockSymbol = this.state.ticker;
     let API_CALL = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${stockSymbol}&outputsize=compact&apikey=${apiKey}`;
-  
+
     let apiStockXValues = [];
     let apiStockCloseValues = [];
     let apiStockHighValues = [];
     let apiStockLowValues = [];
     let apiStockOpenValues = [];
-  
-    
+
     this.setState({
-      refresh: false
-    })
+      refresh: false,
+    });
 
     fetch(API_CALL)
-    .then((response) => {
-      return response.json();
-    }).then((data) => {
-      for (var key in data['Time Series (Daily)']) {
-        apiStockXValues.push(key);
-        apiStockOpenValues.push(data['Time Series (Daily)'][key]['1. open']);
-        apiStockHighValues.push(data['Time Series (Daily)'][key]['2. high']);
-        apiStockLowValues.push(data['Time Series (Daily)'][key]['3. low']);
-        apiStockCloseValues.push(data['Time Series (Daily)'][key]['4. close']);
-      }
-  
-      this.setState((oldDataState) => ({
-        ...oldDataState,
-        data: {
-          stockChartXValues: apiStockXValues,
-          stockChartOpenValues: apiStockOpenValues,
-          stockChartHighValues: apiStockHighValues,
-          stockChartLowValues: apiStockLowValues,
-          stockChartCloseValues: apiStockCloseValues,
-        },
-        refresh: true
-      }));
-    })
-  }
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        for (var key in data["Time Series (Daily)"]) {
+          apiStockXValues.push(key);
+          apiStockOpenValues.push(data["Time Series (Daily)"][key]["1. open"]);
+          apiStockHighValues.push(data["Time Series (Daily)"][key]["2. high"]);
+          apiStockLowValues.push(data["Time Series (Daily)"][key]["3. low"]);
+          apiStockCloseValues.push(
+            data["Time Series (Daily)"][key]["4. close"]
+          );
+        }
+
+        this.setState((oldDataState) => ({
+          ...oldDataState,
+          data: {
+            name: "Name",
+            symbol: data["Meta Data"]["2. Symbol"],
+            stockChartXValues: apiStockXValues,
+            stockChartOpenValues: apiStockOpenValues,
+            stockChartHighValues: apiStockHighValues,
+            stockChartLowValues: apiStockLowValues,
+            stockChartCloseValues: apiStockCloseValues,
+          },
+          refresh: true,
+        }));
+      });
+  };
 
   //Notification code here if need be
 
   render() {
-    const {data, graphType, ticker, refresh} = this.state;
-    const {gTypeDropdownOpen, tickerDropdownOpen, endRangeDropdownOpen, startRangeDropdownOpen} = this.state;
+    const { data, graphType, ticker, refresh } = this.state;
+    const {
+      gTypeDropdownOpen,
+      tickerDropdownOpen,
+      endRangeDropdownOpen,
+      startRangeDropdownOpen,
+    } = this.state;
 
     return (
       <div className={s.root}>
-        <h1 className="page-title">
-          Visualization
-        </h1>
+        <h1 className="page-title">Visualization</h1>
 
-        <h3>
-          Stock Market
-        </h3>
-        <div style={{display: "flex", justifyContent: "space-around"}}>
+        <h3>Stock Market</h3>
+        <div style={{ display: "flex", justifyContent: "space-around" }}>
           <Dropdown isOpen={gTypeDropdownOpen} toggle={this.toggleGTypeDD}>
             <DropdownToggle caret>{graphType}</DropdownToggle>
             <DropdownMenu>
               <DropdownItem header>Graph Type</DropdownItem>
-              <DropdownItem onClick={() => this.setState({graphType: "Candle Stick"})}>Candle Stick</DropdownItem>
-              <DropdownItem onClick={() => this.setState({graphType: "Line Graph"})}>Line Graph</DropdownItem>
+              <DropdownItem
+                onClick={() => this.setState({ graphType: "Candle Stick" })}
+              >
+                Candle Stick
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => this.setState({ graphType: "Line Graph" })}
+              >
+                Line Graph
+              </DropdownItem>
             </DropdownMenu>
           </Dropdown>
 
@@ -114,15 +140,58 @@ class Visualization extends React.Component {
             <DropdownToggle caret>{ticker}</DropdownToggle>
             <DropdownMenu>
               <DropdownItem header>Ticker</DropdownItem>
-              <DropdownItem onClick={() => {this.setState({ticker: "AMZN"}, () => {this.fetchStock()})}}>Amazon</DropdownItem>
-              <DropdownItem onClick={() => {this.setState({ticker: "GOOGL"}, () => {this.fetchStock()})}}>Google</DropdownItem>
-              <DropdownItem onClick={() => {this.setState({ticker: "AAPL"}, () => {this.fetchStock()})}}>Apple</DropdownItem>
-              <DropdownItem onClick={() => {this.setState({ticker: "MSFT"}, () => {this.fetchStock()})}}>Microsoft</DropdownItem>
-              <DropdownItem onClick={() => {this.setState({ticker: "FB"}, () => {this.fetchStock()})}}>Facebook</DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  this.setState({ ticker: "AMZN" }, () => {
+                    this.fetchStock();
+                  });
+                }}
+              >
+                Amazon
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  this.setState({ ticker: "GOOGL" }, () => {
+                    this.fetchStock();
+                  });
+                }}
+              >
+                Google
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  this.setState({ ticker: "AAPL" }, () => {
+                    this.fetchStock();
+                  });
+                }}
+              >
+                Apple
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  this.setState({ ticker: "MSFT" }, () => {
+                    this.fetchStock();
+                  });
+                }}
+              >
+                Microsoft
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  this.setState({ ticker: "FB" }, () => {
+                    this.fetchStock();
+                  });
+                }}
+              >
+                Facebook
+              </DropdownItem>
             </DropdownMenu>
           </Dropdown>
 
-          <Dropdown isOpen={startRangeDropdownOpen} toggle={this.toggleRangeStartDD}>
+          <Dropdown
+            isOpen={startRangeDropdownOpen}
+            toggle={this.toggleRangeStartDD}
+          >
             <DropdownToggle caret>Range:Start</DropdownToggle>
             <DropdownMenu>
               <DropdownItem header>Start Date</DropdownItem>
@@ -130,7 +199,10 @@ class Visualization extends React.Component {
             </DropdownMenu>
           </Dropdown>
 
-          <Dropdown isOpen={endRangeDropdownOpen} toggle={this.toggleRangeEndDD}>
+          <Dropdown
+            isOpen={endRangeDropdownOpen}
+            toggle={this.toggleRangeEndDD}
+          >
             <DropdownToggle caret>Range:End</DropdownToggle>
             <DropdownMenu>
               <DropdownItem header>End Date</DropdownItem>
@@ -138,8 +210,12 @@ class Visualization extends React.Component {
             </DropdownMenu>
           </Dropdown>
         </div>
-        { graphType === "Candle Stick" && data.stockChartXValues.length !== 0 && refresh && <CandleStickPlot data={data}/>}
-        { graphType === "Line Graph" && data.stockChartXValues.length !== 0 && refresh && <CandleStickPlot data={data}/>}
+        {graphType === "Candle Stick" &&
+          data.stockChartXValues.length !== 0 &&
+          refresh && <CandleStickPlot data={data} />}
+        {graphType === "Line Graph" &&
+          data.stockChartXValues.length !== 0 &&
+          refresh && <LineGraph data={data} />}
       </div>
     );
   }
