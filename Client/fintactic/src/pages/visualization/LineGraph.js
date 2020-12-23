@@ -28,7 +28,7 @@ class LineGraph extends React.Component {
             name: `${symbol} High`,
             x: stockChartXValues,
             y: stockChartHighValues,
-            line: { color: "#17BECF" },
+            // line: { color: "#17BECF" },
           },
           {
             type: "scatter",
@@ -36,7 +36,7 @@ class LineGraph extends React.Component {
             name: `${symbol} Low`,
             x: stockChartXValues,
             y: stockChartLowValues,
-            line: { color: "#7F7F7F" },
+            // line: { color: "#7F7F7F" },
           },
         ]}
         layout={this.layout}
@@ -45,15 +45,16 @@ class LineGraph extends React.Component {
   }
 
   layout = {
-    width: 1280,
-    height: 540,
+    // width: 1245,
+    width: window.innerWidth - 35,
+    height: 520,
     title: `${this.props.data.name} ( ${this.props.data.symbol} ) Line Graph`,
     dragmode: "zoom",
     margin: {
-      r: 30,
+      r: 45,
       t: 85,
       b: 20,
-      l: 50,
+      l: 45,
     },
     showlegend: false,
     xaxis: {

@@ -3,6 +3,7 @@ import CandleStickPlot from "./CandleStickPlot";
 import LineGraph from "./LineGraph";
 import Plot from "react-plotly.js";
 import {
+  ButtonDropdown,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
@@ -31,16 +32,18 @@ class Visualization extends React.Component {
       refresh: false,
 
       ticker: "AMZN",
-      graphType: "Line Graph",
+      graphType: "Candle Stick",
       rangeStart: "",
       rangeEnd: "",
+      assetTypeDropdownOpen: false,
       gTypeDropdownOpen: false,
       tickerDropdownOpen: false,
       startRangeDropdownOpen: false,
       endRangeDropdownOpen: false,
     };
   }
-
+  toggleAssetTypeDD = () =>
+    this.setState({ assetTypeDropdownOpen: !this.state.assetTypeDropdownOpen });
   toggleGTypeDD = () =>
     this.setState({ gTypeDropdownOpen: !this.state.gTypeDropdownOpen });
   toggleTickerDD = () =>
@@ -107,6 +110,7 @@ class Visualization extends React.Component {
   render() {
     const { data, graphType, ticker, refresh } = this.state;
     const {
+      assetTypeDropdownOpen,
       gTypeDropdownOpen,
       tickerDropdownOpen,
       endRangeDropdownOpen,
@@ -114,30 +118,52 @@ class Visualization extends React.Component {
     } = this.state;
 
     return (
-      <div className={s.root}>
+      <div
+        style={{
+          marginLeft: 10,
+          marginRight: 10,
+          marginTop: 15,
+          marginBottom: 10,
+        }}
+        className={s.root}
+      >
         <h1 className="page-title">Visualization</h1>
 
-        <h3>Stock Market</h3>
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
-          <Dropdown isOpen={gTypeDropdownOpen} toggle={this.toggleGTypeDD}>
-            <DropdownToggle caret>{graphType}</DropdownToggle>
+        <h3>Market Analysis</h3>
+        <h5
+          style={{
+            marginTop: 15,
+          }}
+        >
+          Filters
+        </h5>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "70%",
+            marginBottom: 20,
+          }}
+        >
+          <Dropdown
+            isOpen={assetTypeDropdownOpen}
+            toggle={this.toggleAssetTypeDD}
+          >
+            <DropdownToggle caret color="dark">
+              Stocks
+            </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem header>Graph Type</DropdownItem>
-              <DropdownItem
-                onClick={() => this.setState({ graphType: "Candle Stick" })}
-              >
-                Candle Stick
-              </DropdownItem>
-              <DropdownItem
-                onClick={() => this.setState({ graphType: "Line Graph" })}
-              >
-                Line Graph
-              </DropdownItem>
+              <DropdownItem header>Asset Type</DropdownItem>
+              <DropdownItem>Stocks</DropdownItem>
+              <DropdownItem disabled>Currency</DropdownItem>
+              <DropdownItem disabled>Commodity</DropdownItem>
             </DropdownMenu>
           </Dropdown>
 
           <Dropdown isOpen={tickerDropdownOpen} toggle={this.toggleTickerDD}>
-            <DropdownToggle caret>{ticker}</DropdownToggle>
+            <DropdownToggle caret color="dark">
+              {ticker}
+            </DropdownToggle>
             <DropdownMenu>
               <DropdownItem header>Ticker</DropdownItem>
               <DropdownItem
@@ -188,11 +214,32 @@ class Visualization extends React.Component {
             </DropdownMenu>
           </Dropdown>
 
+          <Dropdown isOpen={gTypeDropdownOpen} toggle={this.toggleGTypeDD}>
+            <DropdownToggle caret color="dark">
+              {graphType}
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem header>Graph Type</DropdownItem>
+              <DropdownItem
+                onClick={() => this.setState({ graphType: "Candle Stick" })}
+              >
+                Candle Stick
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => this.setState({ graphType: "Line Graph" })}
+              >
+                Line Graph
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+
           <Dropdown
             isOpen={startRangeDropdownOpen}
             toggle={this.toggleRangeStartDD}
           >
-            <DropdownToggle caret>Range:Start</DropdownToggle>
+            <DropdownToggle caret color="dark">
+              Range:Start
+            </DropdownToggle>
             <DropdownMenu>
               <DropdownItem header>Start Date</DropdownItem>
               <DropdownItem disabled>Calender</DropdownItem>
@@ -203,7 +250,9 @@ class Visualization extends React.Component {
             isOpen={endRangeDropdownOpen}
             toggle={this.toggleRangeEndDD}
           >
-            <DropdownToggle caret>Range:End</DropdownToggle>
+            <DropdownToggle caret color="dark">
+              Range:End
+            </DropdownToggle>
             <DropdownMenu>
               <DropdownItem header>End Date</DropdownItem>
               <DropdownItem disabled>Calender</DropdownItem>
