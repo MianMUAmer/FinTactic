@@ -44,15 +44,16 @@ class CandleStickPlot extends React.Component {
   }
 
   layout = {
-    width: 1280,
-    height: 540,
+    // width: 1245,
+    width: window.innerWidth - 35,
+    height: 520,
     title: `${this.props.data.name} ( ${this.props.data.symbol} ) Candle Stick Plot`,
     dragmode: "zoom",
     margin: {
-      r: 10,
+      r: 45,
       t: 95,
       b: 50,
-      l: 60,
+      l: 45,
     },
     showlegend: false,
     xaxis: {
