@@ -14,11 +14,14 @@ class Visualization extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      stockChartXValues: [],
-      stockChartCloseValues: [],
-      stockChartHighValues: [],
-      stockChartLowValues: [],
-      stockChartOpenValues: [],
+      data: {
+        stockChartXValues: [],
+        stockChartCloseValues: [],
+        stockChartHighValues: [],
+        stockChartLowValues: [],
+        stockChartOpenValues: [],
+      },
+      refresh: false,
 
       ticker: "AMZN",
       graphType: "Candle Stick",
@@ -51,6 +54,11 @@ class Visualization extends React.Component {
     let apiStockLowValues = [];
     let apiStockOpenValues = [];
   
+    
+    this.setState({
+      refresh: false
+    })
+
     fetch(API_CALL)
     .then((response) => {
       return response.json();
@@ -63,22 +71,26 @@ class Visualization extends React.Component {
         apiStockCloseValues.push(data['Time Series (Daily)'][key]['4. close']);
       }
   
-      this.setState({
-        stockChartXValues: apiStockXValues,
-        stockChartOpenValues: apiStockOpenValues,
-        stockChartHighValues: apiStockHighValues,
-        stockChartLowValues: apiStockLowValues,
-        stockChartCloseValues: apiStockCloseValues
-      });
+      this.setState((oldDataState) => ({
+        ...oldDataState,
+        data: {
+          stockChartXValues: apiStockXValues,
+          stockChartOpenValues: apiStockOpenValues,
+          stockChartHighValues: apiStockHighValues,
+          stockChartLowValues: apiStockLowValues,
+          stockChartCloseValues: apiStockCloseValues,
+        },
+        refresh: true
+      }));
     })
   }
 
   //Notification code here if need be
 
   render() {
-    const {stockChartXValues, stockChartOpenValues, stockChartHighValues, stockChartLowValues, stockChartCloseValues} = this.state;
-    const {graphType, ticker, gTypeDropdownOpen, tickerDropdownOpen, endRangeDropdownOpen, startRangeDropdownOpen} = this.state;
-    const data = {stockChartXValues, stockChartOpenValues, stockChartHighValues, stockChartLowValues, stockChartCloseValues};
+    const {data, graphType, ticker, refresh} = this.state;
+    const {gTypeDropdownOpen, tickerDropdownOpen, endRangeDropdownOpen, startRangeDropdownOpen} = this.state;
+
     return (
       <div className={s.root}>
         <h1 className="page-title">
@@ -102,11 +114,11 @@ class Visualization extends React.Component {
             <DropdownToggle caret>{ticker}</DropdownToggle>
             <DropdownMenu>
               <DropdownItem header>Ticker</DropdownItem>
-              <DropdownItem onClick={() => {this.setState({ticker: "AMZN"}); this.fetchStock()}}>Amazon</DropdownItem>
-              <DropdownItem onClick={() => {this.setState({ticker: "GOOGL"}); this.fetchStock()}}>Google</DropdownItem>
-              <DropdownItem onClick={() => {this.setState({ticker: "AAPL"}); this.fetchStock()}}>Apple</DropdownItem>
-              <DropdownItem onClick={() => {this.setState({ticker: "MSFT"}); this.fetchStock()}}>Microsoft</DropdownItem>
-              <DropdownItem onClick={() => {this.setState({ticker: "FB"}); this.fetchStock()}}>Facebook</DropdownItem>
+              <DropdownItem onClick={() => {this.setState({ticker: "AMZN"}, () => {this.fetchStock()})}}>Amazon</DropdownItem>
+              <DropdownItem onClick={() => {this.setState({ticker: "GOOGL"}, () => {this.fetchStock()})}}>Google</DropdownItem>
+              <DropdownItem onClick={() => {this.setState({ticker: "AAPL"}, () => {this.fetchStock()})}}>Apple</DropdownItem>
+              <DropdownItem onClick={() => {this.setState({ticker: "MSFT"}, () => {this.fetchStock()})}}>Microsoft</DropdownItem>
+              <DropdownItem onClick={() => {this.setState({ticker: "FB"}, () => {this.fetchStock()})}}>Facebook</DropdownItem>
             </DropdownMenu>
           </Dropdown>
 
@@ -126,7 +138,8 @@ class Visualization extends React.Component {
             </DropdownMenu>
           </Dropdown>
         </div>
-        { graphType === "Candle Stick" && stockChartXValues.length !== 0 && <CandleStickPlot data={data}/>}
+        { graphType === "Candle Stick" && data.stockChartXValues.length !== 0 && refresh && <CandleStickPlot data={data}/>}
+        { graphType === "Line Graph" && data.stockChartXValues.length !== 0 && refresh && <CandleStickPlot data={data}/>}
       </div>
     );
   }
