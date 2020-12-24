@@ -14,6 +14,7 @@ import LayoutComponent from '../components/Layout';
 import Login from '../pages/login';
 import Register from '../pages/register';
 import Visualization from '../pages/visualization';
+import Education from '../pages/education';
 import { logoutUser } from '../actions/user';
 
 const PrivateRoute = ({dispatch, component, ...rest }) => {
@@ -49,6 +50,7 @@ class App extends React.PureComponent {
                     <Route path="/register" exact component={Register}/>
                     <Route path="/login" exact component={Login}/>
                     <Route path="/viz" exact component={Visualization}/>
+                    <Route path="/edu" exact component={Education}/>
                     <Route path="/error" exact component={ErrorPage}/>
                     <Route component={ErrorPage}/>
                     <Redirect from="*" to="/app/main/dashboard"/>
