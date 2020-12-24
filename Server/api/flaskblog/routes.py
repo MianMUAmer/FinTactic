@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, redirect, request, jsonify
 from flaskblog import app, db, bcrypt
 from flaskblog.models import User
 from flask_login import login_user, current_user, logout_user, login_required
-
+import flask
 @app.route("/")
 @app.route("/home")
 def home():
@@ -35,8 +35,9 @@ def register():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    email = request.json.get('email')
-    password = request.json.get('password')
+    req = flask.request.get_json(force=True)
+    email = req.get('email', None)
+    password = req.get('password', None)
     user = User.query.filter_by(email=email).first()
     if user and bcrypt.check_password_hash(user.password, password):
         login_user(user, False)

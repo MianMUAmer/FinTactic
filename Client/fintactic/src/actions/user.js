@@ -40,10 +40,25 @@ export function logoutUser() {
 export function loginUser(creds) {
     return (dispatch) => {
 
-        dispatch(receiveLogin());
-
         if (creds.email.length > 0 && creds.password.length > 0) {
-            localStorage.setItem('authenticated', true)
+            let opts = {
+                'email': creds.email,
+                'password': creds.password
+            }
+            fetch('/login', {
+                method: 'post',
+                body: JSON.stringify(opts)
+              }).then(r => r.json())
+                .then(response => {
+                if (response.currentuser!='invalid'){
+                    localStorage.setItem('authenticated', true)
+                    dispatch(receiveLogin());
+                    console.log(response.currentuser)
+                  }
+                  else {
+                    console.log("Please type in correct username/password")
+                  }
+                })
         } else {
             dispatch(loginError('Something was wrong. Try again'));
         }
