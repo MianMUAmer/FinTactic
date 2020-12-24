@@ -1,41 +1,42 @@
 import React from "react";
 import Plot from "react-plotly.js";
 
-class CandleStickPlot extends React.Component {
+class LineGraph extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      symbol: this.props.data.symbol,
       stockChartXValues: this.props.data.stockChartXValues,
-      stockChartOpenValues: this.props.data.stockChartOpenValues,
       stockChartHighValues: this.props.data.stockChartHighValues,
       stockChartLowValues: this.props.data.stockChartLowValues,
-      stockChartCloseValues: this.props.data.stockChartCloseValues,
     };
   }
 
   render() {
     const {
       stockChartXValues,
-      stockChartOpenValues,
       stockChartHighValues,
       stockChartLowValues,
-      stockChartCloseValues,
+      symbol,
     } = this.state;
     return (
       <Plot
         data={[
           {
+            type: "scatter",
+            mode: "lines",
+            name: `${symbol} High`,
             x: stockChartXValues,
-            close: stockChartOpenValues,
-            decreasing: { line: { color: "#7F7F7F" } },
-            high: stockChartHighValues,
-            increasing: { line: { color: "#17BECF" } },
-            line: { color: "rgba(31,119,180,1)" },
-            low: stockChartLowValues,
-            open: stockChartCloseValues,
-            type: "candlestick",
-            xaxis: "x",
-            yaxis: "y",
+            y: stockChartHighValues,
+            // line: { color: "#17BECF" },
+          },
+          {
+            type: "scatter",
+            mode: "lines",
+            name: `${symbol} Low`,
+            x: stockChartXValues,
+            y: stockChartLowValues,
+            // line: { color: "#7F7F7F" },
           },
         ]}
         layout={this.layout}
@@ -47,18 +48,17 @@ class CandleStickPlot extends React.Component {
     width: 1015,
     // width: window.innerWidth - 35,
     height: 520,
-    title: `${this.props.data.name} ( ${this.props.data.symbol} ) Candle Stick Plot`,
+    title: `${this.props.data.name} ( ${this.props.data.symbol} ) Line Graph`,
     dragmode: "zoom",
     margin: {
       r: 45,
-      t: 95,
-      b: 50,
+      t: 85,
+      b: 20,
       l: 45,
     },
     showlegend: false,
     xaxis: {
       autorange: true,
-      domain: [0, 1],
       rangeselector: {
         x: 0,
         y: 1.2,
@@ -89,15 +89,14 @@ class CandleStickPlot extends React.Component {
           },
         ],
       },
-      title: "Date",
+      rangeslider: {},
       type: "date",
     },
     yaxis: {
       autorange: true,
-      domain: [0, 1],
       type: "linear",
     },
   };
 }
 
-export default CandleStickPlot;
+export default LineGraph;
