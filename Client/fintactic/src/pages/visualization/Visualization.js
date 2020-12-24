@@ -130,21 +130,23 @@ class Visualization extends React.Component {
         <h1 className="page-title">Visualization</h1>
 
         <h3>Market Analysis</h3>
-        <h5
-          style={{
-            marginTop: 15,
-          }}
-        >
-          Filters
-        </h5>
+
         <div
           style={{
             display: "flex",
             justifyContent: "space-between",
             width: "70%",
             marginBottom: 20,
+            alignItems: "baseline",
           }}
         >
+          <h5
+            style={{
+              marginTop: 15,
+            }}
+          >
+            Filters :
+          </h5>
           <Dropdown
             isOpen={assetTypeDropdownOpen}
             toggle={this.toggleAssetTypeDD}
