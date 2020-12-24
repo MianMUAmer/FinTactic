@@ -17,6 +17,7 @@ import { Sparklines, SparklinesBars } from "react-sparklines";
 
 //import Widget from "../../components/Widget/Widget";
 import s from "./Static.module.scss";
+import YouTubeVideo from "../../components/YouTubeVideo/YouTubeVideo";
 
 class Education extends React.Component {
   constructor(props) {
@@ -147,6 +148,10 @@ class Education extends React.Component {
         <h1 className="page-title">
           Education
         </h1>
+        <h4>Our Brand New Video about Stock Market is OUT!</h4>
+        <p>
+          <YouTubeVideo videoId='eKxxtYIU1iA'/>
+        </p>
         
       </div>
     );
