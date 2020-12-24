@@ -16,8 +16,8 @@ const store = createStore(
 ReactDOM.render(
     <Provider store={store}>
       <div>
-      <FuncComp />
-      {/* <App /> */}
+      {/* <FuncComp /> */}
+       <App /> 
       </div>
     </Provider>,
     document.getElementById('root')
