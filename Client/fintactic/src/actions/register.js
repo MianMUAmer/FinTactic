@@ -20,6 +20,21 @@ export function registerError(payload) {
 export function registerUser(payload) {
     return (dispatch) => {
         if (payload.creds.email.length > 0 && payload.creds.password.length > 0) {
+            let opts = {
+                'email': payload.creds.email,
+                'password': payload.creds.password
+            }
+            console.log(opts)
+            fetch('/register', {
+                method: 'post',
+                body: JSON.stringify(opts)
+              }).then(r => r.json())
+                .then(response => {
+                if (response.success!='true'){
+                    console.log("Couldnt register!")
+                    dispatch(registerError('Invalid!'))
+                  }
+                })
             toast.success("You've been registered successfully");
             payload.history.push('/login');
         } else {
