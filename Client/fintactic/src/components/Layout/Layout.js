@@ -78,14 +78,14 @@ class Layout extends React.Component {
                   timeout={200}
                 >
                   <Switch>
-                    <Route path="/app/main" exact render={() => <Redirect to="/app/main/dashboard" />} />
-                    <Route path="/app/main/dashboard" exact component={Dashboard} />
-                    <Route path="/app/visualization" exact component={Visualization} />
-                    <Route path="/app/education" exact component={Education} />
-                    <Route path="/app/bookmarks" exact component={Bookmarks} />
-                    <Route path="/app/correlate" exact component={Correlate} />
-                    <Route path="/app/reports" exact component={Reports} />
-                    <Route path="/app/notes" exact component={Notes} />
+                  <Route path="/login" exact render={() => <Redirect to="/login" />} />
+                  <Route path="/app/dashboard" exact component={Dashboard} />
+                  <Route path="/app/visualization" exact component={Visualization} />
+                  <Route path="/app/education" exact component={Education} />
+                  <Route path="/app/bookmarks" exact component={Bookmarks} />
+                  <Route path="/app/correlate" exact component={Correlate} />
+                  <Route path="/app/reports" exact component={Reports} />
+                  <Route path="/app/notes" exact component={Notes} />
                   </Switch>
                 </CSSTransition>
               </TransitionGroup>
