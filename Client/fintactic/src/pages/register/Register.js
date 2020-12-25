@@ -6,7 +6,7 @@ import { Container, Alert, Button, FormGroup, InputGroup, InputGroupAddon, Input
 import Widget from '../../components/Widget';
 import { registerUser, registerError } from '../../actions/register';
 import Login from '../login';
-import Logo from '../../images/people/a2.jpg';
+import Logo from '../../images/people/fin.JPG';
 
 
 class Register extends React.Component {
@@ -91,7 +91,7 @@ class Register extends React.Component {
                 <Container id="containerRegistration">
                     <div className="wrapper">
                         <div className="wrapperFintactic">
-                        <img src={Logo}></img>
+                        <img src={Logo} width="500" height="400"></img>
                         </div>
                     </div>
                     <div className="wrapper">
