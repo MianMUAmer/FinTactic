@@ -45,8 +45,7 @@ class LineGraph extends React.Component {
   }
 
   layout = {
-    width: 1015,
-    // width: window.innerWidth - 35,
+    width: 1000,
     height: 520,
     title: `${this.props.data.name} ( ${this.props.data.symbol} ) Line Graph`,
     dragmode: "zoom",

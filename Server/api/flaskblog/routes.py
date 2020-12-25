@@ -66,7 +66,7 @@ def getAsset():
         assets = AMZN.query.all()
     elif(name=="FB"):
         assets = FB.query.all()
-    elif(name=="GOOG"):
+    elif(name=="GOOGL"):
         assets = GOOG.query.all()
     elif(name=="MSFT"):
         assets = MSFT.query.all()
