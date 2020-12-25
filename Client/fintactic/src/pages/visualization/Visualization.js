@@ -74,7 +74,10 @@ class Visualization extends React.Component {
       refresh: false,
     });
 
-    fetch(API_CALL)
+    fetch("/assets", {
+      method: "post",
+      body: JSON.stringify({ name: stockSymbol }),
+    })
       .then((response) => {
         return response.json();
       })
