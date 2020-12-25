@@ -57,6 +57,7 @@ export function loginUser(creds) {
                   }
                   else {
                     console.log("Please type in correct username/password")
+                    dispatch(loginError('Invalid email or password! Please try again.'))
                   }
                 })
         } else {
