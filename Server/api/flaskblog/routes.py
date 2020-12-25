@@ -14,20 +14,17 @@ def about():
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-    username = request.json.get('username')
-    email = request.json.get('email')
-    password = request.json.get('password')
+    req = flask.request.get_json(force=True)
+    email = req.get('email', None)
+    password = req.get('password', None)
     errors = {}
-    user = User.query.filter_by(username=username).first()
-    if user:
-        errors['username'] = 'exists'
     mail = User.query.filter_by(email=email).first()
     if mail:
         errors['email'] = 'exists'
 
     if(len(errors)==0):
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-        user = User(username = username, email=email, password=hashed_password)
+        user = User(email=email, password=hashed_password)
         db.session.add(user)
         db.session.commit()
         return {'success':'true'}, 200
