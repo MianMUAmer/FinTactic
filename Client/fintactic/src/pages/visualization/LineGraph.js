@@ -49,6 +49,8 @@ class LineGraph extends React.Component {
     height: 520,
     title: `${this.props.data.name} ( ${this.props.data.symbol} ) Line Graph`,
     dragmode: "zoom",
+    plot_bgcolor: "#e3e3e3",
+    paper_bgcolor: "#e3e3e3",
     margin: {
       r: 45,
       t: 85,
