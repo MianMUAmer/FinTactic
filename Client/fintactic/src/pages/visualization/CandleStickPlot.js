@@ -47,6 +47,8 @@ class CandleStickPlot extends React.Component {
     width: 1000,
     height: 520,
     title: `${this.props.data.name} ( ${this.props.data.symbol} ) Candle Stick Plot`,
+    plot_bgcolor: "#e3e3e3",
+    paper_bgcolor: "#e3e3e3",
     dragmode: "zoom",
     margin: {
       r: 45,
