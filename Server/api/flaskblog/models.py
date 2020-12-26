@@ -27,4 +27,78 @@ class AAPL(db.Model):
     adjclose = db.Column(db.String(20), nullable=False)
     volume = db.Column(db.String(20), nullable=False)
     def __repr__(self):
-        return {"date": self.date, "open": self.open, "high":self.high, "low":self.low, "close":self.close, "adjclose":self.adjclose, "volume":self.volume}
+        return f'"{self.date}": {{"1. open": "{self.open}", "2. high": "{self.high}", "3. low": "{self.low}", "4. close": "{self.close}", "5. adjusted close": "{self.adjclose}", "6. volume": "{self.volume}", "7. dividend amout": "0.0000", "8. split coefficient": "1.0"}}'
+
+    def getDate(self):
+        return self.date
+
+    def to_json(self):
+        return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
+
+class AMZN(db.Model):
+    date = db.Column(db.String(20), primary_key=True)
+    open = db.Column(db.String(20), nullable=False)
+    high = db.Column(db.String(20), nullable=False)
+    low = db.Column(db.String(20), nullable=False)
+    close = db.Column(db.String(20), nullable=False)
+    adjclose = db.Column(db.String(20), nullable=False)
+    volume = db.Column(db.String(20), nullable=False)
+    def __repr__(self):
+        return f'"{self.date}": {{"1. open": "{self.open}", "2. high": "{self.high}", "3. low": "{self.low}", "4. close": "{self.close}", "5. adjusted close": "{self.adjclose}", "6. volume": "{self.volume}", "7. dividend amout": "0.0000", "8. split coefficient": "1.0"}}'
+
+    def getDate(self):
+        return self.date
+
+    def to_json(self):
+        return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
+
+class FB(db.Model):
+    date = db.Column(db.String(20), primary_key=True)
+    open = db.Column(db.String(20), nullable=False)
+    high = db.Column(db.String(20), nullable=False)
+    low = db.Column(db.String(20), nullable=False)
+    close = db.Column(db.String(20), nullable=False)
+    adjclose = db.Column(db.String(20), nullable=False)
+    volume = db.Column(db.String(20), nullable=False)
+    def __repr__(self):
+        return f'"{self.date}": {{"1. open": "{self.open}", "2. high": "{self.high}", "3. low": "{self.low}", "4. close": "{self.close}", "5. adjusted close": "{self.adjclose}", "6. volume": "{self.volume}", "7. dividend amout": "0.0000", "8. split coefficient": "1.0"}}'
+
+    def getDate(self):
+        return self.date
+
+    def to_json(self):
+        return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
+
+class GOOG(db.Model):
+    date = db.Column(db.String(20), primary_key=True)
+    open = db.Column(db.String(20), nullable=False)
+    high = db.Column(db.String(20), nullable=False)
+    low = db.Column(db.String(20), nullable=False)
+    close = db.Column(db.String(20), nullable=False)
+    adjclose = db.Column(db.String(20), nullable=False)
+    volume = db.Column(db.String(20), nullable=False)
+    def __repr__(self):
+        return f'"{self.date}": {{"1. open": "{self.open}", "2. high": "{self.high}", "3. low": "{self.low}", "4. close": "{self.close}", "5. adjusted close": "{self.adjclose}", "6. volume": "{self.volume}", "7. dividend amout": "0.0000", "8. split coefficient": "1.0"}}'
+
+    def getDate(self):
+        return self.date
+
+    def to_json(self):
+        return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
+
+class MSFT(db.Model):
+    date = db.Column(db.String(20), primary_key=True)
+    open = db.Column(db.String(20), nullable=False)
+    high = db.Column(db.String(20), nullable=False)
+    low = db.Column(db.String(20), nullable=False)
+    close = db.Column(db.String(20), nullable=False)
+    adjclose = db.Column(db.String(20), nullable=False)
+    volume = db.Column(db.String(20), nullable=False)
+    def __repr__(self):
+        return f'"{self.date}": {{"1. open": "{self.open}", "2. high": "{self.high}", "3. low": "{self.low}", "4. close": "{self.close}", "5. adjusted close": "{self.adjclose}", "6. volume": "{self.volume}", "7. dividend amout": "0.0000", "8. split coefficient": "1.0"}}'
+
+    def getDate(self):
+        return self.date
+
+    def to_json(self):
+        return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }

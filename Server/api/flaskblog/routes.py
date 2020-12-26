@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, jsonify
 from flaskblog import app, db, bcrypt
-from flaskblog.models import User
+from flaskblog.models import User, AAPL, AMZN, FB, GOOG, MSFT
 from flask_login import login_user, current_user, logout_user, login_required
 import flask
 @app.route("/")
@@ -47,3 +47,34 @@ def logout():
     logout_user()
     return {"success": 200}
     
+@app.route("/assets", methods=['GET', 'POST'])
+def getAsset():
+    req = flask.request.get_json(force=True)
+    name = req.get('name', None)
+
+    result = {}
+    date = {}
+    metadata = {}
+    metadata["1. Informaton"] = "Daily Time Series with Splits and Dividend Events"
+    metadata["2. Symbol"] = name
+    
+    result["Meta Data"] = metadata
+    
+    if(name=="AAPL"):
+        assets = AAPL.query.all()
+    elif(name=="AMZN"):
+        assets = AMZN.query.all()
+    elif(name=="FB"):
+        assets = FB.query.all()
+    elif(name=="GOOGL"):
+        assets = GOOG.query.all()
+    elif(name=="MSFT"):
+        assets = MSFT.query.all()
+    else:
+        return {'name': "invalid"}, 400
+
+    for asset in assets:
+        date[asset.getDate()] = asset.to_json()
+    
+    result["Time Series (Daily)"] = date
+    return jsonify(result), 200

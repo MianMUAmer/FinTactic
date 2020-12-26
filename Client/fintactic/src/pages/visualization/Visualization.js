@@ -60,10 +60,7 @@ class Visualization extends React.Component {
   }
 
   fetchStock = () => {
-    const apiKey = "OMF5LH7HQ3XLVQI8";
     let stockSymbol = this.state.ticker;
-    let API_CALL = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=${stockSymbol}&outputsize=compact&apikey=${apiKey}`;
-
     let apiStockXValues = [];
     let apiStockCloseValues = [];
     let apiStockHighValues = [];
@@ -74,7 +71,10 @@ class Visualization extends React.Component {
       refresh: false,
     });
 
-    fetch(API_CALL)
+    fetch("/assets", {
+      method: "post",
+      body: JSON.stringify({ name: stockSymbol }),
+    })
       .then((response) => {
         return response.json();
       })
