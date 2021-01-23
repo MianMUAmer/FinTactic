@@ -62,7 +62,7 @@ export function loginUser(creds) {
           }
         });
     } else {
-      dispatch(loginError("Something was wrong. Please Try Again"));
+      dispatch(loginError("Something was wrong. Try Again"));
     }
   };
 }
