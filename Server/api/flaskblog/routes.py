@@ -4,15 +4,10 @@ from flaskblog.models import User, AAPL, AMZN, FB, GOOG, MSFT
 from flask_login import login_user, current_user, logout_user, login_required
 import flask
 @app.route("/")
-@app.route("/home")
-def home():
-    return render_template("home.html")
+def index():
+    return app.send_static_file('index.html')
 
-@app.route("/about")
-def about():
-    return render_template("about.html", title="About")
-
-@app.route("/register", methods=['GET', 'POST'])
+@app.route("/api/register", methods=['GET', 'POST'])
 def register():
     req = flask.request.get_json(force=True)
     email = req.get('email', None)
@@ -30,7 +25,7 @@ def register():
         return {'success':'true'}, 200
     return jsonify(errors), 400
 
-@app.route("/login", methods=['GET', 'POST'])
+@app.route("/api/login", methods=['GET', 'POST'])
 def login():
     req = flask.request.get_json(force=True)
     email = req.get('email', None)
@@ -41,13 +36,8 @@ def login():
         return {'currentuser': current_user.to_json()}, 200
     return {'currentuser': "invalid"}, 400
     
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return {"success": 200}
     
-@app.route("/assets", methods=['GET', 'POST'])
+@app.route("/api/assets", methods=['GET', 'POST'])
 def getAsset():
     req = flask.request.get_json(force=True)
     name = req.get('name', None)
