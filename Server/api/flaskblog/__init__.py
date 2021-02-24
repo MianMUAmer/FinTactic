@@ -8,7 +8,7 @@ import flask_cors
 
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="../../../Client/fintactic/build/", static_url_path='/')
 app.config['SECRET_KEY'] = '81c6af08caa305d9d8ca2b27b518392a'
 POSTGRES_URL = config.CONFIG['postgresUrl']
 POSTGRES_USER = config.CONFIG['postgresUser']
