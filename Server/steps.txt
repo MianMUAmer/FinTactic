@@ -1,0 +1,15 @@
+macbookpro@Muhammad-Umair-Amer ~ % cd Documents/CTIS/FYP/FinTactic/Server 
+macbookpro@Muhammad-Umair-Amer Server % ls   
+api			requirements.txt
+macbookpro@Muhammad-Umair-Amer Server % . api/bin/activate                    
+(api) macbookpro@Muhammad-Umair-Amer Server % cd api 
+(api) macbookpro@Muhammad-Umair-Amer api % ls
+__pycache__	api.py		bin		include		lib		pyvenv.cfg
+
+(api) macbookpro@Muhammad-Umair-Amer api % flask run
+ * Serving Flask app "api.py" (lazy loading) //server starts
+
+
+^c to stop server
+type 'deactivate' command to exit virtual environment api
+ 
