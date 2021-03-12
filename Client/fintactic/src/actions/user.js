@@ -44,7 +44,7 @@ export function loginUser(creds) {
         email: creds.email,
         password: creds.password,
       };
-      fetch("/login", {
+      fetch("api/login", {
         method: "post",
         body: JSON.stringify(opts),
       })
