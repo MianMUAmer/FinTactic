@@ -6,11 +6,16 @@ html {
 body {
   overflow-x: hidden;
   color: $text-color;
-  background: $main-gradient;
+  //background: $main-gradient;
+  //background-image: url("../images/mountain.jpg");
+  background: $main-gradient, url("../images/Finance\ Money\ PPT\ Backgrounds.jpg");
+  background-blend-mode: multiply;
   background-attachment: fixed;
   background-size: cover;
   background-repeat: no-repeat;
+  font-size: 15px;
 }
+
 
 html,
 body,

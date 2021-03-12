@@ -1,7 +1,11 @@
+import {toast} from 'react-toastify';
+
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+export const HIDE_NOTIFICATION = "HIDE_NOTIFICATION";
+
 
 export function receiveLogin() {
   return {
@@ -37,6 +41,7 @@ export function logoutUser() {
   };
 }
 
+
 export function loginUser(creds) {
   return (dispatch) => {
     if (creds.email.length > 0 && creds.password.length > 0) {
@@ -44,7 +49,7 @@ export function loginUser(creds) {
         email: creds.email,
         password: creds.password,
       };
-      fetch("api/login", {
+      fetch("/login", {
         method: "post",
         body: JSON.stringify(opts),
       })
@@ -56,9 +61,8 @@ export function loginUser(creds) {
             console.log(response.currentuser);
           } else {
             console.log("Please type in correct username/password");
-            dispatch(
-              loginError("Invalid email or password! Please try again.")
-            );
+            //dispatch(loginError("Invalid email or password! Please try again."));
+            toast.error("Invalid email or password! Please try again.");
           }
         });
     } else {
