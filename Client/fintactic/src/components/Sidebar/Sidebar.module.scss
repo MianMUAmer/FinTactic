@@ -9,7 +9,7 @@
   background-color: $sidebar-bg-color;
   color: $sidebar-color;
   overflow-y: auto;
-  margin-left: 15px;
+  margin-left: 30px;
   transition: height 1s;
   transform: translateX(-$sidebar-width-open);
 
@@ -50,7 +50,7 @@
 }
 
 .logo {
-  margin: 20px 0 55px;
+  margin: 20px 0 15px;
   font-size: 18px;
   width: 100%;
   font-weight: $font-weight-thin;

@@ -41,7 +41,7 @@ $gray-light: $gray-100 !default;
 $bg-custom-dark: #040620;
 $main-gradient: radial-gradient(
   farthest-side ellipse at 10% 0,
-  #333867 20%,
+  #333867 40%,
   #5357ad
 );
 
@@ -118,16 +118,16 @@ $sidebar-width-open: 200px;
 $sidebar-width-closed: 50px;
 $sidebar-transition-time: 0.3s !default;
 
-$sidebar-bg-color: transparent !default;
+$sidebar-bg-color: opacify(transparent, 0.3) !default;
 $sidebar-color: rgba($white, 0.9) !default;
 $sidebar-action-bg: transparent !default;
 
 $sidebar-item-border-color: transparent !default;
 $sidebar-item-active-color: $orange !default;
-$sidebar-item-padding: 13px 20px !default;
+$sidebar-item-padding: 18px 25px !default;
 $sidebar-sub-item-padding: 7px 20px 7px 35px;
 $sidebar-scrollbar-bg: transparent;
-$sidebar-item-hover-bg-color: rgba(0, 0, 0, 0.07);
+$sidebar-item-hover-bg-color: rgba(119, 124, 167, 0.959);
 $chat-sidebar-bg-color: $sidebar-bg-color !default;
 
 $breadcrumb-divider: ">";
