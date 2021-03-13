@@ -10,7 +10,6 @@ class CandleStickPlot extends React.Component {
       stockChartHighValues: this.props.data.stockChartHighValues,
       stockChartLowValues: this.props.data.stockChartLowValues,
       stockChartCloseValues: this.props.data.stockChartCloseValues,
-      highLine: [],
     };
   }
 
@@ -21,27 +20,43 @@ class CandleStickPlot extends React.Component {
       stockChartHighValues,
       stockChartLowValues,
       stockChartCloseValues,
-      highLine,
     } = this.state;
 
     // var BB = require('technicalindicators').BollingerBands
     var B = require("technicalindicators").BollingerBands;
-    var period = 10;
+    var period = 20;
     var bMiddle = [];
     var bUpper = [];
     var bLower = [];
-    var arr = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
+    var BollingerData = [
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+    ];
+
     var input = {
       period: period,
-      values: stockChartCloseValues,
+      values: stockChartCloseValues.map(Number),
       stdDev: 2,
     };
-    Array.prototype.push.apply(arr, B.calculate(input));
-    console.log(arr);
-    console.log(B.calculate(input));
-    // BB.calculate(input)
-
-    arr.forEach((element) => {
+    Array.prototype.push.apply(BollingerData, B.calculate(input));
+    BollingerData.forEach((element) => {
       bUpper.push(element.upper);
       bMiddle.push(element.middle);
       bLower.push(element.lower);
