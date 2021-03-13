@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, jsonify
 from flaskblog import app, db, bcrypt
-from flaskblog.models import User, AAPL, AMZN, FB, GOOG, MSFT
+from flaskblog.models import User, AAPL, AMZN, FB, GOOG, MSFT, BTC, ETH, GC, SI
 from flask_login import login_user, current_user, logout_user, login_required
 import flask
 @app.route("/")
@@ -70,6 +70,14 @@ def getAsset():
         assets = GOOG.query.all()
     elif(name=="MSFT"):
         assets = MSFT.query.all()
+    elif(name=="BTC"):
+        assets = BTC.query.all()
+    elif(name=="ETH"):
+        assets = ETH.query.all()
+    elif(name=="GC"):
+        assets = GC.query.all()
+    elif(name=="SI"):
+        assets = SI.query.all()       
     else:
         return {'name': "invalid"}, 400
 
