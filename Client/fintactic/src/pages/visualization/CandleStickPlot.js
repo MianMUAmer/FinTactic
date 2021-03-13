@@ -10,6 +10,7 @@ class CandleStickPlot extends React.Component {
       stockChartHighValues: this.props.data.stockChartHighValues,
       stockChartLowValues: this.props.data.stockChartLowValues,
       stockChartCloseValues: this.props.data.stockChartCloseValues,
+      highLine: [],
     };
   }
 
@@ -20,22 +21,74 @@ class CandleStickPlot extends React.Component {
       stockChartHighValues,
       stockChartLowValues,
       stockChartCloseValues,
+      highLine,
     } = this.state;
+
+    // var BB = require('technicalindicators').BollingerBands
+    var B = require("technicalindicators").BollingerBands;
+    var period = 10;
+    var bMiddle = [];
+    var bUpper = [];
+    var bLower = [];
+    var arr = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
+    var input = {
+      period: period,
+      values: stockChartCloseValues,
+      stdDev: 2,
+    };
+    Array.prototype.push.apply(arr, B.calculate(input));
+    console.log(arr);
+    console.log(B.calculate(input));
+    // BB.calculate(input)
+
+    arr.forEach((element) => {
+      bUpper.push(element.upper);
+      bMiddle.push(element.middle);
+      bLower.push(element.lower);
+    });
+
     return (
       <Plot
         data={[
           {
             x: stockChartXValues,
             close: stockChartOpenValues,
-            decreasing: { line: { color: "#7F7F7F" } },
+            // decreasing: { line: { color: "#7F7F7F" } },
+            decreasing: { line: { color: "#f7653e" } },
             high: stockChartHighValues,
-            increasing: { line: { color: "#17BECF" } },
+            // increasing: { line: { color: "#17BECF" } },
+            increasing: { line: { color: "#26bf4e" } },
             line: { color: "rgba(31,119,180,1)" },
             low: stockChartLowValues,
             open: stockChartCloseValues,
             type: "candlestick",
             xaxis: "x",
             yaxis: "y",
+          },
+          {
+            type: "scatter",
+            mode: "lines",
+            x: stockChartXValues,
+            y: bUpper,
+            line: {
+              shape: "spline",
+              smoothing: 1.3,
+              color: "rgb(255, 98, 157)",
+            },
+          },
+          {
+            type: "scatter",
+            mode: "lines",
+            x: stockChartXValues,
+            y: bMiddle,
+            // line: { color: "#17BECF" },
+          },
+          {
+            type: "scatter",
+            mode: "lines",
+            x: stockChartXValues,
+            y: bLower,
+            // line: { color: "#17BECF" },
           },
         ]}
         layout={this.layout}
@@ -46,9 +99,19 @@ class CandleStickPlot extends React.Component {
   layout = {
     width: 1000,
     height: 520,
-    title: `${this.props.data.name} ( ${this.props.data.symbol} ) Candle Stick Plot`,
-    plot_bgcolor: "#e3e3e3",
-    paper_bgcolor: "#e3e3e3",
+    title: {
+      text: `${this.props.data.name} ( ${this.props.data.symbol} ) Candle Stick Plot`,
+      font: {
+        color: "#e3e3e3",
+      },
+    },
+    font: {
+      color: "#e3e3e3",
+    },
+    // plot_bgcolor: "#e3e3e3",
+    // paper_bgcolor: "#e3e3e3",
+    plot_bgcolor: "#3d465e",
+    paper_bgcolor: "#3d465e",
     dragmode: "zoom",
     margin: {
       r: 45,
@@ -58,13 +121,22 @@ class CandleStickPlot extends React.Component {
     },
     showlegend: false,
     xaxis: {
+      gridcolor: "#e3e3e3",
+      linecolor: "#e3e3e3",
+      linewidth: 3,
       autorange: true,
       domain: [0, 1],
+      title: {
+        text: "Date",
+        font: {
+          color: "#e3e3e3",
+        },
+      },
       rangeselector: {
         x: 0,
         y: 1.2,
         xanchor: "left",
-        font: { size: 10 },
+        font: { size: 10, color: "000000" },
         buttons: [
           {
             step: "week",
@@ -90,13 +162,21 @@ class CandleStickPlot extends React.Component {
           },
         ],
       },
-      title: "Date",
       type: "date",
     },
     yaxis: {
       autorange: true,
       domain: [0, 1],
       type: "linear",
+      gridcolor: "#e3e3e3",
+      linecolor: "#e3e3e3",
+      linewidth: 3,
+      title: {
+        text: "Amount ($)",
+        font: {
+          color: "#e3e3e3",
+        },
+      },
     },
   };
 }
