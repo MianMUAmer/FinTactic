@@ -16,6 +16,8 @@ import Widget from "../../components/Widget/Widget";
 import s from "./Notifications.module.scss";
 import { rgbToHsl } from "@amcharts/amcharts4/.internal/core/utils/Colors";
 import BollingerBand from "./BollingerBand";
+import RSI from "./RSI";
+import RSI2Plots from "./RSI2Plots";
 
 class Visualization extends React.Component {
   constructor(props) {
@@ -400,7 +402,7 @@ class Visualization extends React.Component {
         {graphType === "Line Graph" &&
           data.stockChartXValues.length !== 0 &&
           refresh && <LineGraph data={data} />}
-        {/* fIndicatorType */}
+        {/* Indicators */}
         {graphType === "Candle Stick" &&
           data.stockChartXValues.length !== 0 &&
           refresh &&
@@ -408,7 +410,7 @@ class Visualization extends React.Component {
         {graphType === "Candle Stick" &&
           data.stockChartXValues.length !== 0 &&
           refresh &&
-          fIndicatorType === "RSI" && <CandleStickPlot data={data} />}
+          fIndicatorType === "RSI" && <RSI2Plots data={data} />}
       </div>
     );
   }
