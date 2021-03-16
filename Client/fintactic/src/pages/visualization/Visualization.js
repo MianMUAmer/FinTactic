@@ -410,7 +410,7 @@ class Visualization extends React.Component {
         {graphType === "Candle Stick" &&
           data.stockChartXValues.length !== 0 &&
           refresh &&
-          fIndicatorType === "RSI" && <RSI2Plots data={data} />}
+          fIndicatorType === "RSI" && <RSI data={data} />}
       </div>
     );
   }
