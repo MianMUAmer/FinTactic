@@ -28,10 +28,8 @@ class CandleStickPlot extends React.Component {
           {
             x: stockChartXValues,
             close: stockChartOpenValues,
-            // decreasing: { line: { color: "#7F7F7F" } },
             decreasing: { line: { color: "#f7653e" } },
             high: stockChartHighValues,
-            // increasing: { line: { color: "#17BECF" } },
             increasing: { line: { color: "#26bf4e" } },
             line: { color: "rgba(31,119,180,1)" },
             low: stockChartLowValues,
@@ -47,7 +45,7 @@ class CandleStickPlot extends React.Component {
   }
 
   layout = {
-    width: 1000,
+    width: 1030,
     height: 520,
     title: {
       text: `${this.props.data.name} ( ${this.props.data.symbol} ) Candle Stick Plot`,
@@ -58,16 +56,14 @@ class CandleStickPlot extends React.Component {
     font: {
       color: "#e3e3e3",
     },
-    // plot_bgcolor: "#e3e3e3",
-    // paper_bgcolor: "#e3e3e3",
-    plot_bgcolor: "#3d465e",
-    paper_bgcolor: "#3d465e",
+    plot_bgcolor: "#454f6b",
+    paper_bgcolor: "#454f6b",
     dragmode: "zoom",
     margin: {
       r: 45,
       t: 95,
       b: 50,
-      l: 45,
+      l: 52,
     },
     showlegend: false,
     xaxis: {
@@ -81,6 +77,9 @@ class CandleStickPlot extends React.Component {
         font: {
           color: "#e3e3e3",
         },
+      },
+      rangeslider: {
+        visible: false,
       },
       rangeselector: {
         x: 0,

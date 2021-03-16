@@ -28,7 +28,7 @@ class LineGraph extends React.Component {
             name: `${symbol} High`,
             x: stockChartXValues,
             y: stockChartHighValues,
-            // line: { color: "#17BECF" },
+            line: { color: "#26bf4e" },
           },
           {
             type: "scatter",
@@ -36,7 +36,7 @@ class LineGraph extends React.Component {
             name: `${symbol} Low`,
             x: stockChartXValues,
             y: stockChartLowValues,
-            // line: { color: "#7F7F7F" },
+            line: { color: "#f7653e" },
           },
         ]}
         layout={this.layout}
@@ -45,26 +45,46 @@ class LineGraph extends React.Component {
   }
 
   layout = {
-    width: 1000,
+    width: 1030,
     height: 520,
-    title: `${this.props.data.name} ( ${this.props.data.symbol} ) Line Graph`,
+    title: {
+      text: `${this.props.data.name} ( ${this.props.data.symbol} ) Line Graph`,
+      font: {
+        color: "#e3e3e3",
+      },
+    },
+    font: {
+      color: "#e3e3e3",
+    },
     dragmode: "zoom",
-    plot_bgcolor: "#e3e3e3",
-    paper_bgcolor: "#e3e3e3",
+    plot_bgcolor: "#454f6b",
+    paper_bgcolor: "#454f6b",
     margin: {
       r: 45,
-      t: 85,
-      b: 20,
-      l: 45,
+      t: 95,
+      b: 50,
+      l: 50,
     },
-    showlegend: false,
+    showlegend: true,
     xaxis: {
+      gridcolor: "#e3e3e3",
+      linecolor: "#e3e3e3",
+      linewidth: 3,
       autorange: true,
+      rangeslider: {
+        visible: false,
+      },
+      title: {
+        text: "Date",
+        font: {
+          color: "#e3e3e3",
+        },
+      },
       rangeselector: {
         x: 0,
         y: 1.2,
         xanchor: "left",
-        font: { size: 10 },
+        font: { size: 10, color: "000000" },
         buttons: [
           {
             step: "week",
@@ -90,12 +110,20 @@ class LineGraph extends React.Component {
           },
         ],
       },
-      rangeslider: {},
       type: "date",
     },
     yaxis: {
       autorange: true,
       type: "linear",
+      gridcolor: "#e3e3e3",
+      linecolor: "#e3e3e3",
+      linewidth: 3,
+      title: {
+        text: "Amount ($)",
+        font: {
+          color: "#e3e3e3",
+        },
+      },
     },
   };
 }

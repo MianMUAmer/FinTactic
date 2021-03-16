@@ -67,18 +67,17 @@ class BollingerBand extends React.Component {
         data={[
           {
             x: stockChartXValues,
-            close: stockChartOpenValues,
-            // decreasing: { line: { color: "#7F7F7F" } },
+            close: stockChartCloseValues,
             decreasing: { line: { color: "#f7653e" } },
             high: stockChartHighValues,
-            // increasing: { line: { color: "#17BECF" } },
             increasing: { line: { color: "#26bf4e" } },
             line: { color: "rgba(31,119,180,1)" },
             low: stockChartLowValues,
-            open: stockChartCloseValues,
+            open: stockChartOpenValues,
             type: "candlestick",
             xaxis: "x",
             yaxis: "y",
+            name: "CandleSticks",
           },
           {
             type: "scatter",
@@ -86,24 +85,23 @@ class BollingerBand extends React.Component {
             x: stockChartXValues,
             y: bUpper,
             line: {
-              shape: "spline",
-              smoothing: 1.3,
               color: "rgb(255, 98, 157)",
             },
+            name: "UpperBound ( +2\u03C3 )",
           },
           {
             type: "scatter",
             mode: "lines",
             x: stockChartXValues,
             y: bMiddle,
-            // line: { color: "#17BECF" },
+            name: "Moving Average",
           },
           {
             type: "scatter",
             mode: "lines",
             x: stockChartXValues,
             y: bLower,
-            // line: { color: "#17BECF" },
+            name: "LowerBound ( -2\u03C3 )",
           },
         ]}
         layout={this.layout}
@@ -112,7 +110,7 @@ class BollingerBand extends React.Component {
   }
 
   layout = {
-    width: 1000,
+    width: 1030,
     height: 520,
     title: {
       text: `${this.props.data.name} ( ${this.props.data.symbol} ) Candle Stick Plot`,
@@ -123,18 +121,16 @@ class BollingerBand extends React.Component {
     font: {
       color: "#e3e3e3",
     },
-    // plot_bgcolor: "#e3e3e3",
-    // paper_bgcolor: "#e3e3e3",
-    plot_bgcolor: "#3d465e",
-    paper_bgcolor: "#3d465e",
+    plot_bgcolor: "#454f6b",
+    paper_bgcolor: "#454f6b",
     dragmode: "zoom",
     margin: {
       r: 45,
       t: 95,
       b: 50,
-      l: 45,
+      l: 52,
     },
-    showlegend: false,
+    showlegend: true,
     xaxis: {
       gridcolor: "#e3e3e3",
       linecolor: "#e3e3e3",
@@ -146,6 +142,9 @@ class BollingerBand extends React.Component {
         font: {
           color: "#e3e3e3",
         },
+      },
+      rangeslider: {
+        visible: false,
       },
       rangeselector: {
         x: 0,

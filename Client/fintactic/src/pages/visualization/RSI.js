@@ -22,7 +22,6 @@ class RSI extends React.Component {
       stockChartCloseValues,
     } = this.state;
 
-    var period = 14;
     var RSI = require("technicalindicators").RSI;
     var inputRSI = {
       values: stockChartCloseValues.map(Number),
@@ -38,18 +37,17 @@ class RSI extends React.Component {
         data={[
           {
             x: stockChartXValues,
-            close: stockChartOpenValues,
-            // decreasing: { line: { color: "#7F7F7F" } },
+            close: stockChartCloseValues,
             decreasing: { line: { color: "#f7653e" } },
             high: stockChartHighValues,
-            // increasing: { line: { color: "#17BECF" } },
             increasing: { line: { color: "#26bf4e" } },
             line: { color: "rgba(31,119,180,1)" },
             low: stockChartLowValues,
-            open: stockChartCloseValues,
+            open: stockChartOpenValues,
             type: "candlestick",
             xaxis: "x",
             yaxis: "y",
+            name: "CandleSticks",
           },
           {
             type: "scatter",
@@ -60,27 +58,16 @@ class RSI extends React.Component {
             line: {
               color: "rgb(255, 98, 157)",
             },
+            name: "RSI",
           },
         ]}
         layout={this.layout}
-        config={this.config}
       />
     );
   }
 
-  config = {
-    responsive: true,
-  };
-
   layout = {
-    grid: {
-      rows: 2,
-      columns: 1,
-      pattern: "dependent",
-      roworder: "bottom to top",
-    },
-
-    width: 1000,
+    width: 1030,
     height: 520,
     title: {
       text: `${this.props.data.name} ( ${this.props.data.symbol} ) Candle Stick Plot`,
@@ -91,16 +78,14 @@ class RSI extends React.Component {
     font: {
       color: "#e3e3e3",
     },
-    // plot_bgcolor: "#e3e3e3",
-    // paper_bgcolor: "#e3e3e3",
-    plot_bgcolor: "#3d465e",
-    paper_bgcolor: "#3d465e",
+    plot_bgcolor: "#454f6b",
+    paper_bgcolor: "#454f6b",
     dragmode: "zoom",
     margin: {
       r: 45,
       t: 95,
       b: 50,
-      l: 45,
+      l: 52,
     },
     showlegend: true,
     xaxis: {
@@ -114,6 +99,9 @@ class RSI extends React.Component {
         font: {
           color: "#e3e3e3",
         },
+      },
+      rangeslider: {
+        visible: false,
       },
       rangeselector: {
         x: 0,
@@ -169,6 +157,65 @@ class RSI extends React.Component {
       overlaying: "y",
       side: "right",
     },
+    annotations: [
+      {
+        x: 1,
+        y: 30,
+        xref: "paper",
+        yref: "y2",
+        text: "OverSold (-30%)",
+        font: { color: "#e3e3e3" },
+        showarrow: true,
+        xanchor: "left",
+        ax: 25,
+        ay: 0,
+      },
+      {
+        x: 1,
+        y: 70,
+        xref: "paper",
+        yref: "y2",
+        text: "OverBought (+70%)",
+        font: { color: "#e3e3e3" },
+        showarrow: true,
+        xanchor: "left",
+        ax: 25,
+        ay: 0,
+      },
+    ],
+
+    shapes: [
+      {
+        type: "line",
+        xref: "paper",
+        yref: "y2",
+        x0: 0,
+        y0: 30,
+        x1: 1,
+        y1: 30,
+        opacity: 0.9,
+        line: {
+          color: "#FF4500",
+          width: 2,
+          dash: "dash",
+        },
+      },
+      {
+        type: "line",
+        xref: "paper",
+        yref: "y2",
+        x0: 0,
+        y0: 70,
+        x1: 1,
+        y1: 70,
+        opacity: 0.9,
+        line: {
+          color: "#FF6347",
+          width: 2,
+          dash: "dash",
+        },
+      },
+    ],
   };
 }
 
