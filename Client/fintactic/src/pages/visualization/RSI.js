@@ -1,7 +1,7 @@
 import React from "react";
 import Plot from "react-plotly.js";
 
-class CandleStickPlot extends React.Component {
+class RSI extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,6 +22,17 @@ class CandleStickPlot extends React.Component {
       stockChartCloseValues,
     } = this.state;
 
+    var period = 14;
+    var RSI = require("technicalindicators").RSI;
+    var inputRSI = {
+      values: stockChartCloseValues.map(Number),
+      period: 14,
+    };
+
+    var RSIData = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+
+    Array.prototype.push.apply(RSIData, RSI.calculate(inputRSI));
+
     return (
       <Plot
         data={[
@@ -40,13 +51,35 @@ class CandleStickPlot extends React.Component {
             xaxis: "x",
             yaxis: "y",
           },
+          {
+            type: "scatter",
+            mode: "lines",
+            x: stockChartXValues,
+            y: RSIData,
+            yaxis: "y2",
+            line: {
+              color: "rgb(255, 98, 157)",
+            },
+          },
         ]}
         layout={this.layout}
+        config={this.config}
       />
     );
   }
 
+  config = {
+    responsive: true,
+  };
+
   layout = {
+    grid: {
+      rows: 2,
+      columns: 1,
+      pattern: "dependent",
+      roworder: "bottom to top",
+    },
+
     width: 1000,
     height: 520,
     title: {
@@ -69,7 +102,7 @@ class CandleStickPlot extends React.Component {
       b: 50,
       l: 45,
     },
-    showlegend: false,
+    showlegend: true,
     xaxis: {
       gridcolor: "#e3e3e3",
       linecolor: "#e3e3e3",
@@ -128,7 +161,15 @@ class CandleStickPlot extends React.Component {
         },
       },
     },
+    yaxis2: {
+      title: "RSI (%)",
+      range: [0, 100],
+      titlefont: { color: "#e3e3e3" },
+      tickfont: { color: "#e3e3e3" },
+      overlaying: "y",
+      side: "right",
+    },
   };
 }
 
-export default CandleStickPlot;
+export default RSI;

@@ -1,7 +1,7 @@
 import React from "react";
 import Plot from "react-plotly.js";
 
-class CandleStickPlot extends React.Component {
+class BollingerBand extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,6 +22,46 @@ class CandleStickPlot extends React.Component {
       stockChartCloseValues,
     } = this.state;
 
+    // var BB = require('technicalindicators').BollingerBands
+    var B = require("technicalindicators").BollingerBands;
+    var period = 20;
+    var bMiddle = [];
+    var bUpper = [];
+    var bLower = [];
+    var BollingerData = [
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+    ];
+
+    var input = {
+      period: period,
+      values: stockChartCloseValues.map(Number),
+      stdDev: 2,
+    };
+    Array.prototype.push.apply(BollingerData, B.calculate(input));
+    BollingerData.forEach((element) => {
+      bUpper.push(element.upper);
+      bMiddle.push(element.middle);
+      bLower.push(element.lower);
+    });
+
     return (
       <Plot
         data={[
@@ -39,6 +79,31 @@ class CandleStickPlot extends React.Component {
             type: "candlestick",
             xaxis: "x",
             yaxis: "y",
+          },
+          {
+            type: "scatter",
+            mode: "lines",
+            x: stockChartXValues,
+            y: bUpper,
+            line: {
+              shape: "spline",
+              smoothing: 1.3,
+              color: "rgb(255, 98, 157)",
+            },
+          },
+          {
+            type: "scatter",
+            mode: "lines",
+            x: stockChartXValues,
+            y: bMiddle,
+            // line: { color: "#17BECF" },
+          },
+          {
+            type: "scatter",
+            mode: "lines",
+            x: stockChartXValues,
+            y: bLower,
+            // line: { color: "#17BECF" },
           },
         ]}
         layout={this.layout}
@@ -131,4 +196,4 @@ class CandleStickPlot extends React.Component {
   };
 }
 
-export default CandleStickPlot;
+export default BollingerBand;

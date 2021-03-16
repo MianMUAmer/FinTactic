@@ -15,6 +15,9 @@ import uuid from "uuid/v4";
 import Widget from "../../components/Widget/Widget";
 import s from "./Notifications.module.scss";
 import { rgbToHsl } from "@amcharts/amcharts4/.internal/core/utils/Colors";
+import BollingerBand from "./BollingerBand";
+import RSI from "./RSI";
+import RSI2Plots from "./RSI2Plots";
 
 class Visualization extends React.Component {
   constructor(props) {
@@ -31,12 +34,16 @@ class Visualization extends React.Component {
       },
       refresh: false,
 
+      assetType: "Stocks",
       ticker: "AMZN",
       graphType: "Candle Stick",
+      fIndicatorType: "Indicators",
+      finIndicator: "",
       rangeStart: "",
       rangeEnd: "",
       assetTypeDropdownOpen: false,
       gTypeDropdownOpen: false,
+      finIndiDropDownOpen: false,
       tickerDropdownOpen: false,
       startRangeDropdownOpen: false,
       endRangeDropdownOpen: false,
@@ -46,6 +53,8 @@ class Visualization extends React.Component {
     this.setState({ assetTypeDropdownOpen: !this.state.assetTypeDropdownOpen });
   toggleGTypeDD = () =>
     this.setState({ gTypeDropdownOpen: !this.state.gTypeDropdownOpen });
+  toggleFinIndiDD = () =>
+    this.setState({ finIndiDropDownOpen: !this.state.finIndiDropDownOpen });
   toggleTickerDD = () =>
     this.setState({ tickerDropdownOpen: !this.state.tickerDropdownOpen });
   toggleRangeStartDD = () =>
@@ -71,219 +80,55 @@ class Visualization extends React.Component {
       refresh: false,
     });
 
-    // ----------------------------------------- DELETE THIS PART -------------------------------- //
-    this.setState((oldDataState) => ({
-      ...oldDataState,
-      data: {
-        name: "Name",
-        symbol: "$",
-        stockChartXValues: [
-          "2017-01-04",
-          "2017-01-05",
-          "2017-01-06",
-          "2017-01-09",
-          "2017-01-10",
-          "2017-01-11",
-          "2017-01-12",
-          "2017-01-13",
-          "2017-01-17",
-          "2017-01-18",
-          "2017-01-19",
-          "2017-01-20",
-          "2017-01-23",
-          "2017-01-24",
-          "2017-01-25",
-          "2017-01-26",
-          "2017-01-27",
-          "2017-01-30",
-          "2017-01-31",
-          "2017-02-01",
-          "2017-02-02",
-          "2017-02-03",
-          "2017-02-06",
-          "2017-02-07",
-          "2017-02-08",
-          "2017-02-09",
-          "2017-02-10",
-          "2017-02-13",
-          "2017-02-14",
-          "2017-02-15",
-        ],
-        stockChartOpenValues: [
-          115.849998,
-          115.919998,
-          116.779999,
-          117.949997,
-          118.769997,
-          118.739998,
-          118.900002,
-          119.110001,
-          118.339996,
-          120,
-          119.400002,
-          120.449997,
-          120,
-          119.550003,
-          120.419998,
-          121.669998,
-          122.139999,
-          120.93,
-          121.150002,
-          127.029999,
-          127.980003,
-          128.309998,
-          129.130005,
-          130.539993,
-          131.350006,
-          131.649994,
-          132.460007,
-          133.080002,
-          133.470001,
-          135.520004,
-        ],
-        stockChartHighValues: [
-          116.510002,
-          116.860001,
-          118.160004,
-          119.43,
-          119.379997,
-          119.93,
-          119.300003,
-          119.620003,
-          120.239998,
-          120.5,
-          120.089996,
-          120.449997,
-          120.809998,
-          120.099998,
-          122.099998,
-          122.440002,
-          122.349998,
-          121.629997,
-          121.389999,
-          130.490005,
-          129.389999,
-          129.190002,
-          130.5,
-          132.089996,
-          132.220001,
-          132.449997,
-          132.940002,
-          133.820007,
-          135.089996,
-          136.270004,
-        ],
-        stockChartLowValues: [
-          115.75,
-          115.809998,
-          116.470001,
-          117.940002,
-          118.300003,
-          118.599998,
-          118.209999,
-          118.809998,
-          118.220001,
-          119.709999,
-          119.370003,
-          119.730003,
-          119.769997,
-          119.5,
-          120.279999,
-          121.599998,
-          121.599998,
-          120.660004,
-          120.620003,
-          127.010002,
-          127.779999,
-          128.160004,
-          128.899994,
-          130.449997,
-          131.220001,
-          131.119995,
-          132.050003,
-          132.75,
-          133.25,
-          134.619995,
-        ],
-        stockChartCloseValues: [
-          116.019997,
-          116.610001,
-          117.910004,
-          118.989998,
-          119.110001,
-          119.75,
-          119.25,
-          119.040001,
-          120,
-          119.989998,
-          119.779999,
-          120,
-          120.080002,
-          119.970001,
-          121.879997,
-          121.940002,
-          121.949997,
-          121.629997,
-          121.349998,
-          128.75,
-          128.529999,
-          129.080002,
-          130.289993,
-          131.529999,
-          132.039993,
-          132.419998,
-          132.119995,
-          133.289993,
-          135.020004,
-          135.509995,
-        ],
-      },
-      refresh: true,
-    }));
+    fetch("/assets", {
+      method: "post",
+      body: JSON.stringify({ name: stockSymbol }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        for (var key in data["Time Series (Daily)"]) {
+          apiStockXValues.push(key);
+          apiStockOpenValues.push(data["Time Series (Daily)"][key]["1. open"]);
+          apiStockHighValues.push(data["Time Series (Daily)"][key]["2. high"]);
+          apiStockLowValues.push(data["Time Series (Daily)"][key]["3. low"]);
+          apiStockCloseValues.push(
+            data["Time Series (Daily)"][key]["4. close"]
+          );
+        }
 
-    // ------------------------------------ DELETE UPTILL HERE ------------------------------- //
-
-    // fetch("api/assets", {
-    //   method: "post",
-    //   body: JSON.stringify({ name: stockSymbol }),
-    // })
-    //   .then((response) => {
-    //     return response.json();
-    //   })
-    //   .then((data) => {
-    //     for (var key in data["Time Series (Daily)"]) {
-    //       apiStockXValues.push(key);
-    //       apiStockOpenValues.push(data["Time Series (Daily)"][key]["1. open"]);
-    //       apiStockHighValues.push(data["Time Series (Daily)"][key]["2. high"]);
-    //       apiStockLowValues.push(data["Time Series (Daily)"][key]["3. low"]);
-    //       apiStockCloseValues.push(
-    //         data["Time Series (Daily)"][key]["4. close"]
-    //       );
-    //     }
-
-    //     this.setState((oldDataState) => ({
-    //       ...oldDataState,
-    //       data: {
-    //         name: "Name",
-    //         symbol: data["Meta Data"]["2. Symbol"],
-    //         stockChartXValues: apiStockXValues,
-    //         stockChartOpenValues: apiStockOpenValues,
-    //         stockChartHighValues: apiStockHighValues,
-    //         stockChartLowValues: apiStockLowValues,
-    //         stockChartCloseValues: apiStockCloseValues,
-    //       },
-    //       refresh: true,
-    //     }));
-    //   });
+        this.setState((oldDataState) => ({
+          ...oldDataState,
+          data: {
+            name: "Name",
+            symbol: data["Meta Data"]["2. Symbol"],
+            stockChartXValues: apiStockXValues,
+            stockChartOpenValues: apiStockOpenValues,
+            stockChartHighValues: apiStockHighValues,
+            stockChartLowValues: apiStockLowValues,
+            stockChartCloseValues: apiStockCloseValues,
+          },
+          refresh: true,
+        }));
+      });
   };
 
   //Notification code here if need be
 
   render() {
-    const { data, graphType, ticker, refresh } = this.state;
+    const {
+      data,
+      graphType,
+      fIndicatorType,
+      ticker,
+      assetType,
+      refresh,
+    } = this.state;
     const {
       assetTypeDropdownOpen,
       gTypeDropdownOpen,
+      finIndiDropDownOpen,
       tickerDropdownOpen,
       endRangeDropdownOpen,
       startRangeDropdownOpen,
@@ -324,69 +169,159 @@ class Visualization extends React.Component {
             toggle={this.toggleAssetTypeDD}
           >
             <DropdownToggle caret color="dark">
-              Stocks
+              {assetType}
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem header>Asset Type</DropdownItem>
-              <DropdownItem>Stocks</DropdownItem>
-              <DropdownItem disabled>Currency</DropdownItem>
-              <DropdownItem disabled>Commodity</DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  this.setState({ assetType: "Stocks", ticker: "AMZN" }, () => {
+                    this.fetchStock();
+                  });
+                }}
+              >
+                Stocks
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  this.setState(
+                    { assetType: "Currency", ticker: "BTC" },
+                    () => {
+                      this.fetchStock();
+                    }
+                  );
+                }}
+              >
+                Currency
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  this.setState(
+                    { assetType: "Commodity", ticker: "GC" },
+                    () => {
+                      this.fetchStock();
+                    }
+                  );
+                }}
+              >
+                Commodity
+              </DropdownItem>
             </DropdownMenu>
           </Dropdown>
 
-          <Dropdown isOpen={tickerDropdownOpen} toggle={this.toggleTickerDD}>
-            <DropdownToggle caret color="dark">
-              {ticker}
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem header>Ticker</DropdownItem>
-              <DropdownItem
-                onClick={() => {
-                  this.setState({ ticker: "AMZN" }, () => {
-                    this.fetchStock();
-                  });
-                }}
-              >
-                Amazon
-              </DropdownItem>
-              <DropdownItem
-                onClick={() => {
-                  this.setState({ ticker: "GOOGL" }, () => {
-                    this.fetchStock();
-                  });
-                }}
-              >
-                Google
-              </DropdownItem>
-              <DropdownItem
-                onClick={() => {
-                  this.setState({ ticker: "AAPL" }, () => {
-                    this.fetchStock();
-                  });
-                }}
-              >
-                Apple
-              </DropdownItem>
-              <DropdownItem
-                onClick={() => {
-                  this.setState({ ticker: "MSFT" }, () => {
-                    this.fetchStock();
-                  });
-                }}
-              >
-                Microsoft
-              </DropdownItem>
-              <DropdownItem
-                onClick={() => {
-                  this.setState({ ticker: "FB" }, () => {
-                    this.fetchStock();
-                  });
-                }}
-              >
-                Facebook
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+          {assetType === "Stocks" && (
+            <Dropdown isOpen={tickerDropdownOpen} toggle={this.toggleTickerDD}>
+              <DropdownToggle caret color="dark">
+                {ticker}
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem header>Ticker</DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState({ ticker: "AMZN" }, () => {
+                      this.fetchStock();
+                    });
+                  }}
+                >
+                  Amazon
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState({ ticker: "GOOGL" }, () => {
+                      this.fetchStock();
+                    });
+                  }}
+                >
+                  Google
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState({ ticker: "AAPL" }, () => {
+                      this.fetchStock();
+                    });
+                  }}
+                >
+                  Apple
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState({ ticker: "MSFT" }, () => {
+                      this.fetchStock();
+                    });
+                  }}
+                >
+                  Microsoft
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState({ ticker: "FB" }, () => {
+                      this.fetchStock();
+                    });
+                  }}
+                >
+                  Facebook
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          )}
+
+          {assetType === "Currency" && (
+            <Dropdown isOpen={tickerDropdownOpen} toggle={this.toggleTickerDD}>
+              <DropdownToggle caret color="dark">
+                {ticker}
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem header>Ticker</DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState({ ticker: "BTC" }, () => {
+                      this.fetchStock();
+                    });
+                  }}
+                >
+                  BitCoin
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState({ ticker: "ETH" }, () => {
+                      this.fetchStock();
+                    });
+                  }}
+                >
+                  Ethereum
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          )}
+
+          {assetType === "Commodity" && (
+            <Dropdown isOpen={tickerDropdownOpen} toggle={this.toggleTickerDD}>
+              <DropdownToggle caret color="dark">
+                {ticker}
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem header>Ticker</DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState({ ticker: "GC" }, () => {
+                      this.fetchStock();
+                    });
+                  }}
+                >
+                  Gold
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState({ ticker: "SI" }, () => {
+                      this.fetchStock();
+                    });
+                  }}
+                >
+                  Silver
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          )}
 
           <Dropdown isOpen={gTypeDropdownOpen} toggle={this.toggleGTypeDD}>
             <DropdownToggle caret color="dark">
@@ -403,6 +338,32 @@ class Visualization extends React.Component {
                 onClick={() => this.setState({ graphType: "Line Graph" })}
               >
                 Line Graph
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+
+          <Dropdown isOpen={finIndiDropDownOpen} toggle={this.toggleFinIndiDD}>
+            <DropdownToggle caret color="dark">
+              {fIndicatorType}
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem header>Financial Indicators</DropdownItem>
+              <DropdownItem
+                onClick={() => this.setState({ fIndicatorType: "Indicators" })}
+              >
+                None
+              </DropdownItem>
+              <DropdownItem
+                onClick={() =>
+                  this.setState({ fIndicatorType: "Bollinger Bands" })
+                }
+              >
+                Bollinger Bands
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => this.setState({ fIndicatorType: "RSI" })}
+              >
+                Relative Strength Index
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
@@ -433,12 +394,23 @@ class Visualization extends React.Component {
             </DropdownMenu>
           </Dropdown>
         </div>
+
         {graphType === "Candle Stick" &&
           data.stockChartXValues.length !== 0 &&
-          refresh && <CandleStickPlot data={data} />}
+          refresh &&
+          fIndicatorType === "Indicators" && <CandleStickPlot data={data} />}
         {graphType === "Line Graph" &&
           data.stockChartXValues.length !== 0 &&
           refresh && <LineGraph data={data} />}
+        {/* Indicators */}
+        {graphType === "Candle Stick" &&
+          data.stockChartXValues.length !== 0 &&
+          refresh &&
+          fIndicatorType === "Bollinger Bands" && <BollingerBand data={data} />}
+        {graphType === "Candle Stick" &&
+          data.stockChartXValues.length !== 0 &&
+          refresh &&
+          fIndicatorType === "RSI" && <RSI2Plots data={data} />}
       </div>
     );
   }
