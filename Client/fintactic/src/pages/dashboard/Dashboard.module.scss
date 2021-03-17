@@ -1,5 +1,7 @@
 @import '../../styles/app';
-
+  
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
 .root {
   :global {
     .post-comments footer {
@@ -23,16 +25,40 @@
   }
 }
 
-.table {
-  :global(.table.table-sm) {
-    td {
-      font-size: 1rem;
-      vertical-align: middle;
-    }
-  }
+.card {
+  box-shadow: 0 4px 8px 0 rgba(58, 52, 52, 0.2);
+  text-align: center;
+  background-color: #f1f1f1;
+  margin-left: 15px;
 }
 
-.searchBtn {
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
+
+img {
+  border-radius: 5px 5px 0 0;
+}
+
+.container {
+  padding: 2px 16px;
+  
+}
+
+.column {
+  width: 100%;
+  display: block;
+}
+
+.row {margin: 0 -5px;}
+
+.App {
+  width: 50%;
+  margin: 10rem auto;
+  height: 570px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
