@@ -83,6 +83,7 @@ class Layout extends React.Component {
                   <Route path="/app/visualization" exact component={Visualization} />
                   <Route path="/app/education" exact component={Education} />
                   <Route path="/app/bookmarks" exact component={Bookmarks} />
+                  <Route path="/app/main" exact component={Dashboard} />
                   <Route path="/app/correlate" exact component={Correlate} />
                   <Route path="/app/reports" exact component={Reports} />
                   <Route path="/app/notes" exact component={Notes} />

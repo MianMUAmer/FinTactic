@@ -1,65 +1,48 @@
+import "./Dashboard.module.scss";
 import React from "react";
-import { Row, Col, Progress, Table, Label, Input } from "reactstrap";
+import first from "../../images/people/first.jpg";
+import second from "../../images/people/second.jpg";
+import third from "../../images/people/third.jpg";
 
-import Widget from "../../components/Widget";
 
-import Calendar from "./components/calendar/Calendar";
-import Map from "./components/am4chartMap/am4chartMap";
-import Rickshaw from "./components/rickshaw/Rickshaw";
+function Dashboard() {
 
-import AnimateNumber from "react-animated-number";
 
-import s from "./Dashboard.module.scss";
-
-import peopleA1 from "../../images/people/a1.jpg";
-import peopleA2 from "../../images/people/a2.jpg";
-import peopleA5 from "../../images/people/a5.jpg";
-import peopleA4 from "../../images/people/a4.jpg";
-
-class Dashboard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      graph: null,
-      checkedArr: [false, false, false],
-    };
-    this.checkTable = this.checkTable.bind(this);
-  }
-
-  checkTable(id) {
-    let arr = [];
-    if (id === 0) {
-      const val = !this.state.checkedArr[0];
-      for (let i = 0; i < this.state.checkedArr.length; i += 1) {
-        arr[i] = val;
-      }
-    } else {
-      arr = this.state.checkedArr;
-      arr[id] = !arr[id];
-    }
-    if (arr[0]) {
-      let count = 1;
-      for (let i = 1; i < arr.length; i += 1) {
-        if (arr[i]) {
-          count += 1;
-        }
-      }
-      if (count !== arr.length) {
-        arr[0] = !arr[0];
-      }
-    }
-    this.setState({
-      checkedArr: arr,
-    });
-  }
-
-  render() {
-    return (
-      <div className={s.root}>
-        <h1 className="page-title">Home &nbsp;</h1>
+  return (
+    <div className="App">
+      <h1 className="page-title">
+        Home
+      </h1>
+      <div className="row">
+      <div className="column">
+      <div className="card" style={{width: 350, boxShadow: "2px 5px 30px black"}} >
+        <img src={third} alt="Avatar" width="350" height="250" />
+        <div class="container">
+          <p>Our most important mission is to educate people how to invest wisely. Superior videos in the Education tab are ready to coach you!</p>
+        </div>
       </div>
-    );
-  }
+      </div>
+      <div className="column">
+      <div className="card" style={{width: 350, marginLeft: 15, boxShadow: "2px 5px 30px black"}}>
+        <img src={second} alt="Avatar" width="350" height="250" />
+        <div class="container">
+          <p>FinTactic helps its users during their investment decisions. We are always here with you every step of the investment!</p>
+        </div>
+      </div>
+      </div>
+      <div className="column">
+      <div className="card" style={{width: 350, marginLeft: 15,  boxShadow: "2px 5px 30px black"}}>
+        <img src={first} alt="Avatar" width="350" height="250" />
+        <div class="container">
+          <p>Invest smartly, earn plenty! Our financial analysis best suits the people who seeks to earn money.</p>
+        </div>
+      </div>
+      </div>
+
+      </div>
+      </div>
+  );
 }
+
 
 export default Dashboard;
