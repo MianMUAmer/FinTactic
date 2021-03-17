@@ -148,12 +148,45 @@ class Education extends React.Component {
         <h1 className="page-title">
           Education
         </h1>
-        <h4>Our Brand New Video about Stock Market is OUT!</h4>
-        <p>
-          <YouTubeVideo videoId='eKxxtYIU1iA'/>
-        </p>
-        
+        <table>
+          <tr>
+            <th>Stock Market 101</th>
+            <th>Bollinger Bands</th>
+          </tr>
+          <tr>
+            <th>
+              <p>
+               <YouTubeVideo videoId='eKxxtYIU1iA'/>
+              </p>
+            </th>
+            <th>
+              <p>
+               <YouTubeVideo videoId='werjfC_vFf4'/>
+              </p>
+            </th>
+          </tr>
+          <tr></tr>
+          <tr>
+            <th>Moving Average Convergence/Divergence</th>
+            <th>Relative Strength Index</th>
+          </tr>
+          <tr>
+            <th>
+              <p>
+               <YouTubeVideo videoId='GfbdP6-RKuI'/>
+              </p>
+            </th>
+            <th>
+              <p>
+               <YouTubeVideo videoId='ut4coV2RuSI'/>
+              </p>
+            </th>
+          </tr>
+
+        </table>
+
       </div>
+      
     );
   }
 }
