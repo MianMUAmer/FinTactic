@@ -18,6 +18,7 @@ import { rgbToHsl } from "@amcharts/amcharts4/.internal/core/utils/Colors";
 import BollingerBand from "./BollingerBand";
 import RSI from "./RSI";
 import RSI2Plots from "./RSI2Plots";
+import MACD from "./MACD";
 
 class Visualization extends React.Component {
   constructor(props) {
@@ -365,6 +366,11 @@ class Visualization extends React.Component {
               >
                 Relative Strength Index
               </DropdownItem>
+              <DropdownItem
+                onClick={() => this.setState({ fIndicatorType: "MACD" })}
+              >
+                Moving Average Convergence Divergence
+              </DropdownItem>
             </DropdownMenu>
           </Dropdown>
 
@@ -411,6 +417,10 @@ class Visualization extends React.Component {
           data.stockChartXValues.length !== 0 &&
           refresh &&
           fIndicatorType === "RSI" && <RSI data={data} />}
+        {graphType === "Candle Stick" &&
+          data.stockChartXValues.length !== 0 &&
+          refresh &&
+          fIndicatorType === "MACD" && <MACD data={data} />}
       </div>
     );
   }
