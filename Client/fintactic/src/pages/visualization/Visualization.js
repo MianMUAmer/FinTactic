@@ -1,6 +1,7 @@
 import React from "react";
 import CandleStickPlot from "./CandleStickPlot";
 import LineGraph from "./LineGraph";
+import { getFibRetracement, levels } from "fib-retracement";
 import Plot from "react-plotly.js";
 import {
   ButtonDropdown,
@@ -17,7 +18,7 @@ import s from "./Notifications.module.scss";
 import { rgbToHsl } from "@amcharts/amcharts4/.internal/core/utils/Colors";
 import BollingerBand from "./BollingerBand";
 import RSI from "./RSI";
-import RSI2Plots from "./RSI2Plots";
+import FibonacciRetracements from "./FibonacciRetracements";
 import MACD from "./MACD";
 
 class Visualization extends React.Component {
@@ -102,7 +103,7 @@ class Visualization extends React.Component {
         this.setState((oldDataState) => ({
           ...oldDataState,
           data: {
-            name: "Name",
+            name: data["Meta Data"]["2. Symbol"],
             symbol: data["Meta Data"]["2. Symbol"],
             stockChartXValues: apiStockXValues,
             stockChartOpenValues: apiStockOpenValues,
@@ -371,6 +372,11 @@ class Visualization extends React.Component {
               >
                 Moving Average Convergence Divergence
               </DropdownItem>
+              <DropdownItem
+                onClick={() => this.setState({ fIndicatorType: "Fib Retrace" })}
+              >
+                Fibonacci Retracements
+              </DropdownItem>
             </DropdownMenu>
           </Dropdown>
 
@@ -421,6 +427,26 @@ class Visualization extends React.Component {
           data.stockChartXValues.length !== 0 &&
           refresh &&
           fIndicatorType === "MACD" && <MACD data={data} />}
+        {graphType === "Candle Stick" &&
+          data.stockChartXValues.length !== 0 &&
+          refresh &&
+          fIndicatorType === "Fib Retrace" && (
+            <FibonacciRetracements
+              data={data}
+              fibData={getFibRetracement({
+                levels: {
+                  0: Math.min.apply(
+                    null,
+                    this.state.data.stockChartLowValues.map(Number)
+                  ),
+                  1: Math.max.apply(
+                    null,
+                    this.state.data.stockChartHighValues.map(Number)
+                  ),
+                },
+              })}
+            />
+          )}
       </div>
     );
   }
