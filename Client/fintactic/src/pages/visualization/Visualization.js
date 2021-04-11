@@ -2,20 +2,18 @@ import React from "react";
 import CandleStickPlot from "./CandleStickPlot";
 import LineGraph from "./LineGraph";
 import { getFibRetracement, levels } from "fib-retracement";
-import Plot from "react-plotly.js";
+import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/theme/default.css"; // theme css file
+import { DateRangePicker } from "react-date-range";
 import {
-  ButtonDropdown,
+  Button,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import uuid from "uuid/v4";
-import Widget from "../../components/Widget/Widget";
 import s from "./Notifications.module.scss";
-import { rgbToHsl } from "@amcharts/amcharts4/.internal/core/utils/Colors";
 import BollingerBand from "./BollingerBand";
 import RSI from "./RSI";
 import FibonacciRetracements from "./FibonacciRetracements";
@@ -41,14 +39,18 @@ class Visualization extends React.Component {
       graphType: "Candle Stick",
       fIndicatorType: "Indicators",
       finIndicator: "",
-      rangeStart: "",
-      rangeEnd: "",
       assetTypeDropdownOpen: false,
       gTypeDropdownOpen: false,
       finIndiDropDownOpen: false,
       tickerDropdownOpen: false,
       startRangeDropdownOpen: false,
       endRangeDropdownOpen: false,
+      startRange: "All",
+      endRange: "",
+      selectionRange: {
+        startDate: new Date(),
+        endDate: new Date(),
+      },
     };
   }
   toggleAssetTypeDD = () =>
@@ -63,8 +65,6 @@ class Visualization extends React.Component {
     this.setState({
       startRangeDropdownOpen: !this.state.startRangeDropdownOpen,
     });
-  toggleRangeEndDD = () =>
-    this.setState({ endRangeDropdownOpen: !this.state.endRangeDropdownOpen });
 
   componentDidMount() {
     this.fetchStock();
@@ -116,7 +116,24 @@ class Visualization extends React.Component {
       });
   };
 
-  //Notification code here if need be
+  handleDateRangeSelect = (items) => {
+    this.setState({
+      selectionRange: {
+        startDate: items.range1.startDate
+          ? items.range1.startDate
+          : this.state.startDate,
+        endDate: items.range1.endDate
+          ? items.range1.endDate
+          : this.state.endDate,
+      },
+      startRange: items.range1.startDate
+        ? items.range1.startDate.toString().slice(4, 15)
+        : this.state.startRange,
+      endRange: items.range1.endDate
+        ? items.range1.endDate.toString().slice(4, 15)
+        : this.state.endRange,
+    });
+  };
 
   render() {
     const {
@@ -126,13 +143,14 @@ class Visualization extends React.Component {
       ticker,
       assetType,
       refresh,
+      startRange,
+      endRange,
     } = this.state;
     const {
       assetTypeDropdownOpen,
       gTypeDropdownOpen,
       finIndiDropDownOpen,
       tickerDropdownOpen,
-      endRangeDropdownOpen,
       startRangeDropdownOpen,
     } = this.state;
 
@@ -141,14 +159,14 @@ class Visualization extends React.Component {
         style={{
           marginLeft: 10,
           marginRight: 10,
-          marginTop: 15,
+          marginTop: 10,
           marginBottom: 10,
         }}
         className={s.root}
       >
-        <h1 className="page-title">Visualization</h1>
+        <h1 className="page-title">Visualization - Market Analysis</h1>
 
-        <h3>Market Analysis</h3>
+        {/* <h3>Market Analysis</h3> */}
 
         <div
           style={{
@@ -379,32 +397,58 @@ class Visualization extends React.Component {
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
+        </div>
 
-          <Dropdown
-            isOpen={startRangeDropdownOpen}
-            toggle={this.toggleRangeStartDD}
+        <div
+          style={{
+            display: "flex",
+            // justifyContent: "space-between",
+            width: "70%",
+            marginBottom: 20,
+            alignItems: "baseline",
+          }}
+        >
+          <h5
+            style={{
+              marginRight: 12,
+            }}
           >
-            <DropdownToggle caret color="dark">
-              Range:Start
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem header>Start Date</DropdownItem>
-              <DropdownItem disabled>Calender</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-
-          <Dropdown
-            isOpen={endRangeDropdownOpen}
-            toggle={this.toggleRangeEndDD}
-          >
-            <DropdownToggle caret color="dark">
-              Range:End
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem header>End Date</DropdownItem>
-              <DropdownItem disabled>Calender</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+            Data Range :
+          </h5>
+          <div>
+            <Dropdown
+              isOpen={startRangeDropdownOpen}
+              toggle={this.toggleRangeStartDD}
+              style={{
+                marginRight: 15,
+              }}
+            >
+              <DropdownToggle caret color="dark">
+                {endRange === ""
+                  ? `Data Range:  ${startRange}`
+                  : `Data Range:  ${startRange} - ${endRange}`}
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem header>Date Range</DropdownItem>
+                <DateRangePicker
+                  ranges={[this.state.selectionRange]}
+                  onChange={(range) => this.handleDateRangeSelect(range)}
+                  showSelectionPreview={true}
+                  moveRangeOnFirstSelection={false}
+                  months={2}
+                  direction="horizontal"
+                />
+              </DropdownMenu>
+            </Dropdown>
+          </div>
+          <div style={{ display: "flex", width: "30%" }}>
+            <Button color="success" style={{ marginRight: 15, width: "50%" }}>
+              Apply
+            </Button>
+            <Button color="danger" style={{ marginRight: 15, width: "50%" }}>
+              Reset
+            </Button>
+          </div>
         </div>
 
         {graphType === "Candle Stick" &&
