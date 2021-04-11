@@ -5,6 +5,7 @@ import { getFibRetracement, levels } from "fib-retracement";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { DateRangePicker } from "react-date-range";
+import moment from "moment";
 import {
   Button,
   Dropdown,
@@ -38,7 +39,6 @@ class Visualization extends React.Component {
       ticker: "AMZN",
       graphType: "Candle Stick",
       fIndicatorType: "Indicators",
-      finIndicator: "",
       assetTypeDropdownOpen: false,
       gTypeDropdownOpen: false,
       finIndiDropDownOpen: false,
@@ -47,6 +47,8 @@ class Visualization extends React.Component {
       endRangeDropdownOpen: false,
       startRange: "All",
       endRange: "",
+      apiSDate: "",
+      apiEDate: "",
       selectionRange: {
         startDate: new Date(),
         endDate: new Date(),
@@ -116,23 +118,106 @@ class Visualization extends React.Component {
       });
   };
 
+  // fetchRangeStock = (apiSDate, apiEDate) => {
+  //   let stockSymbol = this.state.ticker;
+  //   let apiStockXValues = [];
+  //   let apiStockCloseValues = [];
+  //   let apiStockHighValues = [];
+  //   let apiStockLowValues = [];
+  //   let apiStockOpenValues = [];
+
+  //   this.setState({
+  //     refresh: false,
+  //   });
+
+  //   fetch("/assets", {
+  //     method: "post",
+  //     body: JSON.stringify({ name: stockSymbol, startDate: apiSDate, endDate: apiEDate }),
+  //   })
+  //     .then((response) => {
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       for (var key in data["Time Series (Daily)"]) {
+  //         apiStockXValues.push(key);
+  //         apiStockOpenValues.push(data["Time Series (Daily)"][key]["1. open"]);
+  //         apiStockHighValues.push(data["Time Series (Daily)"][key]["2. high"]);
+  //         apiStockLowValues.push(data["Time Series (Daily)"][key]["3. low"]);
+  //         apiStockCloseValues.push(
+  //           data["Time Series (Daily)"][key]["4. close"]
+  //         );
+  //       }
+
+  //       this.setState((oldDataState) => ({
+  //         ...oldDataState,
+  //         data: {
+  //           name: data["Meta Data"]["2. Symbol"],
+  //           symbol: data["Meta Data"]["2. Symbol"],
+  //           stockChartXValues: apiStockXValues,
+  //           stockChartOpenValues: apiStockOpenValues,
+  //           stockChartHighValues: apiStockHighValues,
+  //           stockChartLowValues: apiStockLowValues,
+  //           stockChartCloseValues: apiStockCloseValues,
+  //         },
+  //         refresh: true,
+  //       }));
+  //     });
+  // };
+
   handleDateRangeSelect = (items) => {
-    this.setState({
-      selectionRange: {
-        startDate: items.range1.startDate
-          ? items.range1.startDate
-          : this.state.startDate,
-        endDate: items.range1.endDate
-          ? items.range1.endDate
-          : this.state.endDate,
+    this.setState(
+      {
+        selectionRange: {
+          startDate: items.range1.startDate
+            ? items.range1.startDate
+            : this.state.startDate,
+          endDate: items.range1.endDate
+            ? items.range1.endDate
+            : this.state.endDate,
+        },
+        startRange: items.range1.startDate
+          ? items.range1.startDate.toString().slice(4, 15)
+          : this.state.startRange,
+        endRange: items.range1.endDate
+          ? items.range1.endDate.toString().slice(4, 15)
+          : this.state.endRange,
       },
-      startRange: items.range1.startDate
-        ? items.range1.startDate.toString().slice(4, 15)
-        : this.state.startRange,
-      endRange: items.range1.endDate
-        ? items.range1.endDate.toString().slice(4, 15)
-        : this.state.endRange,
-    });
+      () => {
+        var SdateString = JSON.stringify(this.state.startRange);
+        var edateString = JSON.stringify(this.state.endRange);
+        this.setState(
+          {
+            apiSDate: JSON.stringify(moment(SdateString).format("YYYY-MM-DD")),
+            apiSDate: JSON.stringify(moment(edateString).format("YYYY-MM-DD")),
+          },
+          () => {
+            console.log(this.state.apiSDate, this.state.apiEDate);
+          }
+        );
+      }
+    );
+  };
+
+  applyFilters = () => {
+    const { startRange, endRange } = this.state;
+    // this.fetchRangeStock(startRange, endRange);
+  };
+
+  resetFilter = () => {
+    this.setState(
+      {
+        fIndicatorType: "Indicators",
+        startRange: "All",
+        endRange: "",
+        selectionRange: {
+          startDate: new Date(),
+          endDate: new Date(),
+        },
+      },
+      () => {
+        //this.fetchStock();
+      }
+    );
   };
 
   render() {
@@ -165,8 +250,6 @@ class Visualization extends React.Component {
         className={s.root}
       >
         <h1 className="page-title">Visualization - Market Analysis</h1>
-
-        {/* <h3>Market Analysis</h3> */}
 
         <div
           style={{
@@ -442,10 +525,18 @@ class Visualization extends React.Component {
             </Dropdown>
           </div>
           <div style={{ display: "flex", width: "30%" }}>
-            <Button color="success" style={{ marginRight: 15, width: "50%" }}>
+            <Button
+              color="success"
+              style={{ marginRight: 15, width: "50%" }}
+              onClick={() => this.applyFilters()}
+            >
               Apply
             </Button>
-            <Button color="danger" style={{ marginRight: 15, width: "50%" }}>
+            <Button
+              color="danger"
+              style={{ marginRight: 15, width: "50%" }}
+              onClick={() => this.resetFilter()}
+            >
               Reset
             </Button>
           </div>
