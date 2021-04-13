@@ -1,24 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Switch, Route, withRouter, Redirect } from 'react-router';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import Hammer from 'rc-hammerjs';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Switch, Route, withRouter, Redirect } from "react-router";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+import Hammer from "rc-hammerjs";
 
-import UIIcons from '../../pages/components/icons';
-import Visualization from '../../pages/visualization';
-import Education from '../../pages/education';
-import Bookmarks from '../../pages/bookmarks';
-import Dashboard from '../../pages/dashboard';
-import Correlate from '../../pages/correlate';
-import Reports from '../../pages/reports';
-import Notes from '../../pages/notes';
+import UIIcons from "../../pages/components/icons";
+import Visualization from "../../pages/visualization";
+import Education from "../../pages/education";
+import Bookmarks from "../../pages/bookmarks";
+import Dashboard from "../../pages/dashboard";
+import Correlate from "../../pages/correlate";
+import Reports from "../../pages/reports";
+import Notes from "../../pages/notes";
 
-import Header from '../Header';
-import Sidebar from '../Sidebar';
-import BreadcrumbHistory from '../BreadcrumbHistory';
-import { openSidebar, closeSidebar } from '../../actions/navigation';
-import s from './Layout.module.scss';
+import Header from "../Header";
+import Sidebar from "../Sidebar";
+import BreadcrumbHistory from "../BreadcrumbHistory";
+import { openSidebar, closeSidebar } from "../../actions/navigation";
+import s from "./Layout.module.scss";
 
 class Layout extends React.Component {
   static propTypes = {
@@ -37,9 +37,8 @@ class Layout extends React.Component {
     this.handleSwipe = this.handleSwipe.bind(this);
   }
 
-
   handleSwipe(e) {
-    if ('ontouchstart' in window) {
+    if ("ontouchstart" in window) {
       if (e.direction === 4 && !this.state.chatOpen) {
         this.props.dispatch(openSidebar());
         return;
@@ -59,9 +58,9 @@ class Layout extends React.Component {
       <div
         className={[
           s.root,
-          'sidebar-' + this.props.sidebarPosition,
-          'sidebar-' + this.props.sidebarVisibility,
-        ].join(' ')}
+          "sidebar-" + this.props.sidebarPosition,
+          "sidebar-" + this.props.sidebarVisibility,
+        ].join(" ")}
       >
         <div className={s.wrap}>
           <Header />
@@ -78,19 +77,31 @@ class Layout extends React.Component {
                   timeout={200}
                 >
                   <Switch>
-                  <Route path="/login" exact render={() => <Redirect to="/login" />} />
-                  <Route path="/app/dashboard" exact component={Dashboard} />
-                  <Route path="/app/visualization" exact component={Visualization} />
-                  <Route path="/app/education" exact component={Education} />
-                  <Route path="/app/bookmarks" exact component={Bookmarks} />
-                  <Route path="/app/main" exact component={Dashboard} />
-                  <Route path="/app/correlate" exact component={Correlate} />
-                  <Route path="/app/reports" exact component={Reports} />
-                  <Route path="/app/notes" exact component={Notes} />
+                    <Route
+                      path="/login"
+                      exact
+                      render={() => <Redirect to="/login" />}
+                    />
+                    <Route
+                      path="/land"
+                      exact
+                      render={() => <Redirect to="/land" />}
+                    />
+                    <Route path="/app/dashboard" exact component={Dashboard} />
+                    <Route
+                      path="/app/visualization"
+                      exact
+                      component={Visualization}
+                    />
+                    <Route path="/app/education" exact component={Education} />
+                    <Route path="/app/bookmarks" exact component={Bookmarks} />
+                    <Route path="/app/main" exact component={Dashboard} />
+                    <Route path="/app/correlate" exact component={Correlate} />
+                    <Route path="/app/reports" exact component={Reports} />
+                    <Route path="/app/notes" exact component={Notes} />
                   </Switch>
                 </CSSTransition>
               </TransitionGroup>
-              
             </main>
           </Hammer>
         </div>
