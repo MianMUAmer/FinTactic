@@ -40,6 +40,7 @@ class LineGraph extends React.Component {
           },
         ]}
         layout={this.layout}
+        config={{ displayModeBar: false }}
       />
     );
   }

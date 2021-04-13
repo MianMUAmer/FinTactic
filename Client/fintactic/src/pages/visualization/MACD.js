@@ -126,6 +126,7 @@ class MACD extends React.Component {
           },
         ]}
         layout={this.layout}
+        config={{ displayModeBar: false }}
       />
     );
   }
