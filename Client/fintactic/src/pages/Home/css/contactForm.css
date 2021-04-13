@@ -1,0 +1,222 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
+
+#Home html {
+  font-family: "Montserrat", Arial, sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+#Home body {
+  background: #f2f3eb;
+}
+
+#Home .gradient {
+  /* background: linear-gradient(90deg, #d53369 0%, #daae51 100%); */
+  background: linear-gradient(90deg, #6d69fb 0%, #484564 100%);
+}
+
+#Home button {
+  overflow: visible;
+}
+
+#Home button,
+#Home select {
+  text-transform: none;
+}
+
+#Home button,
+#Home input,
+#Home select,
+#Home textarea {
+  color: #5a5a5a;
+  font: inherit;
+  margin: 0;
+}
+
+#Home input {
+  line-height: normal;
+}
+
+#Home textarea {
+  overflow: auto;
+}
+
+#Home form {
+  margin: 50px 0;
+}
+
+#Home #container {
+  margin: auto;
+  width: 75%;
+}
+
+#Home #container h1 {
+  color: #474544;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 7px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+#Home .underline {
+  border-bottom: solid 2px #474544;
+  margin: -0.512em auto;
+  width: 80px;
+}
+
+#Home .icon_wrapper {
+  margin: 50px auto 0;
+  width: 100%;
+}
+
+#Home .icon {
+  display: block;
+  fill: #474544;
+  height: 50px;
+  margin: 0 auto;
+  width: 50px;
+}
+
+#Home .email {
+  float: right;
+  width: 45%;
+}
+
+#Home input[type="text"],
+[type="email"],
+#Home select,
+#Home textarea {
+  background: none;
+  border: none;
+  border-bottom: solid 2px #474544;
+  color: #474544;
+  font-size: 1em;
+  font-weight: 400;
+  letter-spacing: 1px;
+  margin: 0em 0 1.875em 0;
+  padding: 0 0 0.875em 0;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+#Home input[type="text"]:focus,
+[type="email"]:focus,
+#Home textarea:focus {
+  outline: none;
+  padding: 0 0 0.875em 0;
+}
+
+#Home .message {
+  float: none;
+}
+
+#Home .name {
+  float: left;
+  width: 45%;
+}
+
+#Home select {
+  background: url("https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-down-32.png")
+    no-repeat right;
+  outline: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+#Home select::-ms-expand {
+  display: none;
+}
+
+#Home .subject {
+  width: 100%;
+}
+
+#Home .telephone {
+  width: 100%;
+}
+
+#Home textarea {
+  line-height: 150%;
+  height: 150px;
+  resize: none;
+  width: 100%;
+}
+
+::-webkit-input-placeholder {
+  color: #474544;
+}
+
+:-moz-placeholder {
+  color: #474544;
+  opacity: 1;
+}
+
+::-moz-placeholder {
+  color: #474544;
+  opacity: 1;
+}
+
+:-ms-input-placeholder {
+  color: #474544;
+}
+
+#Home #form_button {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+@media screen and (max-width: 768px) {
+  #container {
+    margin: 20px auto;
+    width: 95%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  h1 {
+    font-size: 26px;
+  }
+
+  .underline {
+    width: 68px;
+  }
+
+  #form_button {
+    padding: 15px 25px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  h1 {
+    font-size: 18px;
+  }
+
+  .icon {
+    height: 35px;
+    width: 35px;
+  }
+
+  .underline {
+    width: 53px;
+  }
+
+  input[type="text"],
+  [type="email"],
+  select,
+  textarea {
+    font-size: 0.875em;
+  }
+}
