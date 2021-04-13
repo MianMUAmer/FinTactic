@@ -23,7 +23,7 @@ const PrivateRoute = ({ dispatch, component, ...rest }) => {
     !Login.isAuthenticated(JSON.parse(localStorage.getItem("authenticated")))
   ) {
     //dispatch(logoutUser());
-    return <Redirect to="/login" />;
+    return <Redirect to="/" />;
   } else {
     return (
       // eslint-disable-line
@@ -51,7 +51,8 @@ class App extends React.PureComponent {
         />
         <HashRouter>
           <Switch>
-            <Route path="/" exact render={() => <Redirect to="/app/main" />} />
+            <Route path="/" exact component={Home} />
+            {/* <Route path="/" exact render={() => <Redirect to="/" />} /> */}
             <Route
               path="/app"
               exact
@@ -64,7 +65,7 @@ class App extends React.PureComponent {
             />
             <Route path="/register" exact component={Register} />
             <Route path="/login" exact component={Login} />
-            <Route path="/land" exact component={Home} />
+            <Route path="/" exact component={Home} />
             <Route path="/viz" exact component={Visualization} />
             <Route path="/edu" exact component={Education} />
             <Route path="/error" exact component={ErrorPage} />
