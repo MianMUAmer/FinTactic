@@ -1,4 +1,5 @@
 import React from "react";
+import { scroller } from "react-scroll";
 import { Link } from "react-router-dom";
 import LeftPic from "../Home/hero.png";
 import eduVideoPic from "../../images/eduVideos.svg";
@@ -14,6 +15,30 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
   }
+
+  scrollToContactForm = () => {
+    scroller.scrollTo("contactForm", {
+      duration: 1000,
+      delay: 0,
+      smooth: "easeInOutQuart",
+    });
+  };
+
+  scrollToProduct = () => {
+    scroller.scrollTo("product", {
+      duration: 1000,
+      delay: 0,
+      smooth: "easeInOutQuart",
+    });
+  };
+
+  scrollToFeature = () => {
+    scroller.scrollTo("features", {
+      duration: 1000,
+      delay: 0,
+      smooth: "easeInOutQuart",
+    });
+  };
 
   render() {
     return (
@@ -63,6 +88,7 @@ class Home extends React.Component {
 
             <div style={{ display: "flex" }}>
               <a
+                onClick={() => this.scrollToProduct()}
                 className="text-black no-underline text-1xl lg:text-1xl pl-4 flex items-center"
                 style={{
                   marginRight: 18,
@@ -72,6 +98,7 @@ class Home extends React.Component {
                 Product
               </a>
               <a
+                onClick={() => this.scrollToFeature()}
                 className="text-black no-underline text-1xl lg:text-1xl pl-4 flex items-center"
                 style={{
                   marginRight: 18,
@@ -81,6 +108,7 @@ class Home extends React.Component {
                 Features
               </a>
               <a
+                onClick={() => this.scrollToContactForm()}
                 className="text-black no-underline text-1xl lg:text-1xl pl-4 flex items-center"
                 style={{
                   marginRight: 18,
@@ -192,7 +220,7 @@ class Home extends React.Component {
             </g>
           </svg>
         </div>
-        <section className="bg-white border-b py-8">
+        <section className="product bg-white border-b py-8">
           <div className="container max-w-5xl mx-auto m-8">
             <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
               What You'll Get?
@@ -294,7 +322,7 @@ class Home extends React.Component {
             </div>
           </div>
         </section>
-        <section className="bg-white border-b py-8">
+        <section className="features bg-white border-b py-8">
           <div className="container mx-auto flex flex-wrap pt-4 pb-12">
             <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
               Additional Features
@@ -364,7 +392,7 @@ class Home extends React.Component {
             </div>
           </div>
         </section>
-        <section id="form" className="bg-gray-100 py-8">
+        <section id="form" className="contactForm bg-gray-100 py-8">
           <div className="container mx-auto px-2 pt-4 pb-12 text-gray-800">
             <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
               • Contact Us •
@@ -573,7 +601,10 @@ class Home extends React.Component {
                 <ul className="list-reset mb-6">
                   <li className="mt-2 inline-block mr-2 md:block md:mr-0">
                     <a
-                      href="/land"
+                      onClick={() => this.scrollToContactForm()}
+                      style={{
+                        color: "black",
+                      }}
                       className="no-underline hover:underline text-gray-800 hover:text-pink-500"
                     >
                       Contact
