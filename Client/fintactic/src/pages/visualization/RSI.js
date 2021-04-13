@@ -62,6 +62,7 @@ class RSI extends React.Component {
           },
         ]}
         layout={this.layout}
+        config={{ displayModeBar: false }}
       />
     );
   }
