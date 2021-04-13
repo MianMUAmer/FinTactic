@@ -10,11 +10,25 @@ import dashboardPic from "../../images/dashboardPic.svg";
 import bookmarkPic from "../../images/bookmarkPic.svg";
 import reportsPic from "../../images/reportsPic.svg";
 import "./css/contactForm.css";
+import emailjs from "emailjs-com";
+import { toast } from "react-toastify";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      senderName: "",
+      senderEmail: "",
+      senderPhone: "",
+      senderText: "",
+      showModal: false,
+    };
   }
+
+  toggle = () => {
+    this.setState({ showModal: !this.state.showModal });
+  };
 
   scrollToContactForm = () => {
     scroller.scrollTo("contactForm", {
@@ -40,7 +54,64 @@ class Home extends React.Component {
     });
   };
 
+  sendEmail = (e) => {
+    e.preventDefault();
+    console.log("dwd");
+    emailjs
+      .sendForm(
+        "service_vq9ngnb",
+        "template_m6xkkad",
+        e.target,
+        "user_LIm9LpYFgp9TFuHtMEF7A"
+      )
+      .then(
+        () => {
+          this.setState({
+            senderText: "",
+            senderPhone: "",
+            senderEmail: "",
+            senderName: "",
+          });
+          toast.info("Submitted Successfully!");
+        },
+        (error) => {
+          alert(error.text);
+        }
+      );
+  };
+
+  updateName = (e) => {
+    this.setState({
+      senderName: e.target.value,
+    });
+  };
+
+  updateEmail = (e) => {
+    this.setState({
+      senderEmail: e.target.value,
+    });
+  };
+
+  updatePhone = (e) => {
+    this.setState({
+      senderPhone: e.target.value,
+    });
+  };
+
+  updateText = (e) => {
+    this.setState({
+      senderText: e.target.value,
+    });
+  };
+
   render() {
+    const {
+      senderName,
+      senderEmail,
+      senderPhone,
+      senderText,
+      showModal,
+    } = this.state;
     return (
       <div
         id="Home"
@@ -408,7 +479,12 @@ class Home extends React.Component {
             </div>
             <div>
               <div id="container">
-                <form action="#" method="post" id="contact_form">
+                <form
+                  // action="#"
+                  onSubmit={this.sendEmail}
+                  // method="post"
+                  id="contact_form"
+                >
                   <div className="name">
                     <label htmlFor="name" />
                     <input
@@ -417,6 +493,8 @@ class Home extends React.Component {
                       name="name"
                       id="name_input"
                       required
+                      value={senderName}
+                      onChange={this.updateName}
                     />
                   </div>
                   <div className="email">
@@ -427,6 +505,8 @@ class Home extends React.Component {
                       name="email"
                       id="email_input"
                       required
+                      value={senderEmail}
+                      onChange={this.updateEmail}
                     />
                   </div>
                   <div className="telephone">
@@ -437,6 +517,8 @@ class Home extends React.Component {
                       name="telephone"
                       id="telephone_input"
                       required
+                      value={senderPhone}
+                      onChange={this.updatePhone}
                     />
                   </div>
 
@@ -449,7 +531,8 @@ class Home extends React.Component {
                       cols={30}
                       rows={5}
                       required
-                      defaultValue={""}
+                      value={senderText}
+                      onChange={this.updateText}
                     />
                   </div>
                   <br />
@@ -575,7 +658,10 @@ class Home extends React.Component {
                 <ul className="list-reset mb-6">
                   <li className="mt-2 inline-block mr-2 md:block md:mr-0">
                     <a
-                      href="#"
+                      onClick={this.toggle}
+                      style={{
+                        color: "black",
+                      }}
                       className="no-underline hover:underline text-gray-800 hover:text-pink-500"
                     >
                       Terms
@@ -588,8 +674,12 @@ class Home extends React.Component {
                 <ul className="list-reset mb-6">
                   <li className="mt-2 inline-block mr-2 md:block md:mr-0">
                     <a
-                      href="#"
-                      className="no-underline hover:underline text-gray-800 hover:text-pink-500"
+                      href="https://www.youtube.com/channel/UCRxAZfh1B8jVI-vkITlmPTw"
+                      target="_blank"
+                      className="no-underline text-gray-800 "
+                      style={{
+                        color: "black",
+                      }}
                     >
                       Youtube
                     </a>
@@ -614,13 +704,31 @@ class Home extends React.Component {
               </div>
             </div>
           </div>
-          {/* <a
-            href="https://www.freepik.com/free-photos-vectors/background"
-            className="text-gray-500"
-          >
-            Background vector created by freepik - www.freepik.com
-          </a> */}
         </footer>
+        <Modal isOpen={showModal} toggle={this.toggle}>
+          <ModalHeader toggle={this.toggle}>Data Collection Terms</ModalHeader>
+          <ModalBody>
+            We strive to collect as little personal data as we need to further
+            our mission.
+          </ModalBody>
+          <ModalBody>
+            We collect information when you visit our site, make a donation
+            online, and subscribe to our campaigns or mailing lists. We’ll let
+            you know what information is required for each action, and try to
+            require the least amount of information necessary. We collect
+            information regarding visits to our website.
+          </ModalBody>
+          <ModalBody>
+            To sign up for our newsletter and petitions, we require a name,
+            e-mail address, postal code, and country. For donations, we require
+            a real name, address, and payment info, including credit card data.
+          </ModalBody>
+          <ModalFooter>
+            <Button color="light" onClick={this.toggle}>
+              Understood
+            </Button>{" "}
+          </ModalFooter>
+        </Modal>
       </div>
     );
   }
