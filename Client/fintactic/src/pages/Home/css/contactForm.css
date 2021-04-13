@@ -1,3 +1,4 @@
+/* @import url(https://unpkg.com/tailwindcss/dist/tailwind.min.css); */
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
 
 #Home html {
@@ -8,11 +9,6 @@
 
 #Home body {
   background: #f2f3eb;
-}
-
-#Home .gradient {
-  /* background: linear-gradient(90deg, #d53369 0%, #daae51 100%); */
-  background: linear-gradient(90deg, #6d69fb 0%, #484564 100%);
 }
 
 #Home button {
