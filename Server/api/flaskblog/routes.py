@@ -51,6 +51,9 @@ def logout():
 def getAsset():
     req = flask.request.get_json(force=True)
     name = req.get('name', None)
+    startDate = req.get('startDate', None)
+    endRange = req.get('endRange')
+
 
     result = {}
     date = {}
@@ -59,25 +62,34 @@ def getAsset():
     metadata["2. Symbol"] = name
     
     result["Meta Data"] = metadata
-    
+    #AAPL.query.filter(AAPL.date.between('2021-01-01', '2021-02-01')).all()
     if(name=="AAPL"):
-        assets = AAPL.query.all()
+        metadata["3. Name"] = "Apple"
+        assets = AAPL.query.filter(AAPL.date.between(startDate, endRange)).all()
     elif(name=="AMZN"):
-        assets = AMZN.query.all()
+        metadata["3. Name"] = "Amazon"
+        assets = AMZN.query.filter(AMZN.date.between(startDate, endRange)).all()
     elif(name=="FB"):
-        assets = FB.query.all()
+        metadata["3. Name"] = "Facebook"
+        assets = FB.query.filter(FB.date.between(startDate, endRange)).all()
     elif(name=="GOOGL"):
-        assets = GOOG.query.all()
+        metadata["3. Name"] = "Google"
+        assets = GOOG.query.filter(GOOG.date.between(startDate, endRange)).all()
     elif(name=="MSFT"):
-        assets = MSFT.query.all()
+        metadata["3. Name"] = "Microsoft"
+        assets = MSFT.query.filter(MSFT.date.between(startDate, endRange)).all()
     elif(name=="BTC"):
-        assets = BTC.query.all()
+        metadata["3. Name"] = "Bitcoin"
+        assets = BTC.query.filter(BTC.date.between(startDate, endRange)).all()
     elif(name=="ETH"):
-        assets = ETH.query.all()
+        metadata["3. Name"] = "Etherium"
+        assets = ETH.query.filter(ETH.date.between(startDate, endRange)).all()
     elif(name=="GC"):
-        assets = GC.query.all()
+        metadata["3. Name"] = "Gold"
+        assets = GC.query.filter(GC.date.between(startDate, endRange)).all()
     elif(name=="SI"):
-        assets = SI.query.all()       
+        metadata["3. Name"] = "Silver"
+        assets = SI.query.filter(SI.date.between(startDate, endRange)).all()
     else:
         return {'name': "invalid"}, 400
 
