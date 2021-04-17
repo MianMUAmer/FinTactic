@@ -52,7 +52,7 @@ def getAsset():
     req = flask.request.get_json(force=True)
     name = req.get('name', None)
     startDate = req.get('startDate', None)
-    endRange = req.get('endRange')
+    endDate = req.get('endDate')
 
 
     result = {}
@@ -65,31 +65,31 @@ def getAsset():
     #AAPL.query.filter(AAPL.date.between('2021-01-01', '2021-02-01')).all()
     if(name=="AAPL"):
         metadata["3. Name"] = "Apple"
-        assets = AAPL.query.filter(AAPL.date.between(startDate, endRange)).all()
+        assets = AAPL.query.filter(AAPL.date.between(startDate, endDate)).all()
     elif(name=="AMZN"):
         metadata["3. Name"] = "Amazon"
-        assets = AMZN.query.filter(AMZN.date.between(startDate, endRange)).all()
+        assets = AMZN.query.filter(AMZN.date.between(startDate, endDate)).all()
     elif(name=="FB"):
         metadata["3. Name"] = "Facebook"
-        assets = FB.query.filter(FB.date.between(startDate, endRange)).all()
+        assets = FB.query.filter(FB.date.between(startDate, endDate)).all()
     elif(name=="GOOGL"):
         metadata["3. Name"] = "Google"
-        assets = GOOG.query.filter(GOOG.date.between(startDate, endRange)).all()
+        assets = GOOG.query.filter(GOOG.date.between(startDate, endDate)).all()
     elif(name=="MSFT"):
         metadata["3. Name"] = "Microsoft"
-        assets = MSFT.query.filter(MSFT.date.between(startDate, endRange)).all()
+        assets = MSFT.query.filter(MSFT.date.between(startDate, endDate)).all()
     elif(name=="BTC"):
         metadata["3. Name"] = "Bitcoin"
-        assets = BTC.query.filter(BTC.date.between(startDate, endRange)).all()
+        assets = BTC.query.filter(BTC.date.between(startDate, endDate)).all()
     elif(name=="ETH"):
         metadata["3. Name"] = "Etherium"
-        assets = ETH.query.filter(ETH.date.between(startDate, endRange)).all()
+        assets = ETH.query.filter(ETH.date.between(startDate, endDate)).all()
     elif(name=="GC"):
         metadata["3. Name"] = "Gold"
-        assets = GC.query.filter(GC.date.between(startDate, endRange)).all()
+        assets = GC.query.filter(GC.date.between(startDate, endDate)).all()
     elif(name=="SI"):
         metadata["3. Name"] = "Silver"
-        assets = SI.query.filter(SI.date.between(startDate, endRange)).all()
+        assets = SI.query.filter(SI.date.between(startDate, endDate)).all()
     else:
         return {'name': "invalid"}, 400
 
