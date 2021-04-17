@@ -249,7 +249,7 @@ class Visualization extends React.Component {
         }}
         className={s.root}
       >
-        <h1 className="page-title">Visualization - Market Analysis</h1>
+        <h1 className="page-title"  style={{color: "black"}}>Visualization - Market Analysis</h1>
 
         <div
           style={{
@@ -263,6 +263,7 @@ class Visualization extends React.Component {
           <h5
             style={{
               marginTop: 15,
+              color: "black",
             }}
           >
             Filters :
@@ -494,6 +495,7 @@ class Visualization extends React.Component {
           <h5
             style={{
               marginRight: 12,
+              color: "black",
             }}
           >
             Data Range :

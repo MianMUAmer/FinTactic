@@ -150,7 +150,7 @@ class Header extends React.Component {
               >
                 <img src={avatar} alt="..." />
               </span>
-              <span className={`small ${s.accountCheck}`}>User</span>
+              <span className={`small ${s.accountCheck}`} style={{fontSize:"17px"}}><b>User</b></span>
              
             </DropdownToggle>
            
@@ -166,7 +166,7 @@ class Header extends React.Component {
               className={`${s.navItem} text-white`}
               href="#"
             >
-              <i className="glyphicon glyphicon-off" />
+              <i className="glyphicon glyphicon-off" style={{color: "black"}} />
             </NavLink>
           </NavItem>
           <NavItem className="d-md-none">

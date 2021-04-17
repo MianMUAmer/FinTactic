@@ -150,7 +150,7 @@
 
   &:hover,
   &:focus {
-    color: $white !important;
+    color: $black !important;
   }
 
   :global(.glyphicon),
@@ -329,7 +329,8 @@
 }
 
 .accountCheck {
-  color: $text-color
+  color: $black
+  
 }
 
 .notificationsWrapper {

@@ -5,7 +5,7 @@ import Widget from "../../components/Widget";
 
 const Correlate = () => (
   <div>
-    <h1 className="page-title">
+    <h1 className="page-title" style={{color: "black"}}>
       Correlate
     </h1>
     

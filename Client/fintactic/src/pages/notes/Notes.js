@@ -5,7 +5,7 @@ import Widget from "../../components/Widget";
 
 const Notes = () => (
   <div>
-    <h1 className="page-title">
+    <h1 className="page-title" style={{color: "black"}}>
       Notes
     </h1>
     

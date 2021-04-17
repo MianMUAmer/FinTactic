@@ -76,8 +76,7 @@ class Sidebar extends React.Component {
         }}
       >
         <header className={s.logo}>
-          <h3>FinTactic</h3>
-          <img src={ img } alt="Text" width="75%"></img>
+          <h2>FinTactic</h2>
         </header>
         <ul className={s.nav}>
           <LinksGroup

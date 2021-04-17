@@ -10,7 +10,7 @@ function Dashboard() {
 
   return (
     <div className="App">
-      <h1 className="page-title">
+      <h1 className="page-title" style={{color:"black"}}>
         Home
       </h1>
       <div className="row">
