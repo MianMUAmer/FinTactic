@@ -52,46 +52,51 @@ def getAsset():
     req = flask.request.get_json(force=True)
     name = req.get('name', None)
     startDate = req.get('startDate', None)
-    endDate = req.get('endDate')
-
+    endDate = req.get('endDate', None)
 
     result = {}
     date = {}
     metadata = {}
     metadata["1. Informaton"] = "Daily Time Series with Splits and Dividend Events"
     metadata["2. Symbol"] = name
-    
-    result["Meta Data"] = metadata
-    #AAPL.query.filter(AAPL.date.between('2021-01-01', '2021-02-01')).all()
-    if(name=="AAPL"):
+
+
+    if(name=='AAPL'):
+        target = AAPL
         metadata["3. Name"] = "Apple"
-        assets = AAPL.query.filter(AAPL.date.between(startDate, endDate)).all()
     elif(name=="AMZN"):
         metadata["3. Name"] = "Amazon"
-        assets = AMZN.query.filter(AMZN.date.between(startDate, endDate)).all()
+        target = AMZN
     elif(name=="FB"):
         metadata["3. Name"] = "Facebook"
-        assets = FB.query.filter(FB.date.between(startDate, endDate)).all()
+        target = FB
     elif(name=="GOOGL"):
         metadata["3. Name"] = "Google"
-        assets = GOOG.query.filter(GOOG.date.between(startDate, endDate)).all()
+        target = GOOGL
     elif(name=="MSFT"):
         metadata["3. Name"] = "Microsoft"
-        assets = MSFT.query.filter(MSFT.date.between(startDate, endDate)).all()
+        target = MSFT
     elif(name=="BTC"):
         metadata["3. Name"] = "Bitcoin"
-        assets = BTC.query.filter(BTC.date.between(startDate, endDate)).all()
+        target = BTC
     elif(name=="ETH"):
-        metadata["3. Name"] = "Etherium"
-        assets = ETH.query.filter(ETH.date.between(startDate, endDate)).all()
+        metadata["3. Name"] = "Ethereum"
+        target = ETH
     elif(name=="GC"):
         metadata["3. Name"] = "Gold"
-        assets = GC.query.filter(GC.date.between(startDate, endDate)).all()
+        target = GC
     elif(name=="SI"):
         metadata["3. Name"] = "Silver"
-        assets = SI.query.filter(SI.date.between(startDate, endDate)).all()
+        target = SI
     else:
         return {'name': "invalid"}, 400
+    
+    result["Meta Data"] = metadata
+
+    if startDate and endDate:
+        assets = target.query.filter(target.date.between(startDate, endDate)).all()
+    else:
+        assets = target.query.all()
 
     for asset in assets:
         date[asset.getDate()] = asset.to_json()
