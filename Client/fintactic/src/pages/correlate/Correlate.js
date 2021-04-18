@@ -1,6 +1,7 @@
 import React from "react";
 import CandleStickPlot from "./CandleStickPlot";
 import LineGraph from "./LineGraph";
+import CorrelationPlot from "./CorrelationPlot";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { DateRangePicker } from "react-date-range";
@@ -792,9 +793,12 @@ class Correlate extends React.Component {
             color: "black",
             display: "flex",
             height: 360,
-            border: "1px solid green",
           }}
-        ></div>
+        >
+          {dataY.stockChartXValues.length !== 0 && refreshY && (
+            <CorrelationPlot data={dataY} />
+          )}
+        </div>
       </div>
     );
   }
