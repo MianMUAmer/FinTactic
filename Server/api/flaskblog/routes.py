@@ -12,6 +12,13 @@ def home():
 def about():
     return render_template("about.html", title="About")
 
+@app.route('/notes', methods=['GET', 'POST'])
+def notes():
+    data = request.get_json(force=True)
+    print(data)
+    return {"success": 200}
+
+
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     req = flask.request.get_json(force=True)
