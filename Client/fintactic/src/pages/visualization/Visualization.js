@@ -19,11 +19,15 @@ import BollingerBand from "./BollingerBand";
 import RSI from "./RSI";
 import FibonacciRetracements from "./FibonacciRetracements";
 import MACD from "./MACD";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 
 class Visualization extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      title: "",
+      notes: "",
       data: {
         name: "",
         symbol: "",
@@ -54,7 +58,42 @@ class Visualization extends React.Component {
         endDate: new Date(),
       },
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.screenshot = this.screenshot.bind(this);
   }
+
+  screenshot() {
+    window.scrollTo(0, 0);
+    console.log(this.state.title + "" + this.state.notes);
+    var x = this.state.title;
+    var y = this.state.notes;
+    console.log(x, y);
+    html2canvas(document.getElementById("capture")).then(function (canvas) {
+      window.scrollTo(0, 0);
+      //document.body.appendChild(canvas);
+      let dataURL = canvas.toDataURL("image/png");
+      console.log(dataURL);
+      var doc = new jsPDF({
+        orientation: "landscape",
+        unit: "in",
+        format: [20, 20],
+      });
+      window.scrollTo(0, 0);
+      doc.addImage(dataURL, "PNG", 0.3, 0.3);
+      doc.setTextColor(255, 0, 0);
+      doc.text(x, 0.3, 10);
+      doc.setTextColor(0, 0, 0);
+      doc.text(y, 0.3, 10.3);
+      doc.save("sample-file.pdf");
+    });
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
   toggleAssetTypeDD = () =>
     this.setState({ assetTypeDropdownOpen: !this.state.assetTypeDropdownOpen });
   toggleGTypeDD = () =>
@@ -70,7 +109,19 @@ class Visualization extends React.Component {
 
   componentDidMount() {
     this.fetchStock();
+    if (this.multilineTextarea) {
+      this.multilineTextarea.style.height = "auto";
+      this.multilineTextarea.style.backgroundColor = "#F5F5AE";
+      this.multilineTextarea.style.width = "500px";
+    }
   }
+
+  changeTextarea = () => {
+    this.multilineTextarea.style.height = "auto";
+    this.multilineTextarea.style.color = "black";
+    this.multilineTextarea.style.height =
+      this.multilineTextarea.scrollHeight + "px";
+  };
 
   fetchStock = () => {
     let stockSymbol = this.state.ticker;
@@ -253,343 +304,398 @@ class Visualization extends React.Component {
         }}
         className={s.root}
       >
-        <h1 className="page-title" style={{ color: "black" }}>
-          Visualization - Market Analysis
-        </h1>
+        <div id={`capture`}>
+          <h1 className="page-title" style={{ color: "black" }}>
+            Visualization - Market Analysis
+          </h1>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "70%",
-            marginBottom: 20,
-            alignItems: "baseline",
-          }}
-        >
-          <h5
+          <div
             style={{
-              marginTop: 15,
-              color: "black",
+              display: "flex",
+              justifyContent: "space-between",
+              width: "70%",
+              marginBottom: 20,
+              alignItems: "baseline",
             }}
           >
-            Filters :
-          </h5>
-          <Dropdown
-            isOpen={assetTypeDropdownOpen}
-            toggle={this.toggleAssetTypeDD}
-          >
-            <DropdownToggle caret color="dark">
-              {assetType}
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem header>Asset Type</DropdownItem>
-              <DropdownItem
-                onClick={() => {
-                  this.setState({ assetType: "Stocks", ticker: "AMZN" }, () => {
-                    this.fetchStock();
-                  });
-                }}
-              >
-                Stocks
-              </DropdownItem>
-              <DropdownItem
-                onClick={() => {
-                  this.setState(
-                    { assetType: "Currency", ticker: "BTC" },
-                    () => {
-                      this.fetchStock();
-                    }
-                  );
-                }}
-              >
-                Currency
-              </DropdownItem>
-              <DropdownItem
-                onClick={() => {
-                  this.setState(
-                    { assetType: "Commodity", ticker: "GC" },
-                    () => {
-                      this.fetchStock();
-                    }
-                  );
-                }}
-              >
-                Commodity
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-
-          {assetType === "Stocks" && (
-            <Dropdown isOpen={tickerDropdownOpen} toggle={this.toggleTickerDD}>
-              <DropdownToggle caret color="dark">
-                {ticker}
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem header>Ticker</DropdownItem>
-                <DropdownItem
-                  onClick={() => {
-                    this.setState({ ticker: "AMZN" }, () => {
-                      this.fetchStock();
-                    });
-                  }}
-                >
-                  Amazon
-                </DropdownItem>
-                <DropdownItem
-                  onClick={() => {
-                    this.setState({ ticker: "GOOGL" }, () => {
-                      this.fetchStock();
-                    });
-                  }}
-                >
-                  Google
-                </DropdownItem>
-                <DropdownItem
-                  onClick={() => {
-                    this.setState({ ticker: "AAPL" }, () => {
-                      this.fetchStock();
-                    });
-                  }}
-                >
-                  Apple
-                </DropdownItem>
-                <DropdownItem
-                  onClick={() => {
-                    this.setState({ ticker: "MSFT" }, () => {
-                      this.fetchStock();
-                    });
-                  }}
-                >
-                  Microsoft
-                </DropdownItem>
-                <DropdownItem
-                  onClick={() => {
-                    this.setState({ ticker: "FB" }, () => {
-                      this.fetchStock();
-                    });
-                  }}
-                >
-                  Facebook
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          )}
-
-          {assetType === "Currency" && (
-            <Dropdown isOpen={tickerDropdownOpen} toggle={this.toggleTickerDD}>
-              <DropdownToggle caret color="dark">
-                {ticker}
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem header>Ticker</DropdownItem>
-                <DropdownItem
-                  onClick={() => {
-                    this.setState({ ticker: "BTC" }, () => {
-                      this.fetchStock();
-                    });
-                  }}
-                >
-                  BitCoin
-                </DropdownItem>
-                <DropdownItem
-                  onClick={() => {
-                    this.setState({ ticker: "ETH" }, () => {
-                      this.fetchStock();
-                    });
-                  }}
-                >
-                  Ethereum
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          )}
-
-          {assetType === "Commodity" && (
-            <Dropdown isOpen={tickerDropdownOpen} toggle={this.toggleTickerDD}>
-              <DropdownToggle caret color="dark">
-                {ticker}
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem header>Ticker</DropdownItem>
-                <DropdownItem
-                  onClick={() => {
-                    this.setState({ ticker: "GC" }, () => {
-                      this.fetchStock();
-                    });
-                  }}
-                >
-                  Gold
-                </DropdownItem>
-                <DropdownItem
-                  onClick={() => {
-                    this.setState({ ticker: "SI" }, () => {
-                      this.fetchStock();
-                    });
-                  }}
-                >
-                  Silver
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          )}
-
-          <Dropdown isOpen={gTypeDropdownOpen} toggle={this.toggleGTypeDD}>
-            <DropdownToggle caret color="dark">
-              {graphType}
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem header>Graph Type</DropdownItem>
-              <DropdownItem
-                onClick={() => this.setState({ graphType: "Candle Stick" })}
-              >
-                Candle Stick
-              </DropdownItem>
-              <DropdownItem
-                onClick={() => this.setState({ graphType: "Line Graph" })}
-              >
-                Line Graph
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-
-          <Dropdown isOpen={finIndiDropDownOpen} toggle={this.toggleFinIndiDD}>
-            <DropdownToggle caret color="dark">
-              {fIndicatorType}
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem header>Financial Indicators</DropdownItem>
-              <DropdownItem
-                onClick={() => this.setState({ fIndicatorType: "Indicators" })}
-              >
-                None
-              </DropdownItem>
-              <DropdownItem
-                onClick={() =>
-                  this.setState({ fIndicatorType: "Bollinger Bands" })
-                }
-              >
-                Bollinger Bands
-              </DropdownItem>
-              <DropdownItem
-                onClick={() => this.setState({ fIndicatorType: "RSI" })}
-              >
-                Relative Strength Index
-              </DropdownItem>
-              <DropdownItem
-                onClick={() => this.setState({ fIndicatorType: "MACD" })}
-              >
-                Moving Average Convergence Divergence
-              </DropdownItem>
-              <DropdownItem
-                onClick={() => this.setState({ fIndicatorType: "Fib Retrace" })}
-              >
-                Fibonacci Retracements
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            // justifyContent: "space-between",
-            width: "70%",
-            marginBottom: 20,
-            alignItems: "baseline",
-          }}
-        >
-          <h5
-            style={{
-              marginRight: 12,
-              color: "black",
-            }}
-          >
-            Data Range :
-          </h5>
-          <div>
-            <Dropdown
-              isOpen={startRangeDropdownOpen}
-              toggle={this.toggleRangeStartDD}
+            <h5
               style={{
-                marginRight: 15,
+                marginTop: 15,
+                color: "black",
               }}
             >
+              Filters :
+            </h5>
+            <Dropdown
+              isOpen={assetTypeDropdownOpen}
+              toggle={this.toggleAssetTypeDD}
+            >
               <DropdownToggle caret color="dark">
-                {endRange === ""
-                  ? `Data Range:  ${startRange}`
-                  : `Data Range:  ${startRange} - ${endRange}`}
+                {assetType}
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem header>Date Range</DropdownItem>
-                <DateRangePicker
-                  ranges={[this.state.selectionRange]}
-                  onChange={(range) => this.handleDateRangeSelect(range)}
-                  showSelectionPreview={true}
-                  moveRangeOnFirstSelection={false}
-                  months={2}
-                  direction="horizontal"
-                />
+                <DropdownItem header>Asset Type</DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState(
+                      { assetType: "Stocks", ticker: "AMZN" },
+                      () => {
+                        this.fetchStock();
+                      }
+                    );
+                  }}
+                >
+                  Stocks
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState(
+                      { assetType: "Currency", ticker: "BTC" },
+                      () => {
+                        this.fetchStock();
+                      }
+                    );
+                  }}
+                >
+                  Currency
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState(
+                      { assetType: "Commodity", ticker: "GC" },
+                      () => {
+                        this.fetchStock();
+                      }
+                    );
+                  }}
+                >
+                  Commodity
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+
+            {assetType === "Stocks" && (
+              <Dropdown
+                isOpen={tickerDropdownOpen}
+                toggle={this.toggleTickerDD}
+              >
+                <DropdownToggle caret color="dark">
+                  {ticker}
+                </DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem header>Ticker</DropdownItem>
+                  <DropdownItem
+                    onClick={() => {
+                      this.setState({ ticker: "AMZN" }, () => {
+                        this.fetchStock();
+                      });
+                    }}
+                  >
+                    Amazon
+                  </DropdownItem>
+                  <DropdownItem
+                    onClick={() => {
+                      this.setState({ ticker: "GOOGL" }, () => {
+                        this.fetchStock();
+                      });
+                    }}
+                  >
+                    Google
+                  </DropdownItem>
+                  <DropdownItem
+                    onClick={() => {
+                      this.setState({ ticker: "AAPL" }, () => {
+                        this.fetchStock();
+                      });
+                    }}
+                  >
+                    Apple
+                  </DropdownItem>
+                  <DropdownItem
+                    onClick={() => {
+                      this.setState({ ticker: "MSFT" }, () => {
+                        this.fetchStock();
+                      });
+                    }}
+                  >
+                    Microsoft
+                  </DropdownItem>
+                  <DropdownItem
+                    onClick={() => {
+                      this.setState({ ticker: "FB" }, () => {
+                        this.fetchStock();
+                      });
+                    }}
+                  >
+                    Facebook
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            )}
+
+            {assetType === "Currency" && (
+              <Dropdown
+                isOpen={tickerDropdownOpen}
+                toggle={this.toggleTickerDD}
+              >
+                <DropdownToggle caret color="dark">
+                  {ticker}
+                </DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem header>Ticker</DropdownItem>
+                  <DropdownItem
+                    onClick={() => {
+                      this.setState({ ticker: "BTC" }, () => {
+                        this.fetchStock();
+                      });
+                    }}
+                  >
+                    BitCoin
+                  </DropdownItem>
+                  <DropdownItem
+                    onClick={() => {
+                      this.setState({ ticker: "ETH" }, () => {
+                        this.fetchStock();
+                      });
+                    }}
+                  >
+                    Ethereum
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            )}
+
+            {assetType === "Commodity" && (
+              <Dropdown
+                isOpen={tickerDropdownOpen}
+                toggle={this.toggleTickerDD}
+              >
+                <DropdownToggle caret color="dark">
+                  {ticker}
+                </DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem header>Ticker</DropdownItem>
+                  <DropdownItem
+                    onClick={() => {
+                      this.setState({ ticker: "GC" }, () => {
+                        this.fetchStock();
+                      });
+                    }}
+                  >
+                    Gold
+                  </DropdownItem>
+                  <DropdownItem
+                    onClick={() => {
+                      this.setState({ ticker: "SI" }, () => {
+                        this.fetchStock();
+                      });
+                    }}
+                  >
+                    Silver
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            )}
+
+            <Dropdown isOpen={gTypeDropdownOpen} toggle={this.toggleGTypeDD}>
+              <DropdownToggle caret color="dark">
+                {graphType}
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem header>Graph Type</DropdownItem>
+                <DropdownItem
+                  onClick={() => this.setState({ graphType: "Candle Stick" })}
+                >
+                  Candle Stick
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => this.setState({ graphType: "Line Graph" })}
+                >
+                  Line Graph
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+
+            <Dropdown
+              isOpen={finIndiDropDownOpen}
+              toggle={this.toggleFinIndiDD}
+            >
+              <DropdownToggle caret color="dark">
+                {fIndicatorType}
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem header>Financial Indicators</DropdownItem>
+                <DropdownItem
+                  onClick={() =>
+                    this.setState({ fIndicatorType: "Indicators" })
+                  }
+                >
+                  None
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() =>
+                    this.setState({ fIndicatorType: "Bollinger Bands" })
+                  }
+                >
+                  Bollinger Bands
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => this.setState({ fIndicatorType: "RSI" })}
+                >
+                  Relative Strength Index
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => this.setState({ fIndicatorType: "MACD" })}
+                >
+                  Moving Average Convergence Divergence
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() =>
+                    this.setState({ fIndicatorType: "Fib Retrace" })
+                  }
+                >
+                  Fibonacci Retracements
+                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
-          <div style={{ display: "flex", width: "30%" }}>
-            <Button
-              color="success"
-              style={{ marginRight: 15, width: "50%" }}
-              onClick={() => this.applyFilters()}
-            >
-              Apply
-            </Button>
-            <Button
-              color="danger"
-              style={{ marginRight: 15, width: "50%" }}
-              onClick={() => this.resetFilter()}
-            >
-              Reset
-            </Button>
-          </div>
-        </div>
 
-        {graphType === "Candle Stick" &&
-          data.stockChartXValues.length !== 0 &&
-          refresh &&
-          fIndicatorType === "Indicators" && <CandleStickPlot data={data} />}
-        {graphType === "Line Graph" &&
-          data.stockChartXValues.length !== 0 &&
-          refresh && <LineGraph data={data} />}
-        {/* Indicators */}
-        {graphType === "Candle Stick" &&
-          data.stockChartXValues.length !== 0 &&
-          refresh &&
-          fIndicatorType === "Bollinger Bands" && <BollingerBand data={data} />}
-        {graphType === "Candle Stick" &&
-          data.stockChartXValues.length !== 0 &&
-          refresh &&
-          fIndicatorType === "RSI" && <RSI data={data} />}
-        {graphType === "Candle Stick" &&
-          data.stockChartXValues.length !== 0 &&
-          refresh &&
-          fIndicatorType === "MACD" && <MACD data={data} />}
-        {graphType === "Candle Stick" &&
-          data.stockChartXValues.length !== 0 &&
-          refresh &&
-          fIndicatorType === "Fib Retrace" && (
-            <FibonacciRetracements
-              data={data}
-              fibData={getFibRetracement({
-                levels: {
-                  0: Math.min.apply(
-                    null,
-                    this.state.data.stockChartLowValues.map(Number)
-                  ),
-                  1: Math.max.apply(
-                    null,
-                    this.state.data.stockChartHighValues.map(Number)
-                  ),
-                },
-              })}
-            />
-          )}
+          <div
+            style={{
+              display: "flex",
+              // justifyContent: "space-between",
+              width: "70%",
+              marginBottom: 20,
+              alignItems: "baseline",
+            }}
+          >
+            <h5
+              style={{
+                marginRight: 12,
+                color: "black",
+              }}
+            >
+              Data Range :
+            </h5>
+            <div>
+              <Dropdown
+                isOpen={startRangeDropdownOpen}
+                toggle={this.toggleRangeStartDD}
+                style={{
+                  marginRight: 15,
+                }}
+              >
+                <DropdownToggle caret color="dark">
+                  {endRange === ""
+                    ? `Data Range:  ${startRange}`
+                    : `Data Range:  ${startRange} - ${endRange}`}
+                </DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem header>Date Range</DropdownItem>
+                  <DateRangePicker
+                    ranges={[this.state.selectionRange]}
+                    onChange={(range) => this.handleDateRangeSelect(range)}
+                    showSelectionPreview={true}
+                    moveRangeOnFirstSelection={false}
+                    months={2}
+                    direction="horizontal"
+                  />
+                </DropdownMenu>
+              </Dropdown>
+            </div>
+            <div style={{ display: "flex", width: "30%" }}>
+              <Button
+                color="success"
+                style={{ marginRight: 15, width: "50%" }}
+                onClick={() => this.applyFilters()}
+              >
+                Apply
+              </Button>
+              <Button
+                color="danger"
+                style={{ marginRight: 15, width: "50%" }}
+                onClick={() => this.resetFilter()}
+              >
+                Reset
+              </Button>
+              <Button onClick={this.screenshot} color="danger">
+                Capture
+              </Button>
+            </div>
+          </div>
+
+          {graphType === "Candle Stick" &&
+            data.stockChartXValues.length !== 0 &&
+            refresh &&
+            fIndicatorType === "Indicators" && <CandleStickPlot data={data} />}
+          {graphType === "Line Graph" &&
+            data.stockChartXValues.length !== 0 &&
+            refresh && <LineGraph data={data} />}
+          {/* Indicators */}
+
+          {graphType === "Candle Stick" &&
+            data.stockChartXValues.length !== 0 &&
+            refresh &&
+            fIndicatorType === "Bollinger Bands" && (
+              <BollingerBand data={data} />
+            )}
+          {graphType === "Candle Stick" &&
+            data.stockChartXValues.length !== 0 &&
+            refresh &&
+            fIndicatorType === "RSI" && <RSI data={data} />}
+          {graphType === "Candle Stick" &&
+            data.stockChartXValues.length !== 0 &&
+            refresh &&
+            fIndicatorType === "MACD" && <MACD data={data} />}
+          {graphType === "Candle Stick" &&
+            data.stockChartXValues.length !== 0 &&
+            refresh &&
+            fIndicatorType === "Fib Retrace" && (
+              <FibonacciRetracements
+                data={data}
+                fibData={getFibRetracement({
+                  levels: {
+                    0: Math.min.apply(
+                      null,
+                      this.state.data.stockChartLowValues.map(Number)
+                    ),
+                    1: Math.max.apply(
+                      null,
+                      this.state.data.stockChartHighValues.map(Number)
+                    ),
+                  },
+                })}
+              />
+            )}
+        </div>
+        <form>
+          <h3 style={{ color: "black" }}>
+            Take your notes, click on Capture and save them on Reports tab!
+          </h3>
+          <h4 style={{ color: "black" }}>Title: </h4>
+          <textarea
+            style={{
+              color: "black",
+              backgroundColor: "#F5F5AE",
+              width: "400px",
+              height: "25px",
+            }}
+            name="title"
+            onChange={this.handleChange}
+          ></textarea>
+          <h4 style={{ color: "black" }}>Notes: </h4>
+          <textarea
+            onChange={this.changeTextarea}
+            ref={(ref) => (this.multilineTextarea = ref)}
+            style={{
+              backgroundColor: "#F5F5AE",
+              width: "600px",
+              color: "black",
+            }}
+            name="notes"
+            onChange={this.handleChange}
+          />
+        </form>
       </div>
     );
   }
