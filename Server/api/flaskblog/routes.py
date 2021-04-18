@@ -58,38 +58,60 @@ def logout():
 def getAsset():
     req = flask.request.get_json(force=True)
     name = req.get('name', None)
+    startDate = req.get('startDate', None)
+    endDate = req.get('endDate', None)
+    corr = req.get('corr', None)
 
     result = {}
     date = {}
     metadata = {}
     metadata["1. Informaton"] = "Daily Time Series with Splits and Dividend Events"
     metadata["2. Symbol"] = name
-    
-    result["Meta Data"] = metadata
-    
-    if(name=="AAPL"):
-        assets = AAPL.query.all()
+
+
+    if(name=='AAPL'):
+        target = AAPL
+        metadata["3. Name"] = "Apple"
     elif(name=="AMZN"):
-        assets = AMZN.query.all()
+        metadata["3. Name"] = "Amazon"
+        target = AMZN
     elif(name=="FB"):
-        assets = FB.query.all()
+        metadata["3. Name"] = "Facebook"
+        target = FB
     elif(name=="GOOGL"):
-        assets = GOOG.query.all()
+        metadata["3. Name"] = "Google"
+        target = GOOGL
     elif(name=="MSFT"):
-        assets = MSFT.query.all()
+        metadata["3. Name"] = "Microsoft"
+        target = MSFT
     elif(name=="BTC"):
-        assets = BTC.query.all()
+        metadata["3. Name"] = "Bitcoin"
+        target = BTC
     elif(name=="ETH"):
-        assets = ETH.query.all()
+        metadata["3. Name"] = "Ethereum"
+        target = ETH
     elif(name=="GC"):
-        assets = GC.query.all()
+        metadata["3. Name"] = "Gold"
+        target = GC
     elif(name=="SI"):
-        assets = SI.query.all()       
+        metadata["3. Name"] = "Silver"
+        target = SI
     else:
         return {'name': "invalid"}, 400
+    
+    result["Meta Data"] = metadata
 
-    for asset in assets:
-        date[asset.getDate()] = asset.to_json()
+    if startDate and endDate:
+        assets = target.query.filter(target.date.between(startDate, endDate)).all()
+    else:
+        assets = target.query.all()
+
+    if not corr:
+        for asset in assets:
+            date[asset.getDate()] = asset.to_json()
+    else:
+        for asset in assets:
+            date[asset.getDate()] = asset.get_close()
     
     result["Time Series (Daily)"] = date
     return jsonify(result), 200
