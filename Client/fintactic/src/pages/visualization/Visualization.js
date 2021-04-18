@@ -105,7 +105,7 @@ class Visualization extends React.Component {
         this.setState((oldDataState) => ({
           ...oldDataState,
           data: {
-            name: data["Meta Data"]["2. Symbol"],
+            name: data["Meta Data"]["3. Name"],
             symbol: data["Meta Data"]["2. Symbol"],
             stockChartXValues: apiStockXValues,
             stockChartOpenValues: apiStockOpenValues,
@@ -118,51 +118,55 @@ class Visualization extends React.Component {
       });
   };
 
-  // fetchRangeStock = (apiSDate, apiEDate) => {
-  //   let stockSymbol = this.state.ticker;
-  //   let apiStockXValues = [];
-  //   let apiStockCloseValues = [];
-  //   let apiStockHighValues = [];
-  //   let apiStockLowValues = [];
-  //   let apiStockOpenValues = [];
+  fetchRangeStock = (apiSDate, apiEDate) => {
+    let stockSymbol = this.state.ticker;
+    let apiStockXValues = [];
+    let apiStockCloseValues = [];
+    let apiStockHighValues = [];
+    let apiStockLowValues = [];
+    let apiStockOpenValues = [];
 
-  //   this.setState({
-  //     refresh: false,
-  //   });
+    this.setState({
+      refresh: false,
+    });
 
-  //   fetch("/assets", {
-  //     method: "post",
-  //     body: JSON.stringify({ name: stockSymbol, startDate: apiSDate, endDate: apiEDate }),
-  //   })
-  //     .then((response) => {
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       for (var key in data["Time Series (Daily)"]) {
-  //         apiStockXValues.push(key);
-  //         apiStockOpenValues.push(data["Time Series (Daily)"][key]["1. open"]);
-  //         apiStockHighValues.push(data["Time Series (Daily)"][key]["2. high"]);
-  //         apiStockLowValues.push(data["Time Series (Daily)"][key]["3. low"]);
-  //         apiStockCloseValues.push(
-  //           data["Time Series (Daily)"][key]["4. close"]
-  //         );
-  //       }
+    fetch("/assets", {
+      method: "post",
+      body: JSON.stringify({
+        name: stockSymbol,
+        startDate: apiSDate,
+        endDate: apiEDate,
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        for (var key in data["Time Series (Daily)"]) {
+          apiStockXValues.push(key);
+          apiStockOpenValues.push(data["Time Series (Daily)"][key]["1. open"]);
+          apiStockHighValues.push(data["Time Series (Daily)"][key]["2. high"]);
+          apiStockLowValues.push(data["Time Series (Daily)"][key]["3. low"]);
+          apiStockCloseValues.push(
+            data["Time Series (Daily)"][key]["4. close"]
+          );
+        }
 
-  //       this.setState((oldDataState) => ({
-  //         ...oldDataState,
-  //         data: {
-  //           name: data["Meta Data"]["2. Symbol"],
-  //           symbol: data["Meta Data"]["2. Symbol"],
-  //           stockChartXValues: apiStockXValues,
-  //           stockChartOpenValues: apiStockOpenValues,
-  //           stockChartHighValues: apiStockHighValues,
-  //           stockChartLowValues: apiStockLowValues,
-  //           stockChartCloseValues: apiStockCloseValues,
-  //         },
-  //         refresh: true,
-  //       }));
-  //     });
-  // };
+        this.setState((oldDataState) => ({
+          ...oldDataState,
+          data: {
+            name: data["Meta Data"]["3. Name"],
+            symbol: data["Meta Data"]["2. Symbol"],
+            stockChartXValues: apiStockXValues,
+            stockChartOpenValues: apiStockOpenValues,
+            stockChartHighValues: apiStockHighValues,
+            stockChartLowValues: apiStockLowValues,
+            stockChartCloseValues: apiStockCloseValues,
+          },
+          refresh: true,
+        }));
+      });
+  };
 
   handleDateRangeSelect = (items) => {
     this.setState(
@@ -199,8 +203,8 @@ class Visualization extends React.Component {
   };
 
   applyFilters = () => {
-    const { startRange, endRange } = this.state;
-    // this.fetchRangeStock(startRange, endRange);
+    const { apiSDate, apiEDate } = this.state;
+    this.fetchRangeStock(apiSDate, apiEDate);
   };
 
   resetFilter = () => {
@@ -215,7 +219,7 @@ class Visualization extends React.Component {
         },
       },
       () => {
-        //this.fetchStock();
+        this.fetchStock();
       }
     );
   };

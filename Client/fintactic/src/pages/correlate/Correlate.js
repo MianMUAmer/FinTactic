@@ -1,6 +1,6 @@
 import React from "react";
-// import CandleStickPlot from "./CandleStickPlot";
-// import LineGraph from "./LineGraph";
+import CandleStickPlot from "./CandleStickPlot";
+import LineGraph from "./LineGraph";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { DateRangePicker } from "react-date-range";
@@ -20,7 +20,7 @@ class Correlate extends React.Component {
     super(props);
     this.state = {
       dataX: {
-        name: "1",
+        name: "",
         symbol: "",
         stockChartXValues: [],
         stockChartCloseValues: [],
@@ -29,7 +29,7 @@ class Correlate extends React.Component {
         stockChartOpenValues: [],
       },
       dataY: {
-        name: "2",
+        name: "",
         symbol: "",
         stockChartXValues: [],
         stockChartCloseValues: [],
@@ -37,7 +37,8 @@ class Correlate extends React.Component {
         stockChartLowValues: [],
         stockChartOpenValues: [],
       },
-      refresh: false,
+      refreshX: false,
+      refreshY: false,
 
       assetXType: "Stocks",
       tickerX: "AMZN",
@@ -90,65 +91,74 @@ class Correlate extends React.Component {
     });
 
   componentDidMount() {
-    // this.fetchStock();
+    this.fetchRangeStock();
   }
 
-  fetchStock = () => {
-    let stockSymbol = this.state.ticker;
-    let apiStockXValues = [];
-    let apiStockCloseValues = [];
-    let apiStockHighValues = [];
-    let apiStockLowValues = [];
-    let apiStockOpenValues = [];
+  // fetchStock = () => {
+  //   let stockSymbol = this.state.ticker;
+  //   let apiStockXValues = [];
+  //   let apiStockCloseValues = [];
+  //   let apiStockHighValues = [];
+  //   let apiStockLowValues = [];
+  //   let apiStockOpenValues = [];
 
-    this.setState({
-      refresh: false,
-    });
+  //   this.setState({
+  //     refresh: false,
+  //   });
 
-    fetch("/assets", {
-      method: "post",
-      body: JSON.stringify({ name: stockSymbol }),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        for (var key in data["Time Series (Daily)"]) {
-          apiStockXValues.push(key);
-          apiStockOpenValues.push(data["Time Series (Daily)"][key]["1. open"]);
-          apiStockHighValues.push(data["Time Series (Daily)"][key]["2. high"]);
-          apiStockLowValues.push(data["Time Series (Daily)"][key]["3. low"]);
-          apiStockCloseValues.push(
-            data["Time Series (Daily)"][key]["4. close"]
-          );
-        }
+  //   fetch("/assets", {
+  //     method: "post",
+  //     body: JSON.stringify({ name: stockSymbol }),
+  //   })
+  //     .then((response) => {
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       for (var key in data["Time Series (Daily)"]) {
+  //         apiStockXValues.push(key);
+  //         apiStockOpenValues.push(data["Time Series (Daily)"][key]["1. open"]);
+  //         apiStockHighValues.push(data["Time Series (Daily)"][key]["2. high"]);
+  //         apiStockLowValues.push(data["Time Series (Daily)"][key]["3. low"]);
+  //         apiStockCloseValues.push(
+  //           data["Time Series (Daily)"][key]["4. close"]
+  //         );
+  //       }
 
-        this.setState((oldDataState) => ({
-          ...oldDataState,
-          data: {
-            name: data["Meta Data"]["2. Symbol"],
-            symbol: data["Meta Data"]["2. Symbol"],
-            stockChartXValues: apiStockXValues,
-            stockChartOpenValues: apiStockOpenValues,
-            stockChartHighValues: apiStockHighValues,
-            stockChartLowValues: apiStockLowValues,
-            stockChartCloseValues: apiStockCloseValues,
-          },
-          refresh: true,
-        }));
-      });
-  };
+  //       this.setState((oldDataState) => ({
+  //         ...oldDataState,
+  //         data: {
+  //           name: data["Meta Data"]["3. Name"],
+  //           symbol: data["Meta Data"]["2. Symbol"],
+  //           stockChartXValues: apiStockXValues,
+  //           stockChartOpenValues: apiStockOpenValues,
+  //           stockChartHighValues: apiStockHighValues,
+  //           stockChartLowValues: apiStockLowValues,
+  //           stockChartCloseValues: apiStockCloseValues,
+  //         },
+  //         refresh: true,
+  //       }));
+  //     });
+  // };
 
   fetchRangeStock = (apiSDate, apiEDate) => {
     let stockSymbolX = this.state.tickerX;
     let stockSymbolY = this.state.tickerY;
+
     let XapiStockXValues = [];
     let XapiStockCloseValues = [];
+    let XapiStockHighValues = [];
+    let XapiStockLowValues = [];
+    let XapiStockOpenValues = [];
+
     let YapiStockXValues = [];
     let YapiStockCloseValues = [];
+    let YapiStockHighValues = [];
+    let YapiStockLowValues = [];
+    let YapiStockOpenValues = [];
 
     this.setState({
-      refresh: false,
+      refreshX: false,
+      refreshY: false,
     });
 
     // Fetch assetX
@@ -166,6 +176,9 @@ class Correlate extends React.Component {
       .then((data) => {
         for (var key in data["Time Series (Daily)"]) {
           XapiStockXValues.push(key);
+          XapiStockOpenValues.push(data["Time Series (Daily)"][key]["1. open"]);
+          XapiStockHighValues.push(data["Time Series (Daily)"][key]["2. high"]);
+          XapiStockLowValues.push(data["Time Series (Daily)"][key]["3. low"]);
           XapiStockCloseValues.push(
             data["Time Series (Daily)"][key]["4. close"]
           );
@@ -175,12 +188,15 @@ class Correlate extends React.Component {
           (oldDataState) => ({
             ...oldDataState,
             dataX: {
-              name: data["Meta Data"]["2. Symbol"],
+              name: data["Meta Data"]["3. Name"],
               symbol: data["Meta Data"]["2. Symbol"],
               stockChartXValues: XapiStockXValues,
+              stockChartOpenValues: XapiStockOpenValues,
+              stockChartHighValues: XapiStockHighValues,
+              stockChartLowValues: XapiStockLowValues,
               stockChartCloseValues: XapiStockCloseValues,
             },
-            refresh: true,
+            refreshX: true,
           }),
           () => console.log(this.state.dataX)
         );
@@ -201,6 +217,9 @@ class Correlate extends React.Component {
       .then((data) => {
         for (var key in data["Time Series (Daily)"]) {
           YapiStockXValues.push(key);
+          YapiStockOpenValues.push(data["Time Series (Daily)"][key]["1. open"]);
+          YapiStockHighValues.push(data["Time Series (Daily)"][key]["2. high"]);
+          YapiStockLowValues.push(data["Time Series (Daily)"][key]["3. low"]);
           YapiStockCloseValues.push(
             data["Time Series (Daily)"][key]["4. close"]
           );
@@ -210,12 +229,15 @@ class Correlate extends React.Component {
           (oldDataState) => ({
             ...oldDataState,
             dataY: {
-              name: data["Meta Data"]["1. Symbol"],
+              name: data["Meta Data"]["3. Name"],
               symbol: data["Meta Data"]["2. Symbol"],
               stockChartXValues: YapiStockXValues,
+              stockChartOpenValues: YapiStockOpenValues,
+              stockChartHighValues: YapiStockHighValues,
+              stockChartLowValues: YapiStockLowValues,
               stockChartCloseValues: YapiStockCloseValues,
             },
-            refresh: true,
+            refreshY: true,
           }),
           () => console.log(this.state.dataY)
         );
@@ -277,23 +299,7 @@ class Correlate extends React.Component {
       apiSDate,
       apiEDate
     );
-    // this.fetchRangeStock(apiSDate, apiEDate);
-  };
-
-  resetFilter = () => {
-    this.setState(
-      {
-        startRange: "All",
-        endRange: "",
-        selectionRange: {
-          startDate: new Date(),
-          endDate: new Date(),
-        },
-      },
-      () => {
-        //this.fetchStock();
-      }
-    );
+    this.fetchRangeStock(apiSDate, apiEDate);
   };
 
   render() {
@@ -306,7 +312,8 @@ class Correlate extends React.Component {
       tickerY,
       assetXType,
       assetYType,
-      refresh,
+      refreshX,
+      refreshY,
       startRange,
       endRange,
     } = this.state;
@@ -745,13 +752,6 @@ class Correlate extends React.Component {
             >
               Apply
             </Button>
-            <Button
-              color="danger"
-              style={{ marginRight: 15, width: "50%" }}
-              onClick={() => this.resetFilter()}
-            >
-              Reset
-            </Button>
           </div>
         </div>
 
@@ -763,13 +763,27 @@ class Correlate extends React.Component {
             marginBottom: 25,
           }}
         >
-          <div style={{ border: "1px solid red", width: "50%" }}>
+          <div style={{ width: "50%" }}>
             <h5 style={{ color: "black" }}>AssetX: {dataX.name}</h5>
-            <div style={{ border: "1px solid yellow", height: "92%" }}></div>
+            <div style={{ height: "92%" }}>
+              {graphXType === "Candle Stick" &&
+                dataX.stockChartXValues.length !== 0 &&
+                refreshX && <CandleStickPlot data={dataX} />}
+              {graphXType === "Line Graph" &&
+                dataX.stockChartXValues.length !== 0 &&
+                refreshX && <LineGraph data={dataX} />}
+            </div>
           </div>
-          <div style={{ border: "1px solid blue", width: "50%" }}>
+          <div style={{ width: "50%" }}>
             <h5 style={{ color: "black" }}>AssetY: {dataY.name}</h5>
-            <div style={{ border: "1px solid purple", height: "92%" }}></div>
+            <div style={{ height: "92%" }}>
+              {graphYType === "Candle Stick" &&
+                dataY.stockChartXValues.length !== 0 &&
+                refreshY && <CandleStickPlot data={dataY} />}
+              {graphYType === "Line Graph" &&
+                dataY.stockChartXValues.length !== 0 &&
+                refreshY && <LineGraph data={dataY} />}
+            </div>
           </div>
         </div>
         <h5 style={{ color: "black" }}>Correlation:</h5>
