@@ -31,6 +31,8 @@ class AAPL(db.Model):
 
     def getDate(self):
         return self.date
+    def get_close(self):
+        return {"close": self.close}
 
     def to_json(self):
         return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
@@ -48,6 +50,8 @@ class AMZN(db.Model):
 
     def getDate(self):
         return self.date
+    def get_close(self):
+        return {"close": self.close}
 
     def to_json(self):
         return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
@@ -65,6 +69,8 @@ class FB(db.Model):
 
     def getDate(self):
         return self.date
+    def get_close(self):
+        return {"close": self.close}
 
     def to_json(self):
         return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
@@ -82,6 +88,8 @@ class GOOG(db.Model):
 
     def getDate(self):
         return self.date
+    def get_close(self):
+        return {"close": self.close}
 
     def to_json(self):
         return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
@@ -99,6 +107,8 @@ class MSFT(db.Model):
 
     def getDate(self):
         return self.date
+    def get_close(self):
+        return {"close": self.close}
 
     def to_json(self):
         return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
@@ -116,6 +126,8 @@ class BTC(db.Model):
 
     def getDate(self):
         return self.date
+    def get_close(self):
+        return {"close": self.close}
 
     def to_json(self):
         return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
@@ -133,6 +145,8 @@ class ETH(db.Model):
 
     def getDate(self):
         return self.date
+    def get_close(self):
+        return {"close": self.close}
 
     def to_json(self):
         return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
@@ -150,6 +164,8 @@ class GC(db.Model):
 
     def getDate(self):
         return self.date
+    def get_close(self):
+        return {"close": self.close}
 
     def to_json(self):
         return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
@@ -167,6 +183,8 @@ class SI(db.Model):
 
     def getDate(self):
         return self.date
+    def get_close(self):
+        return {"close": self.close}
 
     def to_json(self):
         return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
