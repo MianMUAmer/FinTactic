@@ -188,7 +188,7 @@ class Visualization extends React.Component {
         this.setState(
           {
             apiSDate: JSON.stringify(moment(SdateString).format("YYYY-MM-DD")),
-            apiSDate: JSON.stringify(moment(edateString).format("YYYY-MM-DD")),
+            apiEDate: JSON.stringify(moment(edateString).format("YYYY-MM-DD")),
           },
           () => {
             console.log(this.state.apiSDate, this.state.apiEDate);
@@ -249,7 +249,9 @@ class Visualization extends React.Component {
         }}
         className={s.root}
       >
-        <h1 className="page-title"  style={{color: "black"}}>Visualization - Market Analysis</h1>
+        <h1 className="page-title" style={{ color: "black" }}>
+          Visualization - Market Analysis
+        </h1>
 
         <div
           style={{
