@@ -53,6 +53,7 @@ def getAsset():
     name = req.get('name', None)
     startDate = req.get('startDate', None)
     endDate = req.get('endDate', None)
+    corr = req.get('corr', None)
 
     result = {}
     date = {}
@@ -98,8 +99,12 @@ def getAsset():
     else:
         assets = target.query.all()
 
-    for asset in assets:
-        date[asset.getDate()] = asset.to_json()
+    if not corr:
+        for asset in assets:
+            date[asset.getDate()] = asset.to_json()
+    else:
+        for asset in assets:
+            date[asset.getDate()] = asset.get_close()
     
     result["Time Series (Daily)"] = date
     return jsonify(result), 200
