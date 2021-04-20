@@ -1,7 +1,8 @@
-from flask import render_template, url_for, flash, redirect, request, jsonify
+from flask import render_template, url_for, flash, redirect, request, jsonify, send_file
 from flaskblog import app, db, bcrypt
-from flaskblog.models import User, AAPL, AMZN, FB, GOOG, MSFT, BTC, ETH, GC, SI
+from flaskblog.models import User, Report, AAPL, AMZN, FB, GOOG, MSFT, BTC, ETH, GC, SI
 from flask_login import login_user, current_user, logout_user, login_required
+from io import BytesIO
 import flask
 @app.route("/")
 @app.route("/home")
@@ -60,8 +61,7 @@ def getAsset():
     name = req.get('name', None)
     startDate = req.get('startDate', None)
     endDate = req.get('endDate', None)
-    corr = req.get('corr', None)
-
+    
     result = {}
     date = {}
     metadata = {}
@@ -115,3 +115,33 @@ def getAsset():
     
     result["Time Series (Daily)"] = date
     return jsonify(result), 200
+
+@app.route("/upReport", methods=["POST"])
+def report():
+    report = request.files["report"]
+    user_id= request.form.get("id")
+    title= request.form.get("title")
+    newReport = Report(title=title, data=report.read(), user_id=user_id)
+    db.session.add(newReport)
+    db.session.commit()
+    return {"success": 200}
+
+@app.route("/getMetaReport", methods=['GET', 'POST'])
+def getReports():
+    req = flask.request.get_json(force=True)
+    user_id = req.get('id', None)
+    raw_reports = Report.query.filter_by(user_id=user_id).all()
+
+    metas = []
+    for r in raw_reports:
+        metas.append(r.get_meta())
+
+    return jsonify(metas), 200
+
+@app.route("/getDataReport", methods=['GET', 'POST'])
+def getData():
+    req = flask.request.get_json(force=True)
+    id = req.get('id', None)
+    report = Report.query.filter_by(id=1).first()
+
+    return send_file(BytesIO(report.get_data()), attachment_filename=report.get_date()+'-report.pdf', as_attachment=True)
