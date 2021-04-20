@@ -61,7 +61,7 @@ def getAsset():
     name = req.get('name', None)
     startDate = req.get('startDate', None)
     endDate = req.get('endDate', None)
-
+    
     result = {}
     date = {}
     metadata = {}
