@@ -13,6 +13,13 @@ def home():
 def about():
     return render_template("about.html", title="About")
 
+@app.route('/notes', methods=['GET', 'POST'])
+def notes():
+    data = request.get_json(force=True)
+    print(data)
+    return {"success": 200}
+
+
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     req = flask.request.get_json(force=True)
@@ -99,8 +106,12 @@ def getAsset():
     else:
         assets = target.query.all()
 
-    for asset in assets:
-        date[asset.getDate()] = asset.to_json()
+    if not corr:
+        for asset in assets:
+            date[asset.getDate()] = asset.to_json()
+    else:
+        for asset in assets:
+            date[asset.getDate()] = asset.get_close()
     
     result["Time Series (Daily)"] = date
     return jsonify(result), 200
