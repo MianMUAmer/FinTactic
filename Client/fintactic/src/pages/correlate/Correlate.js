@@ -40,6 +40,7 @@ class Correlate extends React.Component {
       },
       refreshX: false,
       refreshY: false,
+      refreshCorr: false,
 
       assetXType: "Stocks",
       tickerX: "AMZN",
@@ -160,6 +161,7 @@ class Correlate extends React.Component {
     this.setState({
       refreshX: false,
       refreshY: false,
+      refreshCorr: false,
     });
 
     // Fetch assetX
@@ -198,6 +200,7 @@ class Correlate extends React.Component {
               stockChartCloseValues: XapiStockCloseValues,
             },
             refreshX: true,
+            refreshCorr: true,
           }),
           () => console.log(this.state.dataX)
         );
@@ -239,6 +242,7 @@ class Correlate extends React.Component {
               stockChartCloseValues: YapiStockCloseValues,
             },
             refreshY: true,
+            refreshCorr: true,
           }),
           () => console.log(this.state.dataY)
         );
@@ -315,6 +319,7 @@ class Correlate extends React.Component {
       assetYType,
       refreshX,
       refreshY,
+      refreshCorr,
       startRange,
       endRange,
     } = this.state;
@@ -795,9 +800,9 @@ class Correlate extends React.Component {
             height: 360,
           }}
         >
-          {dataY.stockChartXValues.length !== 0 && refreshY && (
-            <CorrelationPlot data={dataY} />
-          )}
+          {dataY.stockChartXValues.length !== 0 &&
+            dataX.stockChartXValues.length !== 0 &&
+            refreshCorr && <CorrelationPlot dataX={dataX} dataY={dataY} />}
         </div>
       </div>
     );

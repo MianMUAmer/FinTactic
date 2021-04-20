@@ -5,27 +5,54 @@ class CorrelationPlot extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      symbol: this.props.data.symbol,
-      stockChartXValues: this.props.data.stockChartXValues,
-      stockChartHighValues: this.props.data.stockChartHighValues,
-      stockChartLowValues: this.props.data.stockChartLowValues,
+      xSymbol: this.props.dataX.symbol,
+      xStockChartXValues: this.props.dataX.stockChartXValues,
+      xStockChartCloseValues: this.props.dataX.stockChartCloseValues,
+
+      ySymbol: this.props.dataY.symbol,
+      yStockChartXValues: this.props.dataY.stockChartXValues,
+      yStockChartCloseValues: this.props.dataY.stockChartCloseValues,
     };
+    console.log(this.props.dataY);
   }
 
   render() {
-    const { stockChartXValues, stockChartLowValues, symbol } = this.state;
+    const {
+      xStockChartCloseValues,
+      xStockChartXValues,
+      xSymbol,
+      ySymbol,
+      yStockChartXValues,
+      yStockChartCloseValues,
+    } = this.state;
     return (
       <div>
         <Plot
           data={[
             {
+              x: xStockChartCloseValues,
+              y: yStockChartCloseValues,
+              mode: "markers",
               type: "scatter",
-              mode: "lines",
-              name: `${symbol} Low`,
-              x: stockChartXValues,
-              y: stockChartLowValues,
-              line: { color: "#f7653e" },
+              name: { xSymbol },
+              text: xStockChartXValues,
+              textfont: {
+                family: "Raleway, sans-serif",
+              },
+              marker: { size: 8, color: "#f7653e" },
             },
+            // {
+            //   x: yStockChartXValues,
+            //   y: yStockChartCloseValues,
+            //   mode: "markers",
+            //   type: "scatter",
+            //   name: { ySymbol },
+            //   text: yStockChartXValues,
+            //   textfont: {
+            //     family: "Times New Roman",
+            //   },
+            //   marker: { size: 8 },
+            // },
           ]}
           layout={this.layout}
           config={{ displayModeBar: false }}
@@ -38,7 +65,7 @@ class CorrelationPlot extends React.Component {
     width: 1100,
     height: 410,
     title: {
-      text: `${this.props.data.name} ( ${this.props.data.symbol} ) Correlation Plot`,
+      text: `${this.props.dataX.name} & ${this.props.dataY.name} Correlation Plot`,
       font: {
         color: "#e3e3e3",
       },
