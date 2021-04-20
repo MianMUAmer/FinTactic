@@ -106,12 +106,8 @@ def getAsset():
     else:
         assets = target.query.all()
 
-    if not corr:
-        for asset in assets:
-            date[asset.getDate()] = asset.to_json()
-    else:
-        for asset in assets:
-            date[asset.getDate()] = asset.get_close()
+    for asset in assets:
+        date[asset.getDate()] = asset.to_json()
     
     result["Time Series (Daily)"] = date
     return jsonify(result), 200
