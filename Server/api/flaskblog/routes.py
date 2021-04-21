@@ -4,6 +4,7 @@ from flaskblog.models import User, Report, AAPL, AMZN, FB, GOOG, MSFT, BTC, ETH,
 from flask_login import login_user, current_user, logout_user, login_required
 from io import BytesIO
 import flask
+import numpy as np
 @app.route("/")
 @app.route("/home")
 def home():
@@ -139,5 +140,13 @@ def getData():
     req = flask.request.get_json(force=True)
     id = req.get('id', None)
     report = Report.query.filter_by(id=1).first()
-
     return send_file(BytesIO(report.get_data()), attachment_filename=report.get_date()+'-report.pdf', as_attachment=True)
+    
+@app.route("/correlation", methods=['GET', 'POST'])
+def corr():
+    req = flask.request.get_json(force=True)
+    name1 = req.get('name1', None)
+    name1 = req.get('name2', None)
+    startDate = req.get('startDate', None)
+    endDate = req.get('endDate', None)
+
