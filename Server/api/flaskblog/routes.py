@@ -115,6 +115,11 @@ def getAsset():
 
 @app.route("/upReport", methods=["POST"])
 def report():
+    if 'report' not in request.files:
+        resp = jsonify({'message' : 'No file part in the request'})
+        resp.status_code = 400
+        return resp
+
     report = request.files["report"]
     user_id= request.form.get("id")
     title= request.form.get("title")
