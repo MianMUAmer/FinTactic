@@ -82,6 +82,18 @@ class Reports extends React.Component {
     };
   }
 
+  componentDidMount() {
+    console.log("fetching")
+    const record = new FormData();
+    record.append("user_id", 7);
+    fetch('/getMetaReport', {
+      method: 'get',
+      headers: {'Content-Type':'application/json'},
+    }).then(response => {
+      return response.json
+    })
+  }
+
   parseDate(date) {
     this.dateSet = date.toDateString().split(" ");
 

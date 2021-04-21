@@ -28,6 +28,7 @@ class Visualization extends React.Component {
     this.state = {
       title: "",
       notes: "",
+      dataURL: "",
       data: {
         name: "",
         symbol: "",
@@ -60,6 +61,7 @@ class Visualization extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.screenshot = this.screenshot.bind(this);
+   // this.postAttachment = this.postAttachment.bind(this);
   }
 
   screenshot() {
@@ -85,8 +87,46 @@ class Visualization extends React.Component {
       doc.setTextColor(0, 0, 0);
       doc.text(y, 0.3, 10.3);
       doc.save("sample-file.pdf");
+      console.log(doc)
+      
     });
+
+    let formData = new FormData()
+    var a = this.state.title;
+    var report = this.state.doc;
+    console.log(report)
+    formData.append('report', report)
+    formData.append('id', '2')
+    formData.append('title', a)
+    return fetch('/upReport', {
+      headers: {
+        'Accept': 'application/json',
+        'header1': 'headerValue1'
+      },
+      method: 'POST',
+      body: formData
+    }).then(res => console.log(res))
   }
+
+
+  /*postAttachment (e) {
+    e.preventDefault();
+    let formData = new FormData()
+    var a = this.state.title;
+    var report = this.state.doc;
+    console.log(report)
+    formData.append('report', report)
+    formData.append('id', '2')
+    formData.append('title', a)
+    return fetch('/upReport', {
+      headers: {
+        'Accept': 'application/json',
+        'header1': 'headerValue1'
+      },
+      method: 'POST',
+      body: formData
+    }).then(res => console.log(res))
+  }*/
 
   handleChange = (e) => {
     this.setState({
@@ -114,6 +154,23 @@ class Visualization extends React.Component {
       this.multilineTextarea.style.backgroundColor = "#F5F5AE";
       this.multilineTextarea.style.width = "500px";
     }
+
+    let formData = new FormData()
+    var a = this.state.title;
+    var report = this.state.doc;
+    console.log(report)
+    formData.append('report', report)
+    formData.append('id', '2')
+    formData.append('title', a)
+    return fetch('/upReport', {
+      headers: {
+        'Accept': 'application/json',
+        'header1': 'headerValue1'
+      },
+      method: 'POST',
+      body: formData
+    }).then(res => console.log(res))
+
   }
 
   changeTextarea = () => {
@@ -122,6 +179,7 @@ class Visualization extends React.Component {
     this.multilineTextarea.style.height =
       this.multilineTextarea.scrollHeight + "px";
   };
+  
 
   fetchStock = () => {
     let stockSymbol = this.state.ticker;
