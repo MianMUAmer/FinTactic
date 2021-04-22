@@ -5,6 +5,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from io import BytesIO
 import flask
 import numpy as np
+
 @app.route("/")
 @app.route("/home")
 def home():
@@ -134,9 +135,9 @@ def getReports():
     user_id = req.get('id', None)
     raw_reports = Report.query.filter_by(user_id=user_id).all()
 
-    metas = []
+    metas = {}
     for r in raw_reports:
-        metas.append(r.get_meta())
+        metas[r.get_id()] = r.get_meta()
 
     return jsonify(metas), 200
 
@@ -151,7 +152,80 @@ def getData():
 def corr():
     req = flask.request.get_json(force=True)
     name1 = req.get('name1', None)
-    name1 = req.get('name2', None)
+    name2 = req.get('name2', None)
     startDate = req.get('startDate', None)
     endDate = req.get('endDate', None)
+
+    if(name1=='AAPL'):
+        target1 = AAPL
+    elif(name1=="AMZN"):
+        target1 = AMZN
+    elif(name1=="FB"):
+        target1 = FB
+    elif(name1=="GOOGL"):
+        target1 = GOOGL
+    elif(name1=="MSFT"):
+        target1 = MSFT
+    elif(name1=="BTC"):
+        target1 = BTC
+    elif(name1=="ETH"):
+        target1 = ETH
+    elif(name1=="GC"):
+        target1 = GC
+    elif(name1=="SI"):
+        target1 = SI
+    else:
+        return {'name': "invalid"}, 400
+    
+    if(name2=='AAPL'):
+        target2 = AAPL
+    elif(name2=="AMZN"):
+        target2 = AMZN
+    elif(name2=="FB"):
+        target2 = FB
+    elif(name2=="GOOGL"):
+        target2 = GOOGL
+    elif(name2=="MSFT"):
+        target2 = MSFT
+    elif(name2=="BTC"):
+        target2 = BTC
+    elif(name2=="ETH"):
+        target2 = ETH
+    elif(name2=="GC"):
+        target2 = GC
+    elif(name2=="SI"):
+        target2 = SI
+    else:
+        return {'name': "invalid"}, 400
+
+    if startDate and endDate:
+        assets1 = target1.query.filter(target1.date.between(startDate, endDate)).all()
+        assets2 = target2.query.filter(target2.date.between(startDate, endDate)).all()
+    else:
+        assets1 = target1.query.all()
+        assets2 = target2.query.all()
+    
+    close1 = []
+    close2 = []
+    dates = []
+    # for a1, a2 in zip(assets1, assets2):
+    #     if a1.getDate()==a2.getDate():
+    #         close1.append(a1.get_close())
+    #         close2.append(a2.get_close())
+    for a1 in assets1:
+        for a2 in assets2:
+            if a1.getDate()==a2.getDate():
+                close1.append(a1.get_close())
+                close2.append(a2.get_close())
+                dates.append(a1.getDate())
+    
+    assetX = np.array(close1)
+    assetY = np.array(close2)
+
+    pC =  np.corrcoef(assetX, assetY) 
+    return {'pC': pC[0,1]}, 200
+    #return jsonify(dates), 200
+    
+
+
 

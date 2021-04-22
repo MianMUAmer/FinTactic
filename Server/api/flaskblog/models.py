@@ -31,6 +31,8 @@ class Report(db.Model):
         return self.data
     def get_date(self):
         return self.date_uploaded.strftime("%d.%m.%Y")
+    def get_id(self):
+        return self.id
 
 class AAPL(db.Model):
     date = db.Column(db.String(20), primary_key=True)
