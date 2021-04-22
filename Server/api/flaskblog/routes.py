@@ -208,23 +208,23 @@ def corr():
     close1 = []
     close2 = []
     dates = []
-    # for a1, a2 in zip(assets1, assets2):
-    #     if a1.getDate()==a2.getDate():
-    #         close1.append(a1.get_close())
-    #         close2.append(a2.get_close())
+    result = {}
     for a1 in assets1:
         for a2 in assets2:
             if a1.getDate()==a2.getDate():
-                close1.append(a1.get_close())
-                close2.append(a2.get_close())
+                close1.append(float(a1.get_close()))
+                close2.append(float(a2.get_close()))
                 dates.append(a1.getDate())
     
     assetX = np.array(close1)
     assetY = np.array(close2)
 
-    pC =  np.corrcoef(assetX, assetY) 
-    return {'pC': pC[0,1]}, 200
-    #return jsonify(dates), 200
+    pC =  np.corrcoef(assetX, assetY)
+    result["pC"] = pC[0,1]
+    for day in dates:
+        for c1, c2 in zip(close1, close2):
+            result[day] = str(c1) + " " + str(c2)
+    return jsonify(result), 200
     
 
 
