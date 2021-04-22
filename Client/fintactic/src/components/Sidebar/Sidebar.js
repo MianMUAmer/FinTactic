@@ -7,7 +7,7 @@ import { withRouter } from "react-router-dom";
 import { dismissAlert } from "../../actions/alerts";
 import s from "./Sidebar.module.scss";
 import LinksGroup from "./LinksGroup";
-import img from "../../images/people/logo.png"
+import img from "../../images/people/logo.png";
 
 import { changeActiveSidebarItem } from "../../actions/navigation";
 import { logoutUser } from "../../actions/user";
