@@ -13,6 +13,7 @@ import Dashboard from "../../pages/dashboard";
 import Correlate from "../../pages/correlate";
 import Reports from "../../pages/reports";
 import Notes from "../../pages/notes";
+import Profile from "../../pages/Profile";
 
 import Header from "../Header";
 import Sidebar from "../Sidebar";
@@ -99,6 +100,7 @@ class Layout extends React.Component {
                     <Route path="/app/correlate" exact component={Correlate} />
                     <Route path="/app/reports" exact component={Reports} />
                     <Route path="/app/notes" exact component={Notes} />
+                    <Route path="/app/profile" exact component={Profile} />
                   </Switch>
                 </CSSTransition>
               </TransitionGroup>
