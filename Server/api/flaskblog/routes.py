@@ -131,6 +131,13 @@ def getInfo():
     user = User.query.filter_by(id=id).first()
     return jsonify(user.get_info()), 200
 
+@app.route("/getPic", methods=['GET', 'POST'])
+def getPic():
+    req = flask.request.get_json(force=True)
+    id = req.get('id', None)
+    user = User.query.filter_by(id=id).first()
+    return send_file(BytesIO(user.get_image()), attachment_filename=str(user.id)+'.jpg', as_attachment=True)
+
 
 @app.route("/upReport", methods=["POST"])
 def report():
