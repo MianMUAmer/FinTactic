@@ -29,7 +29,7 @@ class User(db.Model, UserMixin):
         return f"User('{self.email}', '{self.image_file}')"
 
     def to_json(self):        
-        return {"id": self.id, "email": self.email, "image":self.image_file}
+        return {"id": self.id, "email": self.email}
 
 class Report(db.Model):
     id = db.Column(db.Integer, primary_key=True)
