@@ -128,7 +128,7 @@ def update():
     facebook = request.form.get('facebook')
 
     user = User.query.filter_by(id=id).first()
-    user.pic = pic
+    user.pic = pic.read()
     user.name = name
     user.phone = phone
     user.mobile = mobile
