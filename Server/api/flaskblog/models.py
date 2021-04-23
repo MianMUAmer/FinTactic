@@ -22,14 +22,19 @@ class User(db.Model, UserMixin):
     twitter = db.Column(db.String(20))
     instagram = db.Column(db.String(20))
     facebook = db.Column(db.String(20))
-    saved_notes = db.Column(db.Integer)
-    saved_reports = db.Column(db.Integer)
 
     def __repr__(self):
-        return f"User('{self.email}', '{self.image_file}')"
+        return f"User('{self.email}')"
 
     def to_json(self):        
         return {"id": self.id, "email": self.email}
+    
+    def get_info(self):
+        return {"name": self.name, "email": self.email, "phone": self.phone, "mobile": self.mobile, "address": self.address,
+        "designation": self.designation, "twitter": self.twitter, "instagram": self.instagram, "facebook": self.facebook,
+        "savedNotes": len(self.reports), "savedReports": len(self.reports)}
+    def get_image(self):
+        return self.pic
 
 class Report(db.Model):
     id = db.Column(db.Integer, primary_key=True)

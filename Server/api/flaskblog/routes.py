@@ -6,22 +6,6 @@ from io import BytesIO
 import flask
 import numpy as np
 
-@app.route("/")
-@app.route("/home")
-def home():
-    return render_template("home.html")
-
-@app.route("/about")
-def about():
-    return render_template("about.html", title="About")
-
-@app.route('/notes', methods=['GET', 'POST'])
-def notes():
-    data = request.get_json(force=True)
-    print(data)
-    return {"success": 200}
-
-
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     req = flask.request.get_json(force=True)
@@ -140,6 +124,14 @@ def update():
     db.session.commit()
     return {"success": 200}
 
+@app.route("/getInfo", methods=['GET', 'POST'])
+def getInfo():
+    req = flask.request.get_json(force=True)
+    id = req.get('id', None)
+    user = User.query.filter_by(id=id).first()
+    return jsonify(user.get_info()), 200
+
+
 @app.route("/upReport", methods=["POST"])
 def report():
     if 'report' not in request.files:
@@ -171,7 +163,7 @@ def getReports():
 def getData():
     req = flask.request.get_json(force=True)
     id = req.get('id', None)
-    report = Report.query.filter_by(id=1).first()
+    report = Report.query.filter_by(id=id).first()
     return send_file(BytesIO(report.get_data()), attachment_filename=report.get_date()+'-report.pdf', as_attachment=True)
     
 @app.route("/correlation", methods=['GET', 'POST'])
