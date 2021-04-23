@@ -223,7 +223,7 @@ def corr():
     result["pC"] = pC[0,1]
     for day in dates:
         for c1, c2 in zip(close1, close2):
-            result[day] = str(c1) + " " + str(c2)
+            result[day] = {"assetX":  str(c1), "assetY": str(c2)}
     return jsonify(result), 200
     
 
