@@ -114,6 +114,32 @@ def getAsset():
     result["Time Series (Daily)"] = date
     return jsonify(result), 200
 
+@app.route("/updateUser", methods=['GET', 'POST'])
+def update():
+    pic = request.files["pic"]
+    id = request.form.get('id')
+    name = request.form.get('name')
+    phone = request.form.get('phone')
+    mobile = request.form.get('mobile')
+    address = request.form.get('address')
+    designation = request.form.get('designation')
+    twitter = request.form.get('twitter')
+    instagram = request.form.get('instagram')
+    facebook = request.form.get('facebook')
+
+    user = User.query.filter_by(id=id).first()
+    user.pic = pic
+    user.name = name
+    user.phone = phone
+    user.mobile = mobile
+    user.address = address
+    user.designation = designation
+    user.twitter = twitter
+    user.instagram = instagram
+    user.facebook = facebook
+    db.session.commit()
+    return {"success": 200}
+
 @app.route("/upReport", methods=["POST"])
 def report():
     if 'report' not in request.files:

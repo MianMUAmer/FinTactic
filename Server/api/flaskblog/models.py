@@ -9,15 +9,27 @@ def load_user(user_id):
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    image_file = db.Column(db.String(20), nullable=False, default='default.jpeg')
     password = db.Column(db.String(60), nullable=False)
     reports = db.relationship('Report', backref='author', lazy=True)
+    notes = db.relationship('Note', backref='author', lazy=True)
+
+    name = db.Column(db.String(30))
+    phone = db.Column(db.String(20))
+    mobile = db.Column(db.String(20))
+    address = db.Column(db.String(60))
+    designation = db.Column(db.String(30))
+    pic = db.Column(db.LargeBinary)
+    twitter = db.Column(db.String(20))
+    instagram = db.Column(db.String(20))
+    facebook = db.Column(db.String(20))
+    saved_notes = db.Column(db.Integer)
+    saved_reports = db.Column(db.Integer)
 
     def __repr__(self):
         return f"User('{self.email}', '{self.image_file}')"
 
     def to_json(self):        
-        return {"email": self.email, "image":self.image_file}
+        return {"id": self.id, "email": self.email, "image":self.image_file}
 
 class Report(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -33,6 +45,12 @@ class Report(db.Model):
         return self.date_uploaded.strftime("%d.%m.%Y")
     def get_id(self):
         return self.id
+
+class Note(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(300))
+    date_uploaded = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 class AAPL(db.Model):
     date = db.Column(db.String(20), primary_key=True)
