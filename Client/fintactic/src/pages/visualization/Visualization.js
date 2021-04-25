@@ -20,6 +20,8 @@ import RSI from "./RSI";
 import FibonacciRetracements from "./FibonacciRetracements";
 import MACD from "./MACD";
 
+ 
+
 class Visualization extends React.Component {
   constructor(props) {
     super(props);
@@ -221,6 +223,8 @@ class Visualization extends React.Component {
   };
 
   render() {
+
+
     const {
       data,
       graphType,

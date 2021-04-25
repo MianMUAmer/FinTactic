@@ -16,6 +16,7 @@ import Register from "../pages/register";
 import Home from "../pages/Home";
 import Visualization from "../pages/visualization";
 import Education from "../pages/education";
+import Video from "../pages/education";
 import { logoutUser } from "../actions/user";
 
 const PrivateRoute = ({ dispatch, component, ...rest }) => {
@@ -68,8 +69,9 @@ class App extends React.PureComponent {
             <Route path="/" exact component={Home} />
             <Route path="/viz" exact component={Visualization} />
             <Route path="/edu" exact component={Education} />
+            <Route path="/app/main/video" exact component={Video} />
             <Route path="/error" exact component={ErrorPage} />
-            <Route component={ErrorPage} />
+            <Route component={ErrorPage} />s
             <Redirect from="*" to="/app/main/dashboard" />
           </Switch>
         </HashRouter>
