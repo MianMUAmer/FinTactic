@@ -25,6 +25,7 @@ import RSI from "../../images/people/RS.jpeg";
 import MACD from "../../images/imgedu/MACD.jpeg";
 import SILVER from "../../images/people/SILVER.jpg";
 import BollingerBands from "../../images/imgedu/Bollinger Bands.jpeg";
+import Bitcoin from "../../images/imgedu/Bitcoin.jpeg";
 // import seconded from "../../images/imgedu/Bitcoin.jpeg";
 class Education extends React.Component {
   constructor(props) {
