@@ -154,12 +154,9 @@ alert("param1"); */
     return (
       <div className={s.root}>
         <h1 className="page-title"  style={{color: "black"}}>
-          Video
+          Educational Video
         </h1>
         <table>
-          <tr>
-            <th>Stock Market 101</th>
-          </tr>
           <tr>
             <th>
               <p>

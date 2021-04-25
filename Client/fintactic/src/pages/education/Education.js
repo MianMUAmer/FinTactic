@@ -19,8 +19,12 @@ import Video from "./Video";
 import s from "./Static.module.scss";
 import YouTubeVideo from "../../components/YouTubeVideo/YouTubeVideo";
 
-import second from "../../images/people/second.jpg";
-import seconded from "../../images/imgedu/Bitcoin.jpeg";
+import StockMarket from "../../images/people/STOCK MARKET 101.jpg";
+import Gold from "../../images/imgedu/Gold.jpeg";
+import RSI from "../../images/people/RS.jpeg";
+import MACD from "../../images/imgedu/MACD.jpeg";
+import SILVER from "../../images/people/SILVER.jpg";
+import BollingerBands from "../../images/imgedu/Bollinger Bands.jpeg";
 // import seconded from "../../images/imgedu/Bitcoin.jpeg";
 class Education extends React.Component {
   constructor(props) {
@@ -99,13 +103,13 @@ class Education extends React.Component {
             <th>
               <p>
                {/* <YouTubeVideo videoId='eKxxtYIU1iA'/> */}
-              <a href="#/app/visualization/id=eKxxtYIU1iA" target="blank"> <img src={seconded} /></a>
-              
+              <a href="#/app/visualization/id=eKxxtYIU1iA" target="blank"> <img src={StockMarket} /></a>
               </p>
             </th>
             <th>
               <p>
-              <a href="www.big.az" target="blank"> <img src={seconded}/></a>
+                {/* <YouTubeVideo videoId='werjfC_vFf4'/> */}
+              <a href="" target="blank"> <img src={BollingerBands}/></a>
               </p>
             </th>
           </tr>
@@ -117,14 +121,47 @@ class Education extends React.Component {
           <tr>
             <th>
               <p>
-              <a href="www.big.az" target="blank"> <img src={seconded}/></a>
+                 {/* <YouTubeVideo videoId='GfbdP6-RKuI'/> */}
+              <a href="" target="blank"> <img src={MACD}/></a>
               </p>
             </th>
             <th>
               <p>
-              <a href="www.big.az" target="blank"> <img src={seconded}/></a>
+                 {/* <YouTubeVideo videoId='ut4coV2RuSI'/> */}
+              <a href="" target="blank"> <img src={RSI}/></a>
               </p>
             </th>
+          </tr>
+          <tr>
+            <th>Gold </th>
+            <th>Silver</th>
+          </tr>
+          <tr>
+            <th>
+              <p>
+                
+                {/* <YouTubeVideo videoId='vkLNygRMqR4'/> */}
+              <a href="" target="blank"> <img src={Gold}/></a>
+              </p>
+            </th>
+            <th>
+              <p>
+                 {/* <YouTubeVideo videoId='kyMrn1Nctzc'/> */}
+              <a href="" target="blank"> <img src={SILVER}/></a>
+              </p>
+            </th>
+          </tr>
+          <tr>
+            <th>Bitcoin </th>
+          </tr>
+          <tr>
+            <th>
+              <p>
+                 {/* <YouTubeVideo videoId='6PaiGP_VyU0'/> */}
+              <a href="" target="blank"> <img src={Bitcoin}/></a>
+              </p>
+            </th>
+           
           </tr>
 
         </table>
