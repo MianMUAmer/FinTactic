@@ -53,9 +53,20 @@ class Report(db.Model):
 
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(300))
+    asset = db.Column(db.String(300))
+    ticker = db.Column(db.String(300))
+    graph = db.Column(db.String(300))
+    indicator = db.Column(db.String(300))
+    startDate = db.Column(db.String(300))
+    endDate = db.Column(db.String(300))
     date_uploaded = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def get_note(self):
+        return {"id":self.id, "date": self.date_uploaded.strftime("%d.%m.%Y"), "asset": self.asset, "ticker": self.ticker, "graph": self.graph,
+        "indicator": self.indicator,"startDate": self.startDate,"endDate": self.endDate}
+    def get_id(self):
+        return self.id
 
 class AAPL(db.Model):
     date = db.Column(db.String(20), primary_key=True)

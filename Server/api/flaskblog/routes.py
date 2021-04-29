@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, jsonify, send_file
 from flaskblog import app, db, bcrypt
-from flaskblog.models import User, Report, AAPL, AMZN, FB, GOOG, MSFT, BTC, ETH, GC, SI
+from flaskblog.models import User, Report, Note, AAPL, AMZN, FB, GOOG, MSFT, BTC, ETH, GC, SI
 from flask_login import login_user, current_user, logout_user, login_required
 from io import BytesIO
 import flask
@@ -165,6 +165,32 @@ def getReports():
         metas[r.get_id()] = r.get_meta()
 
     return jsonify(metas), 200
+
+@app.route("/getNotes", methods=['GET', 'POST'])
+def getNotes():
+    req = flask.request.get_json(force=True)
+    user_id = req.get('id', None)
+    raw_notes = Note.query.filter_by(user_id=user_id).all()
+    notes = {}
+    for n in raw_notes:
+        notes[n.get_id()] = n.get_note()
+
+    return jsonify(notes), 200
+
+@app.route("/upNotes", methods=['GET', 'POST'])
+def upNotes():
+    req = flask.request.get_json(force=True)
+    id = req.get('id', None)
+    asset = req.get('asset', None)
+    ticker = req.get('ticker', None)
+    graph = req.get('graph', None)
+    indicator = req.get('indicator', None)
+    startDate = req.get('startDate', None)
+    endDate = req.get('endDate', None)
+    NewNote = Note(asset=asset, ticker=ticker, graph=graph, indicator=indicator, startDate=startDate, endDate=endDate, user_id=id)
+    db.session.add(NewNote)
+    db.session.commit()
+    return {"success": 200}
 
 @app.route("/getDataReport", methods=['GET', 'POST'])
 def getData():
