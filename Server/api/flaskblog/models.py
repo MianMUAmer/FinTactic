@@ -9,15 +9,32 @@ def load_user(user_id):
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    image_file = db.Column(db.String(20), nullable=False, default='default.jpeg')
     password = db.Column(db.String(60), nullable=False)
     reports = db.relationship('Report', backref='author', lazy=True)
+    notes = db.relationship('Note', backref='author', lazy=True)
+
+    name = db.Column(db.String(30))
+    phone = db.Column(db.String(20))
+    mobile = db.Column(db.String(20))
+    address = db.Column(db.String(60))
+    designation = db.Column(db.String(30))
+    pic = db.Column(db.LargeBinary)
+    twitter = db.Column(db.String(20))
+    instagram = db.Column(db.String(20))
+    facebook = db.Column(db.String(20))
 
     def __repr__(self):
-        return f"User('{self.email}', '{self.image_file}')"
+        return f"User('{self.email}')"
 
     def to_json(self):        
-        return {"email": self.email, "image":self.image_file}
+        return {"id": self.id, "email": self.email}
+    
+    def get_info(self):
+        return {"name": self.name, "email": self.email, "phone": self.phone, "mobile": self.mobile, "address": self.address,
+        "designation": self.designation, "twitter": self.twitter, "instagram": self.instagram, "facebook": self.facebook,
+        "savedNotes": len(self.reports), "savedReports": len(self.reports)}
+    def get_image(self):
+        return self.pic
 
 class Report(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,6 +48,25 @@ class Report(db.Model):
         return self.data
     def get_date(self):
         return self.date_uploaded.strftime("%d.%m.%Y")
+    def get_id(self):
+        return self.id
+
+class Note(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    asset = db.Column(db.String(300))
+    ticker = db.Column(db.String(300))
+    graph = db.Column(db.String(300))
+    indicator = db.Column(db.String(300))
+    startDate = db.Column(db.String(300))
+    endDate = db.Column(db.String(300))
+    date_uploaded = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def get_note(self):
+        return {"id":self.id, "date": self.date_uploaded.strftime("%d.%m.%Y"), "asset": self.asset, "ticker": self.ticker, "graph": self.graph,
+        "indicator": self.indicator,"startDate": self.startDate,"endDate": self.endDate}
+    def get_id(self):
+        return self.id
 
 class AAPL(db.Model):
     date = db.Column(db.String(20), primary_key=True)
@@ -46,7 +82,7 @@ class AAPL(db.Model):
     def getDate(self):
         return self.date
     def get_close(self):
-        return {"close": self.close}
+        return self.close
 
     def to_json(self):
         return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
@@ -65,7 +101,7 @@ class AMZN(db.Model):
     def getDate(self):
         return self.date
     def get_close(self):
-        return {"close": self.close}
+        return self.close
 
     def to_json(self):
         return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
@@ -84,7 +120,7 @@ class FB(db.Model):
     def getDate(self):
         return self.date
     def get_close(self):
-        return {"close": self.close}
+        return self.close
 
     def to_json(self):
         return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
@@ -103,7 +139,7 @@ class GOOG(db.Model):
     def getDate(self):
         return self.date
     def get_close(self):
-        return {"close": self.close}
+        return self.close
 
     def to_json(self):
         return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
@@ -122,7 +158,7 @@ class MSFT(db.Model):
     def getDate(self):
         return self.date
     def get_close(self):
-        return {"close": self.close}
+        return self.close
 
     def to_json(self):
         return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
@@ -141,7 +177,7 @@ class BTC(db.Model):
     def getDate(self):
         return self.date
     def get_close(self):
-        return {"close": self.close}
+        return self.close
 
     def to_json(self):
         return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
@@ -160,7 +196,7 @@ class ETH(db.Model):
     def getDate(self):
         return self.date
     def get_close(self):
-        return {"close": self.close}
+        return self.close
 
     def to_json(self):
         return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
@@ -179,7 +215,7 @@ class GC(db.Model):
     def getDate(self):
         return self.date
     def get_close(self):
-        return {"close": self.close}
+        return self.close
 
     def to_json(self):
         return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
@@ -198,7 +234,7 @@ class SI(db.Model):
     def getDate(self):
         return self.date
     def get_close(self):
-        return {"close": self.close}
+        return self.close
 
     def to_json(self):
         return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
