@@ -132,7 +132,7 @@ class Visualization extends React.Component {
       doc.text(x, 0.3, 8);
       doc.setTextColor(0, 0, 0);
       doc.text(y, 0.3, 8.3);
-      doc.save("beyza.pdf");
+      //doc.save("beyza.pdf");
       //let file = doc;
       var pdf = doc.output('blob');
 
@@ -145,7 +145,7 @@ class Visualization extends React.Component {
       fetch('/upReport', {
         method: 'post',
         body: formData,
-        headers: {'Content-Type':'multipart/form-data'},
+        //headers: {'Content-Type':'multipart/form-data'},
       }).then(resp => resp.json())
       .then(data => console.log(data))
       .catch(err => console.error(err));
