@@ -73,7 +73,6 @@ class Reports extends React.Component {
   this.setState(({ myArray }) => ({
     myArray: Object.values(this.state.myArray).filter(row => row.id !== row_id)
   }))
-
   }
 
   downloadReport(idx, date, index) {
@@ -121,7 +120,7 @@ class Reports extends React.Component {
     
     return (
       <div className={s.root}>
-        <h2 className="page-title" style={{color: "black"}}>
+        <h2 className="page-title" style={{ color: "black" }}>
           Reports
         </h2>
         
@@ -129,6 +128,7 @@ class Reports extends React.Component {
 
         <Row>
           <Col>
+
             <Widget
               bodyClass={s.mainTableWidget}
             >
@@ -183,20 +183,14 @@ class Reports extends React.Component {
           </Col>
         </Row>
         <Row>
-          <Col lg={6}>
-            
-          </Col>
-          <Col lg={6}>
-            
-            
-          </Col>
+          <Col lg={6}></Col>
+          <Col lg={6}></Col>
         </Row>
         
       </div>
-    )
+    );
   }
 }
 
-
-
 export default Reports;
+

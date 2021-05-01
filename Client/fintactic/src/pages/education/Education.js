@@ -14,103 +14,40 @@ import {
   Badge,
 } from "reactstrap";
 import { Sparklines, SparklinesBars } from "react-sparklines";
-
+import Video from "./Video";
 //import Widget from "../../components/Widget/Widget";
 import s from "./Static.module.scss";
 import YouTubeVideo from "../../components/YouTubeVideo/YouTubeVideo";
 
+import StockMarket from "../../images/people/STOCK MARKET 101.jpeg";
+import Gold from "../../images/imgedu/Gold.jpeg";
+import RSI from "../../images/people/RS.jpeg";
+import MACD from "../../images/imgedu/MACD.jpeg";
+import SILVER from "../../images/people/SILVER.jpeg";
+import BollingerBands from "../../images/imgedu/Bollinger Bands.jpeg";
+import Bitcoin from "../../images/imgedu/Bitcoin.jpeg";
+// import seconded from "../../images/imgedu/Bitcoin.jpeg";
 class Education extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      tableStyles: [
-        {
-          id: 1,
-          picture: require("../../images/tables/1.png"), // eslint-disable-line global-require
-          description: "Palo Alto",
-          info: {
-            type: "JPEG",
-            dimensions: "200x150",
-          },
-          date: new Date("September 14, 2012"),
-          size: "45.6 KB",
-          progress: {
-            percent: 29,
-            colorClass: "success",
-          },
-        },
-        {
-          id: 2,
-          picture: require("../../images/tables/2.png"), // eslint-disable-line global-require
-          description: "The Sky",
-          info: {
-            type: "PSD",
-            dimensions: "2400x1455",
-          },
-          date: new Date("November 14, 2012"),
-          size: "15.3 MB",
-          progress: {
-            percent: 33,
-            colorClass: "warning",
-          },
-        },
-        {
-          id: 3,
-          picture: require("../../images/tables/3.png"), // eslint-disable-line global-require
-          description: "Down the road",
-          label: {
-            colorClass: "primary",
-            text: "INFO!",
-          },
-          info: {
-            type: "JPEG",
-            dimensions: "200x150",
-          },
-          date: new Date("September 14, 2012"),
-          size: "49.0 KB",
-          progress: {
-            percent: 38,
-            colorClass: "inverse",
-          },
-        },
-        {
-          id: 4,
-          picture: require("../../images/tables/4.png"), // eslint-disable-line global-require
-          description: "The Edge",
-          info: {
-            type: "PNG",
-            dimensions: "210x160",
-          },
-          date: new Date("September 15, 2012"),
-          size: "69.1 KB",
-          progress: {
-            percent: 17,
-            colorClass: "danger",
-          },
-        },
-        {
-          id: 5,
-          picture: require("../../images/tables/5.png"), // eslint-disable-line global-require
-          description: "Fortress",
-          info: {
-            type: "JPEG",
-            dimensions: "1452x1320",
-          },
-          date: new Date("October 1, 2012"),
-          size: "2.3 MB",
-          progress: {
-            percent: 41,
-            colorClass: "primary",
-          },
-        },
+      item: [
+        { item: "item", id: 1 },
+        { item1: "item1", id: 2 },
       ],
-      checkboxes1: [false, true, false, false],
-      checkboxes2: [false, false, false, false, false, false],
-      checkboxes3: [false, false, false, false, false, false],
     };
 
     this.checkAll = this.checkAll.bind(this);
+  }
+  handleClickSignIn() {
+    console.log("come handle click fun");
+    this.props.history.push({
+      pathname: "/viz",
+      state: { employee: "Steven" },
+    });
+  }
+  handleClick(id, e) {
+    alert(id);
   }
 
   parseDate(date) {
@@ -143,9 +80,16 @@ class Education extends React.Component {
   }
 
   render() {
+    //     let url = window.location.href;
+    //     let param = window.location.pathname;
+    //     // react
+    //     let param1 = this.props.location.pathname;
+    // alert(param1);
+    // alert("param1");
+
     return (
       <div className={s.root}>
-        <h1 className="page-title"  style={{color: "black"}}>
+        <h1 className="page-title" style={{ color: "black" }}>
           Education
         </h1>
         <table>
@@ -156,12 +100,20 @@ class Education extends React.Component {
           <tr>
             <th>
               <p>
-               <YouTubeVideo videoId='eKxxtYIU1iA'/>
+                {/* <YouTubeVideo videoId='eKxxtYIU1iA'/> */}
+                <a href="#/app/visualization/id=eKxxtYIU1iA" target="blank">
+                  {" "}
+                  <img src={StockMarket} />
+                </a>
               </p>
             </th>
             <th>
               <p>
-               <YouTubeVideo videoId='werjfC_vFf4'/>
+                {/* <YouTubeVideo videoId='werjfC_vFf4'/> */}
+                <a href="" target="blank">
+                  {" "}
+                  <img src={BollingerBands} />
+                </a>
               </p>
             </th>
           </tr>
@@ -173,20 +125,63 @@ class Education extends React.Component {
           <tr>
             <th>
               <p>
-               <YouTubeVideo videoId='GfbdP6-RKuI'/>
+                {/* <YouTubeVideo videoId='GfbdP6-RKuI'/> */}
+                <a href="" target="blank">
+                  {" "}
+                  <img src={MACD} />
+                </a>
               </p>
             </th>
             <th>
               <p>
-               <YouTubeVideo videoId='ut4coV2RuSI'/>
+                {/* <YouTubeVideo videoId='ut4coV2RuSI'/> */}
+                <a href="" target="blank">
+                  {" "}
+                  <img src={RSI} />
+                </a>
               </p>
             </th>
           </tr>
-
+          <tr>
+            <th>Gold </th>
+            <th>Silver</th>
+          </tr>
+          <tr>
+            <th>
+              <p>
+                {/* <YouTubeVideo videoId='vkLNygRMqR4'/> */}
+                <a href="" target="blank">
+                  {" "}
+                  <img src={Gold} />
+                </a>
+              </p>
+            </th>
+            <th>
+              <p>
+                {/* <YouTubeVideo videoId='kyMrn1Nctzc'/> */}
+                <a href="" target="blank">
+                  {" "}
+                  <img src={SILVER} />
+                </a>
+              </p>
+            </th>
+          </tr>
+          <tr>
+            <th>Bitcoin </th>
+          </tr>
+          <tr>
+            <th>
+              <p>
+                {/* <YouTubeVideo videoId='6PaiGP_VyU0'/> */}
+                <a href="" target="blank">
+                  {" "}
+                  <img src={Bitcoin} />
+                </a>
+              </p>
+            </th>
+          </tr>
         </table>
-
       </div>
-      
     );
   }
 }
