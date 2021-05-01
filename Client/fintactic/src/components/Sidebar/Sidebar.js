@@ -150,7 +150,7 @@ class Sidebar extends React.Component {
               this.props.dispatch(changeActiveSidebarItem(activeItem))
             }
             activeItem={this.props.activeItem}
-            header="Notes"
+            header="States"
             isHeader
             iconName="flaticon-note"
             link="/app/notes"

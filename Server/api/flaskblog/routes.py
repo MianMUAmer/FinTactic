@@ -191,6 +191,24 @@ def upNotes():
     db.session.add(NewNote)
     db.session.commit()
     return {"success": 200}
+    
+@app.route("/deleteNotes", methods=['GET', 'POST'])
+def deleteNotes():
+    req = flask.request.get_json(force=True)
+    id = req.get('id', None)
+    notes = Note.query.filter_by(id=id).first()
+    db.session.delete(notes)
+    db.session.commit()
+    return {"success": 200}
+
+@app.route("/deleteReports", methods=['GET', 'POST'])
+def deleteReports():
+    req = flask.request.get_json(force=True)
+    id = req.get('id', None)
+    reports = Report.query.filter_by(id=id).first()
+    db.session.delete(reports)
+    db.session.commit()
+    return {"success": 200}
 
 @app.route("/getDataReport", methods=['GET', 'POST'])
 def getData():
