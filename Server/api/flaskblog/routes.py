@@ -1,7 +1,8 @@
-from flask import render_template, url_for, flash, redirect, request, jsonify
+from flask import render_template, url_for, flash, redirect, request, jsonify, send_file
 from flaskblog import app, db, bcrypt
-from flaskblog.models import User, AAPL, AMZN, FB, GOOG, MSFT, BTC, ETH, GC, SI
+from flaskblog.models import User, Report, AAPL, AMZN, FB, GOOG, MSFT, BTC, ETH, GC, SI
 from flask_login import login_user, current_user, logout_user, login_required
+from io import BytesIO
 import flask
 @app.route("/")
 @app.route("/home")
@@ -11,6 +12,13 @@ def home():
 @app.route("/about")
 def about():
     return render_template("about.html", title="About")
+
+@app.route('/notes', methods=['GET', 'POST'])
+def notes():
+    data = request.get_json(force=True)
+    print(data)
+    return {"success": 200}
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -51,38 +59,85 @@ def logout():
 def getAsset():
     req = flask.request.get_json(force=True)
     name = req.get('name', None)
-
+    startDate = req.get('startDate', None)
+    endDate = req.get('endDate', None)
+    
     result = {}
     date = {}
     metadata = {}
     metadata["1. Informaton"] = "Daily Time Series with Splits and Dividend Events"
     metadata["2. Symbol"] = name
-    
-    result["Meta Data"] = metadata
-    
-    if(name=="AAPL"):
-        assets = AAPL.query.all()
+
+
+    if(name=='AAPL'):
+        target = AAPL
+        metadata["3. Name"] = "Apple"
     elif(name=="AMZN"):
-        assets = AMZN.query.all()
+        metadata["3. Name"] = "Amazon"
+        target = AMZN
     elif(name=="FB"):
-        assets = FB.query.all()
+        metadata["3. Name"] = "Facebook"
+        target = FB
     elif(name=="GOOGL"):
-        assets = GOOG.query.all()
+        metadata["3. Name"] = "Google"
+        target = GOOGL
     elif(name=="MSFT"):
-        assets = MSFT.query.all()
+        metadata["3. Name"] = "Microsoft"
+        target = MSFT
     elif(name=="BTC"):
-        assets = BTC.query.all()
+        metadata["3. Name"] = "Bitcoin"
+        target = BTC
     elif(name=="ETH"):
-        assets = ETH.query.all()
+        metadata["3. Name"] = "Ethereum"
+        target = ETH
     elif(name=="GC"):
-        assets = GC.query.all()
+        metadata["3. Name"] = "Gold"
+        target = GC
     elif(name=="SI"):
-        assets = SI.query.all()       
+        metadata["3. Name"] = "Silver"
+        target = SI
     else:
         return {'name': "invalid"}, 400
+    
+    result["Meta Data"] = metadata
+
+    if startDate and endDate:
+        assets = target.query.filter(target.date.between(startDate, endDate)).all()
+    else:
+        assets = target.query.all()
 
     for asset in assets:
         date[asset.getDate()] = asset.to_json()
     
     result["Time Series (Daily)"] = date
     return jsonify(result), 200
+
+@app.route("/upReport", methods=["POST"])
+def report():
+    report = request.files["report"]
+    user_id= request.form.get("id")
+    title= request.form.get("title")
+    newReport = Report(title=title, data=report.read(), user_id=user_id)
+    db.session.add(newReport)
+    db.session.commit()
+    return {"success": 200}
+
+@app.route("/getMetaReport", methods=['GET', 'POST'])
+def getReports():
+    req = flask.request.get_json(force=True)
+    user_id = req.get('id', None)
+    raw_reports = Report.query.filter_by(user_id=user_id).all()
+
+    metas = []
+    for r in raw_reports:
+        metas.append(r.get_meta())
+
+    return jsonify(metas), 200
+
+@app.route("/getDataReport", methods=['GET', 'POST'])
+def getData():
+    req = flask.request.get_json(force=True)
+    id = req.get('id', None)
+    report = Report.query.filter_by(id=1).first()
+
+    return send_file(BytesIO(report.get_data()), attachment_filename=report.get_date()+'-report.pdf', as_attachment=True)

@@ -7,21 +7,8 @@ import {
   Nav,
   NavItem,
   NavLink,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
-  Input,
-  UncontrolledAlert,
   Dropdown,
-  Collapse,
   DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Badge,
-  ButtonGroup,
-  Button,
-  Form,
-  FormGroup,
 } from "reactstrap";
 import Notifications from "../Notifications";
 import { logoutUser } from "../../actions/user";
@@ -32,11 +19,8 @@ import {
   changeSidebarVisibility,
 } from "../../actions/navigation";
 
-import sender1 from "../../images/1.png";
-import sender2 from "../../images/2.png";
-import sender3 from "../../images/3.png";
-
 import avatar from "../../images/people/user.png";
+import Profile from "../../pages/Profile";
 
 import s from "./Header.module.scss";
 import "animate.css";
@@ -67,8 +51,26 @@ class Header extends React.Component {
       searchFocused: false,
       searchOpen: false,
       notificationsOpen: false,
+      userName: "",
+      avatar: "",
     };
   }
+
+  fetchUserData = () => {
+    //fetch data
+    this.setState({
+      userName: "Mian M Umair",
+      avatar: "https://bootdey.com/img/Content/avatar/avatar7.png",
+    });
+  };
+
+  componentDidMount() {
+    this.fetchUserData();
+  }
+
+  callProfilePage = () => {
+    this.props.history.push("/app/profile");
+  };
 
   toggleNotifications = () => {
     this.setState({
@@ -131,42 +133,53 @@ class Header extends React.Component {
   render() {
     return (
       <Navbar className={`d-print-none main-navbar ${s.root}`}>
-        
-        
-        
-
         <Nav className="ml-md-0 d-flex nav-responsive">
-          <Dropdown
+          <div
             nav
-            isOpen={this.state.notificationsOpen}
-            toggle={this.toggleNotifications}
+            // isOpen={this.state.notificationsOpen}
+            // toggle={this.toggleNotifications}
             id="basic-nav-dropdown"
             className={`${s.notificationsMenu}`}
             style={{ marginRight: "auto" }}
           >
-            <DropdownToggle nav caret style={{ color: "#f4f4f5", padding: 0 }}>
+            <div
+              onClick={this.callProfilePage}
+              nav
+              caret
+              style={{ color: "#39393b", padding: 0 }}
+            >
               <span
+                style={{ backgroundColor: "grey" }}
                 className={`${s.avatar} rounded-circle thumb-sm float-left mr-2`}
               >
-                <img src={avatar} alt="..." />
+                <img src={this.state.avatar} alt="..." />
               </span>
-              <span className={`small ${s.accountCheck}`} style={{fontSize:"17px"}}><b>User</b></span>
-             
-            </DropdownToggle>
-           
-          </Dropdown>
-          
-          
-          <NavItem className={`${s.divider} d-none d-sm-block`} />
-          
-          
+              <a
+                className={`small ${s.accountCheck}`}
+                style={{ fontSize: "17px" }}
+              >
+                <b style={{ color: "#39393b", verticalAlign: "sub" }}>
+                  {this.state.userName}
+                </b>
+              </a>
+            </div>
+          </div>
+
+          <NavItem
+            style={{ backgroundColor: "#333336" }}
+            className={`${s.divider} d-none d-sm-block`}
+          />
+
           <NavItem>
             <NavLink
               onClick={this.doLogout}
               className={`${s.navItem} text-white`}
               href="#"
             >
-              <i className="glyphicon glyphicon-off" style={{color: "black"}} />
+              <i
+                className="glyphicon glyphicon-off"
+                style={{ color: "black" }}
+              />
             </NavLink>
           </NavItem>
           <NavItem className="d-md-none">

@@ -19,11 +19,11 @@ import Video from "./Video";
 import s from "./Static.module.scss";
 import YouTubeVideo from "../../components/YouTubeVideo/YouTubeVideo";
 
-import StockMarket from "../../images/people/STOCK MARKET 101.jpg";
+import StockMarket from "../../images/people/STOCK MARKET 101.jpeg";
 import Gold from "../../images/imgedu/Gold.jpeg";
 import RSI from "../../images/people/RS.jpeg";
 import MACD from "../../images/imgedu/MACD.jpeg";
-import SILVER from "../../images/people/SILVER.jpg";
+import SILVER from "../../images/people/SILVER.jpeg";
 import BollingerBands from "../../images/imgedu/Bollinger Bands.jpeg";
 import Bitcoin from "../../images/imgedu/Bitcoin.jpeg";
 // import seconded from "../../images/imgedu/Bitcoin.jpeg";
@@ -32,25 +32,23 @@ class Education extends React.Component {
     super(props);
     this.state = {
       item: [
-          {item: "item", id: 1},
-          {item1: "item1", id: 2}
-      ]
-   };
-
+        { item: "item", id: 1 },
+        { item1: "item1", id: 2 },
+      ],
+    };
 
     this.checkAll = this.checkAll.bind(this);
   }
-  handleClickSignIn(){
+  handleClickSignIn() {
     console.log("come handle click fun");
-    this.props.history.push(
-       {
-        pathname: "/viz",
-    state: { employee:"Steven" }});
-  
+    this.props.history.push({
+      pathname: "/viz",
+      state: { employee: "Steven" },
+    });
   }
-  handleClick(id, e){
+  handleClick(id, e) {
     alert(id);
-}
+  }
 
   parseDate(date) {
     this.dateSet = date.toDateString().split(" ");
@@ -82,17 +80,16 @@ class Education extends React.Component {
   }
 
   render() {
-
-//     let url = window.location.href;
-//     let param = window.location.pathname;
-//     // react
-//     let param1 = this.props.location.pathname;
-// alert(param1);
-// alert("param1");
+    //     let url = window.location.href;
+    //     let param = window.location.pathname;
+    //     // react
+    //     let param1 = this.props.location.pathname;
+    // alert(param1);
+    // alert("param1");
 
     return (
       <div className={s.root}>
-        <h1 className="page-title"  style={{color: "black"}}>
+        <h1 className="page-title" style={{ color: "black" }}>
           Education
         </h1>
         <table>
@@ -103,14 +100,20 @@ class Education extends React.Component {
           <tr>
             <th>
               <p>
-               {/* <YouTubeVideo videoId='eKxxtYIU1iA'/> */}
-              <a href="#/app/visualization/id=eKxxtYIU1iA" target="blank"> <img src={StockMarket} /></a>
+                {/* <YouTubeVideo videoId='eKxxtYIU1iA'/> */}
+                <a href="#/app/visualization/id=eKxxtYIU1iA" target="blank">
+                  {" "}
+                  <img src={StockMarket} />
+                </a>
               </p>
             </th>
             <th>
               <p>
                 {/* <YouTubeVideo videoId='werjfC_vFf4'/> */}
-              <a href="" target="blank"> <img src={BollingerBands}/></a>
+                <a href="" target="blank">
+                  {" "}
+                  <img src={BollingerBands} />
+                </a>
               </p>
             </th>
           </tr>
@@ -122,14 +125,20 @@ class Education extends React.Component {
           <tr>
             <th>
               <p>
-                 {/* <YouTubeVideo videoId='GfbdP6-RKuI'/> */}
-              <a href="" target="blank"> <img src={MACD}/></a>
+                {/* <YouTubeVideo videoId='GfbdP6-RKuI'/> */}
+                <a href="" target="blank">
+                  {" "}
+                  <img src={MACD} />
+                </a>
               </p>
             </th>
             <th>
               <p>
-                 {/* <YouTubeVideo videoId='ut4coV2RuSI'/> */}
-              <a href="" target="blank"> <img src={RSI}/></a>
+                {/* <YouTubeVideo videoId='ut4coV2RuSI'/> */}
+                <a href="" target="blank">
+                  {" "}
+                  <img src={RSI} />
+                </a>
               </p>
             </th>
           </tr>
@@ -140,15 +149,20 @@ class Education extends React.Component {
           <tr>
             <th>
               <p>
-                
                 {/* <YouTubeVideo videoId='vkLNygRMqR4'/> */}
-              <a href="" target="blank"> <img src={Gold}/></a>
+                <a href="" target="blank">
+                  {" "}
+                  <img src={Gold} />
+                </a>
               </p>
             </th>
             <th>
               <p>
-                 {/* <YouTubeVideo videoId='kyMrn1Nctzc'/> */}
-              <a href="" target="blank"> <img src={SILVER}/></a>
+                {/* <YouTubeVideo videoId='kyMrn1Nctzc'/> */}
+                <a href="" target="blank">
+                  {" "}
+                  <img src={SILVER} />
+                </a>
               </p>
             </th>
           </tr>
@@ -158,17 +172,16 @@ class Education extends React.Component {
           <tr>
             <th>
               <p>
-                 {/* <YouTubeVideo videoId='6PaiGP_VyU0'/> */}
-              <a href="" target="blank"> <img src={Bitcoin}/></a>
+                {/* <YouTubeVideo videoId='6PaiGP_VyU0'/> */}
+                <a href="" target="blank">
+                  {" "}
+                  <img src={Bitcoin} />
+                </a>
               </p>
             </th>
-           
           </tr>
-
         </table>
-
       </div>
-      
     );
   }
 }

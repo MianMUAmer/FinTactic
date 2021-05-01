@@ -6,7 +6,7 @@ html {
 body {
   overflow-x: hidden;
   color: $text-color;
-  background-color: #ECEFF1;
+  background-color: #e8eaf6;
   //background: $main-gradient;
   //background-image: url("../images/mountain.jpg");
   // background: $main-gradient, url("../images/Finance\ Money\ PPT\ Backgrounds.jpg");
@@ -16,7 +16,6 @@ body {
   background-repeat: no-repeat;
   font-size: 15px;
 }
-
 
 html,
 body,
@@ -28,7 +27,8 @@ a,
 .dropdown-item,
 .btn {
   cursor: pointer;
-  transition: color 0.1s ease-in-out, background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
+  transition: color 0.1s ease-in-out, background-color 0.1s ease-in-out,
+    border-color 0.1s ease-in-out;
   font-family: $font-family-base;
 }
 
@@ -67,4 +67,3 @@ ol {
   list-style: none;
   padding-left: 0;
 }
-
