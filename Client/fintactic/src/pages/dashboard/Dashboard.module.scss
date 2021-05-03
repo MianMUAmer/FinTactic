@@ -1,4 +1,4 @@
-@import '../../styles/app';
+@import "../../styles/app";
 
 .root {
   :global {
@@ -31,7 +31,7 @@
 }
 
 .card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 img {
@@ -40,7 +40,6 @@ img {
 
 .container {
   padding: 2px 16px;
-  
 }
 
 .column {
@@ -48,7 +47,9 @@ img {
   display: block;
 }
 
-.row {margin: 0 -5px;}
+.row {
+  margin: 0 -5px;
+}
 
 .App {
   width: 50%;
@@ -62,4 +63,12 @@ img {
 
 p {
   color: black;
+}
+
+.text-info {
+  text-align: right;
+}
+
+.container {
+  background-color: blueviolet;
 }
