@@ -66,7 +66,7 @@ def getAsset():
         target = FB
     elif(name=="GOOGL"):
         metadata["3. Name"] = "Google"
-        target = GOOG
+        target = GOOGL
     elif(name=="MSFT"):
         metadata["3. Name"] = "Microsoft"
         target = MSFT
