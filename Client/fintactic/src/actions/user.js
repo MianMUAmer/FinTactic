@@ -57,6 +57,7 @@ export function loginUser(creds) {
         .then((response) => {
           if (response.currentuser != "invalid") {
             localStorage.setItem("authenticated", true);
+            localStorage.setItem("user_id", response.currentuser.id);
             dispatch(receiveLogin());
             console.log(response.currentuser);
           } else {
