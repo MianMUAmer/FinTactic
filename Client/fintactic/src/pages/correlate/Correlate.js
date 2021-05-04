@@ -15,6 +15,9 @@ import {
 } from "reactstrap";
 import "react-toastify/dist/ReactToastify.css";
 import s from "./Notifications.module.scss";
+import Parser from "html-react-parser";
+import { Tooltip } from "reactstrap";
+import infoIcon from "../../images/infoIcon.png";
 
 class Correlate extends React.Component {
   constructor(props) {
@@ -66,6 +69,9 @@ class Correlate extends React.Component {
         startDate: new Date(),
         endDate: new Date(),
       },
+
+      tooltip: "",
+      tooltipOpen: false,
     };
   }
   toggleAssetXTypeDD = () =>
@@ -92,8 +98,36 @@ class Correlate extends React.Component {
       startRangeDropdownOpen: !this.state.startRangeDropdownOpen,
     });
 
+  getWiki = () => {
+    const API =
+      "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=Pearson correlation coefficient";
+
+    const body = { method: "GET", dataType: "json" };
+    const myRequest = new Request(API, body);
+
+    fetch(myRequest)
+      .then((response) => response.json())
+      .then((data) => {
+        const allData = data.query.pages;
+        for (var n in allData) {
+          console.log(allData[n].extract);
+          const paragraphs = allData[n].extract.split("</p>");
+          const firstParagraph = paragraphs[1] + "</p>";
+          this.setState({
+            tooltip: firstParagraph,
+          });
+        }
+      });
+  };
+
+  toggle = () =>
+    this.setState({
+      tooltipOpen: !this.state.tooltipOpen,
+    });
+
   componentDidMount() {
     this.fetchRangeStock();
+    this.getWiki();
   }
 
   // fetchStock = () => {
@@ -792,7 +826,19 @@ class Correlate extends React.Component {
             </div>
           </div>
         </div>
-        <h5 style={{ color: "black" }}>Correlation:</h5>
+        <div style={{ color: "black", display: "flex" }}>
+          <h5 style={{ marginRight: 4 }}>Correlation:</h5>
+          <span>
+            <img
+              id="DisabledAutoHideExample"
+              src={infoIcon}
+              alt="info"
+              width="17"
+              height="28"
+            />
+          </span>
+        </div>
+
         <div
           style={{
             color: "black",
@@ -804,6 +850,21 @@ class Correlate extends React.Component {
             dataX.stockChartXValues.length !== 0 &&
             refreshCorr && <CorrelationPlot dataX={dataX} dataY={dataY} />}
         </div>
+
+        <Tooltip
+          placement="left"
+          isOpen={this.state.tooltipOpen}
+          autohide={false}
+          target="DisabledAutoHideExample"
+          toggle={this.toggle}
+          style={{
+            backgroundColor: "#fff",
+            border: "1px solid red",
+            maxWidth: "35em",
+          }}
+        >
+          <div className="content">{Parser(this.state.tooltip)}</div>
+        </Tooltip>
       </div>
     );
   }
