@@ -1,11 +1,10 @@
-import {toast} from 'react-toastify';
+import { toast } from "react-toastify";
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const HIDE_NOTIFICATION = "HIDE_NOTIFICATION";
-
 
 export function receiveLogin() {
   return {
@@ -37,10 +36,10 @@ export function logoutUser() {
   return (dispatch) => {
     dispatch(requestLogout());
     localStorage.removeItem("authenticated");
+    localStorage.removeItem("user_id");
     dispatch(receiveLogout());
   };
 }
-
 
 export function loginUser(creds) {
   return (dispatch) => {
@@ -57,6 +56,7 @@ export function loginUser(creds) {
         .then((response) => {
           if (response.currentuser != "invalid") {
             localStorage.setItem("authenticated", true);
+            localStorage.setItem("user_id", response.currentuser.id);
             dispatch(receiveLogin());
             console.log(response.currentuser);
           } else {

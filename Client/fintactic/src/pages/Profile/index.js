@@ -17,16 +17,16 @@ class Profile extends React.Component {
       Linstagram: "",
       Lfacebook: "",
 
-      name: "Mian M. Umair Amer",
-      email: "m.umairamer@gmail.com",
-      phone: "+004222233344",
-      mobile: "+905508108214",
-      address: "Ankara, Turkey",
-      designation: "Full Stack Developer",
-      picName: "",
-      twitter: "m.umair",
-      instagram: "umairAmer",
-      facebook: "mmuamairamer",
+      name: "",
+      email: "",
+      phone: "",
+      mobile: "",
+      address: "",
+      designation: "",
+      picName: null,
+      twitter: "",
+      instagram: "",
+      facebook: "",
       savedNotes: 0,
       savedReports: 0,
       showModal: false,
@@ -35,18 +35,74 @@ class Profile extends React.Component {
 
   loadData = () => {
     //fetch and set Local and api var
-    this.setState({
-      Lname: this.state.name,
-      Lemail: this.state.email,
-      Lphone: this.state.phone,
-      Lmobile: this.state.mobile,
-      Laddress: this.state.address,
-      Ldesignation: this.state.designation,
-      LpicName: this.state.picName,
-      Ltwitter: this.state.twitter,
-      Linstagram: this.state.instagram,
-      Lfacebook: this.state.facebook,
-    });
+    fetch("/getInfo", {
+      method: "post",
+      body: JSON.stringify({
+        id: localStorage.getItem("user_id"),
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        this.setState({
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          mobile: data.mobile,
+          address: data.address,
+          designation: data.designation,
+          twitter: data.twitter,
+          instagram: data.instagram,
+          facebook: data.facebook,
+          savedNotes: data.savedNotes,
+          savedReports: data.savedReports,
+
+          Lname: data.name,
+          Lemail: data.email,
+          Lphone: data.phone,
+          Lmobile: data.mobile,
+          Laddress: data.address,
+          Ldesignation: data.designation,
+          Ltwitter: data.twitter,
+          Linstagram: data.instagram,
+          Lfacebook: data.facebook,
+        });
+      });
+
+    fetch("/getPic", {
+      method: "post",
+      headers: { responseType: "blob", "Content-Type": "application/json" },
+      mode: "cors",
+      body: JSON.stringify({
+        id: localStorage.getItem("user_id"),
+      }),
+    })
+      .then((response) => {
+        return response.blob;
+      })
+      .then((data) => {
+        console.log(data);
+        // this.setState({
+        //   picName: data.url,
+        // });
+      });
+
+    // .then((response) => {
+    //   console.log(response);
+    //   this.setState({
+    //     picName: response,
+    //   });
+    //   // return response.json();
+    // });
+
+    // .then((data) => {
+    //   console.log(data);
+    //   this.setState({
+    //     LpicName: this.state.picName,
+    //   });
+    // });
   };
 
   componentDidMount() {
@@ -143,15 +199,34 @@ class Profile extends React.Component {
         mobile: this.state.Lmobile,
         address: this.state.Laddress,
         designation: this.state.Ldesignation,
-        picName: this.state.picName,
+        picName: this.state.LpicName,
         twitter: this.state.Ltwitter,
         instagram: this.state.Linstagram,
         facebook: this.state.Lfacebook,
       },
       () => {
         // call update API
-        console.log("Api Called");
-        this.setState({ showModal: !this.state.showModal });
+        fetch("/updateUser", {
+          method: "post",
+          body: JSON.stringify({
+            id: localStorage.getItem("user_id"),
+            pic: this.state.LpicName,
+            name: this.state.Lname,
+            phone: this.state.Lphone,
+            mobile: this.state.Lmobile,
+            address: this.state.Laddress,
+            designation: this.state.Ldesignation,
+            twitter: this.state.Linstagram,
+            instagram: this.state.Linstagram,
+            facebook: this.state.Lfacebook,
+          }),
+        }).then((response) => {
+          console.log(response);
+        });
+        //   .then((data) => {
+        //     this.setState({ showModal: !this.state.showModal });
+        //   }
+        // );
       }
     );
   };
@@ -192,7 +267,8 @@ class Profile extends React.Component {
                 <div className="card-body">
                   <div className="d-flex flex-column align-items-center text-center">
                     <img
-                      src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                      src={picName}
+                      // src="https://bootdey.com/img/Content/avatar/avatar7.png"
                       alt="Admin"
                       className="rounded-circle"
                       width={150}
