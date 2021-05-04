@@ -292,7 +292,7 @@ class Education extends React.Component {
             <th>
               <p>
                 {/* <YouTubeVideo videoId='eKxxtYIU1iA'/> */}
-                <a href="#/app/video/eKxxtYIU1iA" target="blank">
+                <a href="#/app/video/Jwzta8B1b9g" target="blank">
                   <img src={StockMarket} />
                 </a>
               </p>
@@ -300,7 +300,7 @@ class Education extends React.Component {
             <th>
               <p>
                 {/* <YouTubeVideo videoId='werjfC_vFf4'/> */}
-                <a href="#/app/video/werjfC_vFf4" target="blank">
+                <a href="#/app/video/ay0C36Yd20w" target="blank">
                   
                   <img src={BollingerBands} />
                 </a>
@@ -310,7 +310,7 @@ class Education extends React.Component {
           <tr></tr>
           <tr>
             <div style={{ color: "black", display: "flex" }}>
-              <th>Moving Average Convergence/Divergence</th>
+              <th>Moving Average Convergence/Divergence (MACD)</th>
               <span>
                 <img
                   style={{ paddingTop: "23px" }}
@@ -323,7 +323,7 @@ class Education extends React.Component {
               </span>
             </div>
             <div style={{ color: "black", display: "flex" }}>
-              <th>Relative Strength Index</th>
+              <th>Relative Strength Index (RSI)</th>
               <span>
                 <img
                   style={{ paddingTop: "23px" }}
@@ -340,7 +340,7 @@ class Education extends React.Component {
             <th>
               <p>
                 {/* <YouTubeVideo videoId='GfbdP6-RKuI'/> */}
-                <a href="#/app/video/GfbdP6-RKuI" target="blank">
+                <a href="#/app/video/-fdsp4l5e-E" target="blank">
                   {" "}
                   <img src={MACD} />
                 </a>
@@ -388,7 +388,7 @@ class Education extends React.Component {
             <th>
               <p>
                 {/* <YouTubeVideo videoId='vkLNygRMqR4'/> */}
-                <a href="#/app/video/vkLNygRMqR4" target="blank">
+                <a href="#/app/video/-xHvJLvATmw" target="blank">
                   {" "}
                   <img src={Gold} />
                 </a>
@@ -397,7 +397,7 @@ class Education extends React.Component {
             <th>
               <p>
                 {/* <YouTubeVideo videoId='kyMrn1Nctzc'/> */}
-                <a href="#/app/video/kyMrn1Nctzc" target="blank">
+                <a href="#/app/video/p61InB_dn8I" target="blank">
                   {" "}
                   <img src={SILVER} />
                 </a>
@@ -423,7 +423,7 @@ class Education extends React.Component {
             <th>
               <p>
                 {/* <YouTubeVideo videoId='6PaiGP_VyU0'/> */}
-                <a href="#/app/video/6PaiGP_VyU0" target="blank">
+                <a href="#/app/video/XvB2RibLNWY" target="blank">
                   {" "}
                   <img src={Bitcoin} />
                 </a>
