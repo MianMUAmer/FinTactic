@@ -54,15 +54,26 @@ class Notes extends React.Component {
       console.log(response);
       //this.state.myArray.push(response);
       this.setState({myNotesArray: response});
-      console.log(this.state.myNotesArray)
       
   }) 
   
   }
 
 
-  backToWork(as, tk, gr, ind, sd, end) {
-    window.location.assign('http://localhost:3000/app/visualization#/app/visualization')
+  backToWork = (as, tk, gr, ind, sd, end) => {
+    var ind_new = ""
+    if(ind == "None"){
+      ind_new = "Indicators"
+    }else{
+      ind_new = ind
+    }
+
+    this.props.history.push({
+      pathname: '/app/visualization',
+      state: { asset: as, ticker: tk, graph: gr, indicator: ind_new, startd: moment(sd).format("MMMM D YYYY"), end: moment(end).format("MMMM D YYYY")}
+    })
+    
+
   }
 
   deleteFromDb(row_id) {

@@ -179,15 +179,44 @@ class Visualization extends React.Component {
 
   
  componentDidMount() {
-   console.log(this.state.apiSDate)
     this._isMounted = true;
-    this.fetchStock();
     if (this.multilineTextarea) {
       this.multilineTextarea.style.height = "auto";
-      this.multilineTextarea.style.backgroundColor = "#F5F5AE";
+      this.multilineTextarea.style.backgroundColor = "#Fs5F5AE";
       this.multilineTextarea.style.width = "500px";
     }
+    
+      if(this.props.location.state){
+        
+        this.setState(
+          {
+            fIndicatorType: this.props.location.state.indicator,
+            graphType: this.props.location.state.graph,
+            assetType: this.props.location.state.asset,
+            ticker: this.props.location.state.ticker,
+            startRange: this.props.location.state.startd == "Invalid date" ? "All" : this.props.location.state.startd,
+            endRange: this.props.location.state.end == "Invalid date" ? "" : this.props.location.state.end,
+            apiSDate: JSON.stringify(moment(this.props.location.state.startd).format("YYYY-MM-DD")),
+            apiEDate: JSON.stringify(moment(this.props.location.state.end).format("YYYY-MM-DD")),
+          },
+          () => {
+            if(this.state.apiSDate == JSON.stringify("Invalid date") && this.state.apiEDate == JSON.stringify("Invalid date")){
+              this.fetchStock()
+            }else{
+              this.applyFilters()
+            }
+            
+            
+          }
+        );
+      }
+      
+      
+      else{
+        this.fetchStock();
+      }
   }
+  
 
   
 
@@ -212,6 +241,7 @@ class Visualization extends React.Component {
     let apiStockHighValues = [];
     let apiStockLowValues = [];
     let apiStockOpenValues = [];
+
 
     this.setState({
       refresh: false,
@@ -274,6 +304,7 @@ class Visualization extends React.Component {
       }),
     })
       .then((response) => {
+        this.state.loading="false";
         return response.json();
       })
       .then((data) => {
@@ -372,6 +403,7 @@ class Visualization extends React.Component {
       startRange,
       endRange,
     } = this.state;
+
     const {
       assetTypeDropdownOpen,
       gTypeDropdownOpen,
@@ -380,7 +412,9 @@ class Visualization extends React.Component {
       startRangeDropdownOpen,
     } = this.state;
 
+
     return (
+      
       this.state.loading=="true" ? <RotateCircleLoading /> : <div
       style={{
         marginLeft: 10,
