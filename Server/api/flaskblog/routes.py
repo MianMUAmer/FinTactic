@@ -66,7 +66,7 @@ def getAsset():
         target = FB
     elif(name=="GOOGL"):
         metadata["3. Name"] = "Google"
-        target = GOOGL
+        target = GOOG
     elif(name=="MSFT"):
         metadata["3. Name"] = "Microsoft"
         target = MSFT
@@ -224,6 +224,7 @@ def corr():
     name2 = req.get('name2', None)
     startDate = req.get('startDate', None)
     endDate = req.get('endDate', None)
+    struct = req.get('struct', None)
 
     if(name1=='AAPL'):
         target1 = AAPL
@@ -232,7 +233,7 @@ def corr():
     elif(name1=="FB"):
         target1 = FB
     elif(name1=="GOOGL"):
-        target1 = GOOGL
+        target1 = GOOG
     elif(name1=="MSFT"):
         target1 = MSFT
     elif(name1=="BTC"):
@@ -253,7 +254,7 @@ def corr():
     elif(name2=="FB"):
         target2 = FB
     elif(name2=="GOOGL"):
-        target2 = GOOGL
+        target2 = GOOG
     elif(name2=="MSFT"):
         target2 = MSFT
     elif(name2=="BTC"):
@@ -287,13 +288,17 @@ def corr():
     
     assetX = np.array(close1)
     assetY = np.array(close2)
-
-    pC =  np.corrcoef(assetX, assetY)
-    result["pC"] = pC[0,1]
-    for day in dates:
-        for c1, c2 in zip(close1, close2):
-            result[day] = {"assetX":  str(c1), "assetY": str(c2)}
-    return jsonify(result), 200
+    if struct=="meta":
+        pC =  np.corrcoef(assetX, assetY)
+        result["pC"] = pC[0,1]
+        result["assetX"] = name1
+        result["assetY"] = name2
+        return jsonify(result), 200
+    elif struct=="data":
+        for day in dates:
+            for c1, c2 in zip(close1, close2):
+                result[day] = {"assetX":  str(c1), "assetY": str(c2)}
+        return jsonify(result), 200
     
 
 
