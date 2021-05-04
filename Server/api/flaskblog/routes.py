@@ -295,9 +295,9 @@ def corr():
         result["assetY"] = name2
         return jsonify(result), 200
     elif struct=="data":
-        for day in dates:
-            for c1, c2 in zip(close1, close2):
-                result[day] = {"assetX":  str(c1), "assetY": str(c2)}
+        for day,c1, c2 in zip(dates, close1, close2):
+            result[day] = {"assetX":  str(c1), "assetY": str(c2)}
+        print(result)
         return jsonify(result), 200
     
 
