@@ -75,7 +75,7 @@ class Reports extends React.Component {
   }))
   }
 
-  downloadReport(idx, date, index) {
+  downloadReport(idx, date, index, title) {
 
     let url = `http://localhost:5000/getDataReport?id=${idx}`;
     return fetch(url, {
@@ -86,7 +86,7 @@ class Reports extends React.Component {
     }).then(function (resp) {
       return resp.blob();
     }).then(body => {
-      download(body, date+'-'+index);
+      download(body, title+'-'+index+'.pdf');
     });
 
   }
@@ -171,7 +171,7 @@ class Reports extends React.Component {
                           </small>
                       </td>
                       <td style={{color: "#000000", fontWeight: "500"}}>{(moment(row.date, "DD/MM/YYYY").format("MMMM D, dddd, YY"))}</td>
-                      <td><span className="glyphicon glyphicon-download-alt" style={{color: "#A30F0F", left: "60px", marginTop: "16px", cursor: "pointer"}} onClick={() => { this.downloadReport(row.id, row.date, index+1) }}/></td>
+                      <td><span className="glyphicon glyphicon-download-alt" style={{color: "#A30F0F", left: "60px", marginTop: "16px", cursor: "pointer"}} onClick={() => { this.downloadReport(row.id, row.date, index+1, row.title) }}/></td>
                       <td className="width-150">
                       <td><span className="glyphicon glyphicon-trash" style={{color: "black", cursor: "pointer"}} onClick={() => {this.deleteRepFromDb(row.id)}}/></td>
                       </td>

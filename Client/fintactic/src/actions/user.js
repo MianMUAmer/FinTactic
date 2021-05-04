@@ -35,8 +35,8 @@ export function receiveLogout() {
 export function logoutUser() {
   return (dispatch) => {
     dispatch(requestLogout());
-    localStorage.removeItem("authenticated");
-    localStorage.removeItem("user_id");
+    //localStorage.removeItem("authenticated");
+    localStorage.clear();
     dispatch(receiveLogout());
   };
 }

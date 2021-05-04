@@ -32,7 +32,7 @@ class User(db.Model, UserMixin):
     def get_info(self):
         return {"name": self.name, "email": self.email, "phone": self.phone, "mobile": self.mobile, "address": self.address,
         "designation": self.designation, "twitter": self.twitter, "instagram": self.instagram, "facebook": self.facebook,
-        "savedNotes": len(self.reports), "savedReports": len(self.reports)}
+        "savedNotes": len(self.notes), "savedReports": len(self.reports)}
     def get_image(self):
         return self.pic
 

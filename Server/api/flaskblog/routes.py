@@ -307,3 +307,33 @@ def corr():
 
 
 
+@app.route("/ml", methods=['GET', 'POST'])
+def ml():
+    req = flask.request.get_json(force=True)
+    name = req.get('name', None)
+    if(name=='AAPL'):
+        target = AAPL
+    elif(name=="AMZN"):
+        target = AMZN
+    elif(name=="FB"):
+        target = FB
+    elif(name=="GOOGL"):
+        target = GOOG
+    elif(name=="MSFT"):
+        target = MSFT
+    elif(name=="BTC"):
+        target = BTC
+    elif(name=="ETH"):
+        target = ETH
+    elif(name=="GC"):
+        target = GC
+    elif(name=="SI"):
+        target = SI
+    else:
+        return {'name': "invalid"}, 400
+        
+    assets = target.query.all()
+    result = {}
+    for a in assets:
+        result[a.getDate()] = a.get_close()
+    return jsonify(result), 200
