@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, jsonify, send_file
 from flaskblog import app, db, bcrypt
-from flaskblog.models import User, Report, Note, AAPL, AMZN, FB, GOOG, MSFT, BTC, ETH, GC, SI
+from flaskblog.models import User, Report, ReportData, Note, AAPL, AMZN, FB, GOOG, MSFT, BTC, ETH, GC, SI
 from flask_login import login_user, current_user, logout_user, login_required
 from io import BytesIO
 import flask
@@ -149,8 +149,10 @@ def report():
     report = request.files["report"]
     user_id= request.form.get("id")
     title= request.form.get("title")
-    newReport = Report(title=title, data=report.read(), user_id=user_id)
+    newReport = Report(title=title, user_id=user_id)
+    newReportData = ReportData(data=report.read())
     db.session.add(newReport)
+    db.session.add(newReportData)
     db.session.commit()
     return {"success": 200}
 
@@ -205,8 +207,10 @@ def deleteNotes():
 def deleteReports():
     req = flask.request.get_json(force=True)
     id = req.get('id', None)
-    reports = Report.query.filter_by(id=id).first()
-    db.session.delete(reports)
+    report = Report.query.filter_by(id=id).first()
+    reportdata = ReportData.query.filter_by(id=id).first()
+    db.session.delete(report)
+    db.session.delete(reportdata)
     db.session.commit()
     return {"success": 200}
 
@@ -214,8 +218,8 @@ def deleteReports():
 def getData():
     req = flask.request.get_json(force=True)
     id = req.get('id', None)
-    report = Report.query.filter_by(id=id).first()
-    return send_file(BytesIO(report.get_data()), attachment_filename=report.get_date()+'-report.pdf', as_attachment=True)
+    report = ReportData.query.filter_by(id=id).first()
+    return send_file(BytesIO(report.get_data()), attachment_filename='report.pdf', as_attachment=True)
     
 @app.route("/correlation", methods=['GET', 'POST'])
 def corr():

@@ -40,16 +40,19 @@ class Report(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(300))
     date_uploaded = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    data = db.Column(db.LargeBinary)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     def get_meta(self):
         return {"id":self.id, "title": self.title, "date": self.date_uploaded.strftime("%d.%m.%Y")}
-    def get_data(self):
-        return self.data
     def get_date(self):
         return self.date_uploaded.strftime("%d.%m.%Y")
     def get_id(self):
         return self.id
+
+class ReportData(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    data = db.Column(db.LargeBinary)
+    def get_data(self):
+        return self.data
 
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
