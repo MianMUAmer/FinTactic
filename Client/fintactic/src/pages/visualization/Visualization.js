@@ -107,7 +107,7 @@ class Visualization extends React.Component {
     .then(data => console.log(data))
     .catch(err => console.error(err));
 
-    toast.success("You've been saved the state successfully!");
+    toast.success("The state is saved successfully!");
   }
 
   
@@ -154,7 +154,7 @@ class Visualization extends React.Component {
 
     });
 
-    toast.success("You've been saved the captured report successfully!");
+    toast.success("The captured report is saved successfully!");
   }
 
   
