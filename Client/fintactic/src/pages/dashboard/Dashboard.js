@@ -114,7 +114,7 @@ function Dashboard() {
       <div className="card" style={{width: 450, marginLeft: 25, boxShadow: "2px 5px 30px black"}}>
         <img src={second} alt="Avatar" width="450" height="250" />
         <div class="container">
-          <p>FinTactic helps its users during their investment decisions. We are always here with you every step of the investment!</p>
+          <p>FinTacTic helps its users during their investment decisions. We are always here with you every step of the investment!</p>
         </div>
       </div>
       </div>

@@ -14,7 +14,7 @@ import {
   Badge,
 } from "reactstrap";
 import { Sparklines, SparklinesBars } from "react-sparklines";
-import Video from "./Video";
+import Video from "../video";
 //import Widget from "../../components/Widget/Widget";
 import s from "./Static.module.scss";
 import YouTubeVideo from "../../components/YouTubeVideo/YouTubeVideo";
@@ -101,8 +101,7 @@ class Education extends React.Component {
             <th>
               <p>
                 {/* <YouTubeVideo videoId='eKxxtYIU1iA'/> */}
-                <a href="#/app/visualization/id=eKxxtYIU1iA" target="blank">
-                  {" "}
+                <a href="#/app/video/eKxxtYIU1iA" target="blank">
                   <img src={StockMarket} />
                 </a>
               </p>
@@ -110,8 +109,8 @@ class Education extends React.Component {
             <th>
               <p>
                 {/* <YouTubeVideo videoId='werjfC_vFf4'/> */}
-                <a href="" target="blank">
-                  {" "}
+                <a href="#/app/video/werjfC_vFf4" target="blank">
+                  
                   <img src={BollingerBands} />
                 </a>
               </p>
@@ -126,7 +125,7 @@ class Education extends React.Component {
             <th>
               <p>
                 {/* <YouTubeVideo videoId='GfbdP6-RKuI'/> */}
-                <a href="" target="blank">
+                <a href="#/app/video/GfbdP6-RKuI" target="blank">
                   {" "}
                   <img src={MACD} />
                 </a>
@@ -135,7 +134,7 @@ class Education extends React.Component {
             <th>
               <p>
                 {/* <YouTubeVideo videoId='ut4coV2RuSI'/> */}
-                <a href="" target="blank">
+                <a href="#/app/video/ut4coV2RuSI" target="blank">
                   {" "}
                   <img src={RSI} />
                 </a>
@@ -150,7 +149,7 @@ class Education extends React.Component {
             <th>
               <p>
                 {/* <YouTubeVideo videoId='vkLNygRMqR4'/> */}
-                <a href="" target="blank">
+                <a href="#/app/video/vkLNygRMqR4" target="blank">
                   {" "}
                   <img src={Gold} />
                 </a>
@@ -159,7 +158,7 @@ class Education extends React.Component {
             <th>
               <p>
                 {/* <YouTubeVideo videoId='kyMrn1Nctzc'/> */}
-                <a href="" target="blank">
+                <a href="#/app/video/kyMrn1Nctzc" target="blank">
                   {" "}
                   <img src={SILVER} />
                 </a>
@@ -173,7 +172,7 @@ class Education extends React.Component {
             <th>
               <p>
                 {/* <YouTubeVideo videoId='6PaiGP_VyU0'/> */}
-                <a href="" target="blank">
+                <a href="#/app/video/6PaiGP_VyU0" target="blank">
                   {" "}
                   <img src={Bitcoin} />
                 </a>

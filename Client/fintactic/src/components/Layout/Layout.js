@@ -8,6 +8,7 @@ import Hammer from "rc-hammerjs";
 import UIIcons from "../../pages/components/icons";
 import Visualization from "../../pages/visualization";
 import Education from "../../pages/education";
+import Video from "../../pages/video";
 import Bookmarks from "../../pages/bookmarks";
 import Dashboard from "../../pages/dashboard";
 import Correlate from "../../pages/correlate";
@@ -95,6 +96,7 @@ class Layout extends React.Component {
                       component={Visualization}
                     />
                     <Route path="/app/education" exact component={Education} />
+                    <Route path="/app/video/:id" exact component={Video} />
                     <Route path="/app/bookmarks" exact component={Bookmarks} />
                     <Route path="/app/main" exact component={Dashboard} />
                     <Route path="/app/correlate" exact component={Correlate} />
