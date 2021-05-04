@@ -103,7 +103,7 @@ function Dashboard() {
        {/* sdsd */}
       <div className="row">
       <div className="column">
-      <div className="card" style={{width: 450,marginLeft:15, boxShadow: "2px 5px 10px black"}} >
+      <div className="card" style={{width: 450,marginLeft:15, boxShadow: "2px 5px 20px black"}} >
         <img src={third} alt="Avatar" width="450" height="250" />
         <div class="container">
           <p>Our most important mission is to educate people how to invest wisely. Superior videos in the</p>
@@ -111,7 +111,7 @@ function Dashboard() {
       </div>
       </div>
       <div className="column">
-      <div className="card" style={{width: 450, marginLeft: 25, boxShadow: "2px 5px 30px black"}}>
+      <div className="card" style={{width: 450, marginLeft: 25, boxShadow: "2px 5px 20px black"}}>
         <img src={second} alt="Avatar" width="450" height="250" />
         <div class="container">
           <p>FinTacTic helps its users during their investment decisions. We are always here with you every step of the investment!</p>
@@ -119,7 +119,7 @@ function Dashboard() {
       </div>
       </div>
       <div className="column">
-      <div className="card" style={{width: 450, marginLeft: 25,  boxShadow: "2px 5px 30px black"}}>
+      <div className="card" style={{width: 450, marginLeft: 25,  boxShadow: "2px 5px 20px black"}}>
         <img src={first} alt="Avatar" width="450" height="250" />
         <div class="container">
           <p>Invest smartly, earn plenty! Our financial analysis best suits the people who seeks to earn money.</p>
