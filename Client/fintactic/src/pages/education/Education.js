@@ -1,18 +1,4 @@
 import React from "react";
-import {
-  Row,
-  Col,
-  Table,
-  Progress,
-  Button,
-  UncontrolledButtonDropdown,
-  DropdownMenu,
-  DropdownToggle,
-  DropdownItem,
-  Input,
-  Label,
-  Badge,
-} from "reactstrap";
 import { Sparklines, SparklinesBars } from "react-sparklines";
 import Video from "../video";
 //import Widget from "../../components/Widget/Widget";
@@ -26,6 +12,10 @@ import MACD from "../../images/imgedu/MACD.jpeg";
 import SILVER from "../../images/people/SILVER.jpeg";
 import BollingerBands from "../../images/imgedu/Bollinger Bands.jpeg";
 import Bitcoin from "../../images/imgedu/Bitcoin.jpeg";
+
+import Parser from "html-react-parser";
+import { Tooltip } from "reactstrap";
+import infoIcon from "../../images/infoIcon.png";
 // import seconded from "../../images/imgedu/Bitcoin.jpeg";
 class Education extends React.Component {
   constructor(props) {
@@ -35,10 +25,187 @@ class Education extends React.Component {
         { item: "item", id: 1 },
         { item1: "item1", id: 2 },
       ],
+
+      SMtooltip: "",
+      SMtooltipOpen: false,
+      BBtooltip: "",
+      BBtooltipOpen: false,
+      RSItooltip: "",
+      RSItooltipOpen: false,
+      MACDtooltip: "",
+      MACDtooltipOpen: false,
+      BitCointooltip: "",
+      BitCointooltipOpen: false,
+      GOLDtooltip: "",
+      GOLDtooltipOpen: false,
+      SILVERtooltip: "",
+      SILVERtooltipOpen: false,
     };
 
     this.checkAll = this.checkAll.bind(this);
   }
+
+  getWiki = () => {
+    const SMAPI =
+      "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=Stock market";
+
+    const SMbody = { method: "GET", dataType: "json" };
+    const SMmyRequest = new Request(SMAPI, SMbody);
+    fetch(SMmyRequest)
+      .then((response) => response.json())
+      .then((data) => {
+        const allData = data.query.pages;
+        for (var n in allData) {
+          const paragraphs = allData[n].extract.split("</p>");
+          const firstParagraph = paragraphs[1] + "</p>";
+          this.setState({
+            SMtooltip: firstParagraph,
+          });
+        }
+      });
+
+    const BBAPI =
+      "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=Bollinger Bands";
+
+    const BBbody = { method: "GET", dataType: "json" };
+    const BBmyRequest = new Request(BBAPI, BBbody);
+    fetch(BBmyRequest)
+      .then((response) => response.json())
+      .then((data) => {
+        const allData = data.query.pages;
+        for (var n in allData) {
+          const paragraphs = allData[n].extract.split("</p>");
+          const firstParagraph = paragraphs[0] + "</p>";
+          this.setState({
+            BBtooltip: firstParagraph,
+          });
+        }
+      });
+
+    const MACDAPI =
+      "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=MACD";
+
+    const MACDbody = { method: "GET", dataType: "json" };
+    const MACDmyRequest = new Request(MACDAPI, MACDbody);
+    fetch(MACDmyRequest)
+      .then((response) => response.json())
+      .then((data) => {
+        const allData = data.query.pages;
+        for (var n in allData) {
+          const paragraphs = allData[n].extract.split("</p>");
+          const firstParagraph = paragraphs[1] + "</p>";
+          this.setState({
+            MACDtooltip: firstParagraph,
+          });
+        }
+      });
+
+    const RSIAPI =
+      "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=Relative strength index";
+
+    const RSIbody = { method: "GET", dataType: "json" };
+    const RSImyRequest = new Request(RSIAPI, RSIbody);
+    fetch(RSImyRequest)
+      .then((response) => response.json())
+      .then((data) => {
+        const allData = data.query.pages;
+        for (var n in allData) {
+          const paragraphs = allData[n].extract.split("</p>");
+          const firstParagraph = paragraphs[1] + "</p>";
+          this.setState({
+            RSItooltip: firstParagraph,
+          });
+        }
+      });
+
+    const GOLDAPI =
+      "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=Gold as an investment";
+
+    const GOLDbody = { method: "GET", dataType: "json" };
+    const GOLDmyRequest = new Request(GOLDAPI, GOLDbody);
+    fetch(GOLDmyRequest)
+      .then((response) => response.json())
+      .then((data) => {
+        const allData = data.query.pages;
+        for (var n in allData) {
+          const paragraphs = allData[n].extract.split("</p>");
+          const firstParagraph = paragraphs[1] + "</p>";
+          this.setState({
+            GOLDtooltip: firstParagraph,
+          });
+        }
+      });
+
+    const SILVERAPI =
+      "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=Silver as an investment";
+
+    const SILVERbody = { method: "GET", dataType: "json" };
+    const SILVERmyRequest = new Request(SILVERAPI, SILVERbody);
+    fetch(SILVERmyRequest)
+      .then((response) => response.json())
+      .then((data) => {
+        const allData = data.query.pages;
+        for (var n in allData) {
+          const paragraphs = allData[n].extract.split("</p>");
+          const firstParagraph = paragraphs[1] + "</p>";
+          this.setState({
+            SILVERtooltip: firstParagraph,
+          });
+        }
+      });
+
+    const BitCoinAPI =
+      "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=Bitcoin";
+
+    const BitCoinbody = { method: "GET", dataType: "json" };
+    const BitCoinmyRequest = new Request(BitCoinAPI, BitCoinbody);
+    fetch(BitCoinmyRequest)
+      .then((response) => response.json())
+      .then((data) => {
+        const allData = data.query.pages;
+        for (var n in allData) {
+          const paragraphs = allData[n].extract.split("</p>");
+          const firstParagraph = paragraphs[2] + "</p>";
+          this.setState({
+            BitCointooltip: firstParagraph,
+          });
+        }
+      });
+  };
+
+  toggleSM = () =>
+    this.setState({
+      SMtooltipOpen: !this.state.SMtooltipOpen,
+    });
+  toggleBB = () =>
+    this.setState({
+      BBtooltipOpen: !this.state.BBtooltipOpen,
+    });
+  toggleMACD = () =>
+    this.setState({
+      MACDtooltipOpen: !this.state.MACDtooltipOpen,
+    });
+  toggleRSI = () =>
+    this.setState({
+      RSItooltipOpen: !this.state.RSItooltipOpen,
+    });
+  toggleBitCoin = () =>
+    this.setState({
+      BitCointooltipOpen: !this.state.BitCointooltipOpen,
+    });
+  toggleGold = () =>
+    this.setState({
+      GOLDtooltipOpen: !this.state.GOLDtooltipOpen,
+    });
+  toggleSilver = () =>
+    this.setState({
+      SILVERtooltipOpen: !this.state.SILVERtooltipOpen,
+    });
+
+  componentDidMount() {
+    this.getWiki();
+  }
+
   handleClickSignIn() {
     console.log("come handle click fun");
     this.props.history.push({
@@ -93,9 +260,33 @@ class Education extends React.Component {
           Education
         </h1>
         <table>
-          <tr>
-            <th>Stock Market 101</th>
-            <th>Bollinger Bands</th>
+          <tr style={{ display: "flex" }}>
+            <div style={{ color: "black", display: "flex" }}>
+              <th>Stock Market 101</th>
+              <span>
+                <img
+                  style={{ paddingTop: "23px" }}
+                  id="stockMarket"
+                  src={infoIcon}
+                  alt="info"
+                  width="17"
+                  height="28"
+                />
+              </span>
+            </div>
+            <div style={{ color: "black", display: "flex" }}>
+              <th>Bollinger Bands</th>
+              <span>
+                <img
+                  style={{ paddingTop: "23px" }}
+                  id="bollingerBands"
+                  src={infoIcon}
+                  alt="info"
+                  width="17"
+                  height="28"
+                />
+              </span>
+            </div>
           </tr>
           <tr>
             <th>
@@ -118,8 +309,32 @@ class Education extends React.Component {
           </tr>
           <tr></tr>
           <tr>
-            <th>Moving Average Convergence/Divergence</th>
-            <th>Relative Strength Index</th>
+            <div style={{ color: "black", display: "flex" }}>
+              <th>Moving Average Convergence/Divergence</th>
+              <span>
+                <img
+                  style={{ paddingTop: "23px" }}
+                  id="MACD"
+                  src={infoIcon}
+                  alt="info"
+                  width="17"
+                  height="28"
+                />
+              </span>
+            </div>
+            <div style={{ color: "black", display: "flex" }}>
+              <th>Relative Strength Index</th>
+              <span>
+                <img
+                  style={{ paddingTop: "23px" }}
+                  id="RSI"
+                  src={infoIcon}
+                  alt="info"
+                  width="17"
+                  height="28"
+                />
+              </span>
+            </div>
           </tr>
           <tr>
             <th>
@@ -142,8 +357,32 @@ class Education extends React.Component {
             </th>
           </tr>
           <tr>
-            <th>Gold </th>
-            <th>Silver</th>
+            <div style={{ color: "black", display: "flex" }}>
+              <th>Gold </th>
+              <span>
+                <img
+                  style={{ paddingTop: "23px" }}
+                  id="Gold"
+                  src={infoIcon}
+                  alt="info"
+                  width="17"
+                  height="28"
+                />
+              </span>
+            </div>
+            <div style={{ color: "black", display: "flex" }}>
+              <th>Silver</th>
+              <span>
+                <img
+                  style={{ paddingTop: "23px" }}
+                  id="Silver"
+                  src={infoIcon}
+                  alt="info"
+                  width="17"
+                  height="28"
+                />
+              </span>
+            </div>
           </tr>
           <tr>
             <th>
@@ -166,7 +405,19 @@ class Education extends React.Component {
             </th>
           </tr>
           <tr>
-            <th>Bitcoin </th>
+            <div style={{ color: "black", display: "flex" }}>
+              <th>Bitcoin </th>
+              <span>
+                <img
+                  style={{ paddingTop: "23px" }}
+                  id="BitCoin"
+                  src={infoIcon}
+                  alt="info"
+                  width="17"
+                  height="28"
+                />
+              </span>
+            </div>
           </tr>
           <tr>
             <th>
@@ -180,6 +431,105 @@ class Education extends React.Component {
             </th>
           </tr>
         </table>
+
+        <Tooltip
+          placement="right"
+          isOpen={this.state.SMtooltipOpen}
+          autohide={false}
+          target="stockMarket"
+          toggle={this.toggleSM}
+          style={{
+            border: "1px solid #1b277c",
+            backgroundColor: "#fff",
+            maxWidth: "35em",
+          }}
+        >
+          <div className="content">{Parser(this.state.SMtooltip)}</div>
+        </Tooltip>
+        <Tooltip
+          placement="left"
+          isOpen={this.state.BBtooltipOpen}
+          autohide={false}
+          target="bollingerBands"
+          toggle={this.toggleBB}
+          style={{
+            border: "1px solid #1b277c",
+            backgroundColor: "#fff",
+            maxWidth: "35em",
+          }}
+        >
+          <div className="content">{Parser(this.state.BBtooltip)}</div>
+        </Tooltip>
+        <Tooltip
+          placement="right"
+          isOpen={this.state.MACDtooltipOpen}
+          autohide={false}
+          target="MACD"
+          toggle={this.toggleMACD}
+          style={{
+            border: "1px solid #1b277c",
+            backgroundColor: "#fff",
+            maxWidth: "35em",
+          }}
+        >
+          <div className="content">{Parser(this.state.MACDtooltip)}</div>
+        </Tooltip>
+        <Tooltip
+          placement="left"
+          isOpen={this.state.RSItooltipOpen}
+          autohide={false}
+          target="RSI"
+          toggle={this.toggleRSI}
+          style={{
+            border: "1px solid #1b277c",
+            backgroundColor: "#fff",
+            maxWidth: "35em",
+          }}
+        >
+          <div className="content">{Parser(this.state.RSItooltip)}</div>
+        </Tooltip>
+        <Tooltip
+          placement="right"
+          isOpen={this.state.BitCointooltipOpen}
+          autohide={false}
+          target="BitCoin"
+          toggle={this.toggleBitCoin}
+          style={{
+            border: "1px solid #1b277c",
+            backgroundColor: "#fff",
+            maxWidth: "35em",
+          }}
+        >
+          <div className="content">{Parser(this.state.BitCointooltip)}</div>
+        </Tooltip>
+        <Tooltip
+          placement="right"
+          isOpen={this.state.GOLDtooltipOpen}
+          autohide={false}
+          target="Gold"
+          toggle={this.toggleGold}
+          style={{
+            border: "1px solid #1b277c",
+            backgroundColor: "#fff",
+            maxWidth: "35em",
+          }}
+        >
+          <div className="content">{Parser(this.state.GOLDtooltip)}</div>
+        </Tooltip>
+        <Tooltip
+          placement="left"
+          isOpen={this.state.SILVERtooltipOpen}
+          autohide={false}
+          target="Silver"
+          toggle={this.toggleSilver}
+          style={{
+            border: "1px solid #1b277c",
+            backgroundColor: "#fff",
+            maxWidth: "35em",
+          }}
+        >
+          <div className="content">{Parser(this.state.SILVERtooltip)}</div>
+        </Tooltip>
       </div>
     );
   }
