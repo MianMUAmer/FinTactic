@@ -22,6 +22,7 @@ import MACD from "./MACD";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 import { RotateCircleLoading  } from 'react-loadingg';
+import {toast} from 'react-toastify';
 
 class Visualization extends React.Component {
   _isMounted = false;
@@ -106,6 +107,7 @@ class Visualization extends React.Component {
     .then(data => console.log(data))
     .catch(err => console.error(err));
 
+    toast.success("You've been saved the state successfully!");
   }
 
   
@@ -152,7 +154,7 @@ class Visualization extends React.Component {
 
     });
 
-
+    toast.success("You've been saved the captured report successfully!");
   }
 
   
@@ -791,7 +793,7 @@ class Visualization extends React.Component {
         
         <form>
           <h4 style={{ color: "black" }}>
-          Take your notes, click on <b>Capture</b> and save them on Reports tab!<br></br>
+          Take your notes, click on <b>Save Report</b> and save your capture on Reports tab!<br></br>
           Click on <b>Save States</b> and you will be able to turn back where you left on States tab!
           </h4>
           <h4 style={{ color: "black" }}>Title: </h4>
@@ -819,7 +821,7 @@ class Visualization extends React.Component {
           />
         </form>
         <Button onClick={this.screenshot} style={{backgroundColor:"#2471A3"}} >
-                Capture
+                Save Report
               </Button>
         <Button onClick={this.saveState} style={{backgroundColor:"#7D3C98", marginLeft: "15px"}}>
                 Save State
