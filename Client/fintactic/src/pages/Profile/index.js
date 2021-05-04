@@ -17,16 +17,16 @@ class Profile extends React.Component {
       Linstagram: "",
       Lfacebook: "",
 
-      name: "Mian M. Umair Amer",
-      email: "m.umairamer@gmail.com",
-      phone: "+004222233344",
-      mobile: "+905508108214",
-      address: "Ankara, Turkey",
-      designation: "Full Stack Developer",
-      picName: "",
-      twitter: "m.umair",
-      instagram: "umairAmer",
-      facebook: "mmuamairamer",
+      name: "",
+      email: "",
+      phone: "",
+      mobile: "",
+      address: "",
+      designation: "",
+      picName: null,
+      twitter: "",
+      instagram: "",
+      facebook: "",
       savedNotes: 0,
       savedReports: 0,
       showModal: false,
@@ -35,18 +35,59 @@ class Profile extends React.Component {
 
   loadData = () => {
     //fetch and set Local and api var
-    this.setState({
-      Lname: this.state.name,
-      Lemail: this.state.email,
-      Lphone: this.state.phone,
-      Lmobile: this.state.mobile,
-      Laddress: this.state.address,
-      Ldesignation: this.state.designation,
-      LpicName: this.state.picName,
-      Ltwitter: this.state.twitter,
-      Linstagram: this.state.instagram,
-      Lfacebook: this.state.facebook,
-    });
+    fetch("/getInfo", {
+      method: "post",
+      body: JSON.stringify({
+        id: localStorage.getItem("user_id"),
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        this.setState({
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          mobile: data.mobile,
+          address: data.address,
+          designation: data.designation,
+          twitter: data.twitter,
+          instagram: data.instagram,
+          facebook: data.facebook,
+          savedNotes: data.savedNotes,
+          savedReports: data.savedReports,
+
+          Lname: data.name,
+          Lemail: data.email,
+          Lphone: data.phone,
+          Lmobile: data.mobile,
+          Laddress: data.address,
+          Ldesignation: data.designation,
+          Ltwitter: data.twitter,
+          Linstagram: data.instagram,
+          Lfacebook: data.facebook,
+        });
+      });
+
+    fetch("/getPic", {
+      method: "post",
+      headers: { responseType: "blob", "Content-Type": "application/json" },
+      mode: "cors",
+      body: JSON.stringify({
+        id: localStorage.getItem("user_id"),
+      }),
+    })
+      .then((response) => {
+        return response.blob();
+      })
+      .then((data) => {
+        console.log(data);
+        this.setState({
+          picName: URL.createObjectURL(data),
+        });
+      });
   };
 
   componentDidMount() {
@@ -90,8 +131,9 @@ class Profile extends React.Component {
   };
 
   updatePicPath = (e) => {
+    e.preventDefault();
     this.setState({
-      LpicName: e.target.value,
+      LpicName: e.target.files[0],
     });
   };
 
@@ -133,27 +175,39 @@ class Profile extends React.Component {
     });
   };
 
-  updateInfo = () => {
-    console.log("submitted");
-    this.setState(
-      {
+  updateInfo = (e) => {
+    e.preventDefault();
+    let formData = new FormData();
+    formData.append("pic", this.state.LpicName);
+    formData.append("id", localStorage.getItem("user_id"));
+    formData.append("name", this.state.Lname);
+    formData.append("phone", this.state.Lphone);
+    formData.append("mobile", this.state.Lmobile);
+    formData.append("address", this.state.Laddress);
+    formData.append("designation", this.state.Ldesignation);
+    formData.append("twitter", this.state.Ltwitter);
+    formData.append("instagram", this.state.Linstagram);
+    formData.append("facebook", this.state.Lfacebook);
+
+    fetch("/updateUser", {
+      method: "post",
+      body: formData,
+    }).then((response) => {
+      console.log(this.state.LpicName);
+      this.setState({
         name: this.state.Lname,
         email: this.state.Lemail,
         phone: this.state.Lphone,
         mobile: this.state.Lmobile,
         address: this.state.Laddress,
         designation: this.state.Ldesignation,
-        picName: this.state.picName,
+        // picName: this.state.LpicName,
         twitter: this.state.Ltwitter,
         instagram: this.state.Linstagram,
         facebook: this.state.Lfacebook,
-      },
-      () => {
-        // call update API
-        console.log("Api Called");
-        this.setState({ showModal: !this.state.showModal });
-      }
-    );
+        showModal: false,
+      });
+    });
   };
 
   render() {
@@ -192,7 +246,8 @@ class Profile extends React.Component {
                 <div className="card-body">
                   <div className="d-flex flex-column align-items-center text-center">
                     <img
-                      src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                      src={picName}
+                      // src="https://bootdey.com/img/Content/avatar/avatar7.png"
                       alt="Admin"
                       className="rounded-circle"
                       width={150}
@@ -359,169 +414,172 @@ class Profile extends React.Component {
 
         {/* Modal */}
         <Modal className="prof" isOpen={showModal} toggle={this.toggle}>
-          <ModalHeader className="prof" toggle={this.Close}>
-            <h2>Edit Profile</h2>
-          </ModalHeader>
-          <ModalBody className="prof">
-            <div>
+          <form onSubmit={this.updateInfo}>
+            <ModalHeader className="prof" toggle={this.Close}>
+              <h2>Edit Profile</h2>
+            </ModalHeader>
+            <ModalBody className="prof">
               <div>
-                <h5>Full Name:</h5>
-                <input
-                  className="input"
-                  type="text"
-                  id="fname"
-                  name="fname"
-                  size="50"
-                  value={Lname}
-                  onChange={this.updateName}
-                />
-              </div>
-              <div
-                className="seg"
-                style={{ display: "flex", justifyContent: "space-between" }}
-              >
                 <div>
-                  <h5>Email:</h5>
+                  <h5>Full Name:</h5>
                   <input
                     className="input"
                     type="text"
-                    id="email"
-                    name="email"
-                    size="30"
-                    value={Lemail}
-                    onChange={this.updateEmail}
+                    id="fname"
+                    name="fname"
+                    size="50"
+                    value={Lname}
+                    onChange={this.updateName}
                   />
                 </div>
-                <div>
-                  <h5>Designation:</h5>
+                <div
+                  className="seg"
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <div>
+                    <h5>Email:</h5>
+                    <input
+                      className="input"
+                      type="text"
+                      id="email"
+                      name="email"
+                      size="30"
+                      value={email}
+                      // onChange={this.updateEmail}
+                    />
+                  </div>
+                  <div>
+                    <h5>Designation:</h5>
+                    <input
+                      className="input"
+                      type="text"
+                      id="desig"
+                      name="desig"
+                      size="30"
+                      value={Ldesignation}
+                      onChange={this.updateDesig}
+                    />
+                  </div>
+                </div>
+                <div
+                  className="seg"
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <div>
+                    <h5>Phone Number:</h5>
+                    <input
+                      className="input"
+                      type="text"
+                      id="pNo"
+                      name="pNo"
+                      size="30"
+                      value={Lphone}
+                      onChange={this.updatePhone}
+                    />
+                  </div>
+                  <div>
+                    <h5>Mobile Number:</h5>
+                    <input
+                      className="input"
+                      type="text"
+                      id="mNo"
+                      name="mNo"
+                      size="30"
+                      value={Lmobile}
+                      onChange={this.updateMobile}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="seg">
+                <h5>Profile Pic:</h5>
+                <input
+                  className="input"
+                  type="file"
+                  id="pPic"
+                  name="pPic"
+                  style={{ border: "none" }}
+                  // value={LpicName}
+                  onChange={this.updatePicPath}
+                />
+              </div>
+              <div className="seg">
+                <h5>Address:</h5>
+                <textarea
+                  style={{
+                    border: "1px solid gray",
+                    borderRadius: "15px",
+                    padding: "8px",
+                  }}
+                  type="text"
+                  id="add"
+                  name="add"
+                  rows="4"
+                  cols="60"
+                  value={Laddress}
+                  onChange={this.updateAdress}
+                />
+              </div>
+              <div class="seg">
+                <h5>Social Handles</h5>
+                <hr />
+                <div className="seg1" style={{ display: "flex" }}>
+                  <h5 style={{ marginRight: "55px" }}>Twitter:</h5>
                   <input
                     className="input"
                     type="text"
-                    id="desig"
-                    name="desig"
-                    size="30"
-                    value={Ldesignation}
-                    onChange={this.updateDesig}
+                    id="twit"
+                    name="twit"
+                    size="28"
+                    value={Ltwitter}
+                    onChange={this.updateTwitter}
                   />
                 </div>
-              </div>
-              <div
-                className="seg"
-                style={{ display: "flex", justifyContent: "space-between" }}
-              >
-                <div>
-                  <h5>Phone Number:</h5>
+                <div className="seg1" style={{ display: "flex" }}>
+                  <h5 style={{ marginRight: "29px" }}>Instagram:</h5>
                   <input
                     className="input"
                     type="text"
-                    id="pNo"
-                    name="pNo"
-                    size="30"
-                    value={Lphone}
-                    onChange={this.updatePhone}
+                    id="insta"
+                    name="insta"
+                    size="28"
+                    value={Linstagram}
+                    onChange={this.updateInsta}
                   />
                 </div>
-                <div>
-                  <h5>Mobile Number:</h5>
+                <div className="seg1" style={{ display: "flex" }}>
+                  <h5 style={{ marginRight: "30px" }}>Facebook:</h5>
                   <input
                     className="input"
                     type="text"
-                    id="mNo"
-                    name="mNo"
-                    size="30"
-                    value={Lmobile}
-                    onChange={this.updateMobile}
+                    id="fb"
+                    name="fb"
+                    size="28"
+                    value={Lfacebook}
+                    onChange={this.updateFb}
                   />
                 </div>
               </div>
-            </div>
-            <div className="seg">
-              <h5>Profile Pic:</h5>
-              <input
-                className="input"
-                type="file"
-                id="pPic"
-                name="pPic"
-                style={{ border: "none" }}
-                value={LpicName}
-                onChange={this.updatePicPath}
-              />
-            </div>
-            <div className="seg">
-              <h5>Address:</h5>
-              <textarea
-                style={{
-                  border: "1px solid gray",
-                  borderRadius: "15px",
-                  padding: "8px",
-                }}
-                type="text"
-                id="add"
-                name="add"
-                rows="4"
-                cols="60"
-                value={Laddress}
-                onChange={this.updateAdress}
-              />
-            </div>
-            <div class="seg">
-              <h5>Social Handles</h5>
-              <hr />
-              <div className="seg1" style={{ display: "flex" }}>
-                <h5 style={{ marginRight: "55px" }}>Twitter:</h5>
-                <input
-                  className="input"
-                  type="text"
-                  id="twit"
-                  name="twit"
-                  size="28"
-                  value={Ltwitter}
-                  onChange={this.updateTwitter}
-                />
-              </div>
-              <div className="seg1" style={{ display: "flex" }}>
-                <h5 style={{ marginRight: "29px" }}>Instagram:</h5>
-                <input
-                  className="input"
-                  type="text"
-                  id="insta"
-                  name="insta"
-                  size="28"
-                  value={Linstagram}
-                  onChange={this.updateInsta}
-                />
-              </div>
-              <div className="seg1" style={{ display: "flex" }}>
-                <h5 style={{ marginRight: "30px" }}>Facebook:</h5>
-                <input
-                  className="input"
-                  type="text"
-                  id="fb"
-                  name="fb"
-                  size="28"
-                  value={Lfacebook}
-                  onChange={this.updateFb}
-                />
-              </div>
-            </div>
-          </ModalBody>
+            </ModalBody>
 
-          <ModalFooter className="prof">
-            <Button
-              style={{ width: "15%" }}
-              color="danger"
-              onClick={this.Close}
-            >
-              Cancel
-            </Button>{" "}
-            <Button
-              style={{ width: "25%" }}
-              color="success"
-              onClick={this.updateInfo}
-            >
-              Update!
-            </Button>{" "}
-          </ModalFooter>
+            <ModalFooter className="prof">
+              <Button
+                style={{ width: "15%" }}
+                color="danger"
+                onClick={this.Close}
+              >
+                Cancel
+              </Button>{" "}
+              <Button
+                style={{ width: "25%" }}
+                color="success"
+                type="submit"
+                // onClick={this.updateInfo}
+              >
+                Update!
+              </Button>{" "}
+            </ModalFooter>
+          </form>
         </Modal>
       </div>
     );

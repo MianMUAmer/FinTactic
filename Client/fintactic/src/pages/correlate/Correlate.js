@@ -41,6 +41,8 @@ class Correlate extends React.Component {
         stockChartLowValues: [],
         stockChartOpenValues: [],
       },
+      dataCorr: {},
+      pC: null,
       refreshX: false,
       refreshY: false,
       refreshCorr: false,
@@ -192,6 +194,10 @@ class Correlate extends React.Component {
     let YapiStockLowValues = [];
     let YapiStockOpenValues = [];
 
+    let corrApiXValues = [];
+    let YCorrCloseValues = [];
+    let XCorrCloseValues = [];
+
     this.setState({
       refreshX: false,
       refreshY: false,
@@ -280,6 +286,47 @@ class Correlate extends React.Component {
           }),
           () => console.log(this.state.dataY)
         );
+      });
+
+    //fetch Correlation data
+    fetch("/correlation", {
+      method: "post",
+      body: JSON.stringify({
+        name1: stockSymbolX,
+        name2: stockSymbolY,
+        startDate: apiSDate,
+        endDate: apiEDate,
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(stockSymbolX, stockSymbolY, apiSDate, apiEDate);
+        console.log(data);
+        // for (var key in data) {
+        // console.log(data[key]["assetX"]);
+        // corrApiXValues.push(key);
+        //   XCorrCloseValues.push(key["assetX"]);
+        //   YCorrCloseValues.push(key["assetY"]);
+        // }
+
+        // this.setState(
+        //   (oldDataState) => ({
+        //     ...oldDataState,
+        //     dataCorr: {
+        //       xSymbol: "",
+        //       ySymbol: "",
+        //       xStockChartXValues: corrApiXValues,
+        //       xStockChartCloseValues: XCorrCloseValues,
+        //       yStockChartCloseValues: YCorrCloseValues,
+        //       pC: 0.21,
+        //     },
+        //     // refreshY: true,
+        //     refreshCorr: true,
+        //   }),
+        //   () => console.log(this.state.dataCorr)
+        // );
       });
   };
 
@@ -859,7 +906,7 @@ class Correlate extends React.Component {
           toggle={this.toggle}
           style={{
             backgroundColor: "#fff",
-            border: "1px solid red",
+            border: "1px solid #1b277c",
             maxWidth: "35em",
           }}
         >
