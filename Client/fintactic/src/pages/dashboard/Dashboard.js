@@ -1,8 +1,8 @@
 import "./Dashboard.module.scss";
 import React from "react";
-import first from "../../images/people/first.jpg";
-import second from "../../images/people/second.jpg";
-import third from "../../images/people/third.jpg";
+import first from "../../images/people/Home5.jpg";
+import second from "../../images/people/Home4.jpg";
+import third from "../../images/people/Home8.jpg";
 import {
   Button,
   ButtonGroup,
@@ -103,7 +103,7 @@ function Dashboard() {
        {/* sdsd */}
       <div className="row">
       <div className="column">
-      <div className="card" style={{width: 450,marginLeft:15, boxShadow: "2px 5px 20px black"}} >
+      <div className="card" style={{width: 450, marginLeft:15, boxShadow: "2px 5px 20px black"}} >
         <img src={third} alt="Avatar" width="450" height="250" />
         <div class="container">
           <p>Our most important mission is to educate people how to invest wisely. Superior videos in the</p>
