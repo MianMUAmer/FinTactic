@@ -261,34 +261,36 @@ class Education extends React.Component {
         </h1>
         <table>
           <tr style={{ display: "flex" }}>
-            <div style={{ color: "black", display: "flex" }}>
-              <th>Stock Market 101</th>
-              <span>
-                <img
-                  style={{ paddingTop: "23px" }}
-                  id="stockMarket"
-                  src={infoIcon}
-                  alt="info"
-                  width="17"
-                  height="28"
-                />
-              </span>
+            <div style={{ color: "black", display: "flex"}}>
+              <th style={{ width: "450", display: "flex" }}>Stock Market 101
+                <span>
+                  <img
+                    style={{paddingTop: "10px", paddingLeft: "5px"  }}
+                    id="stockMarket"
+                    src={infoIcon}
+                    alt="info"
+                    width="17"
+                    height="28"
+                  />
+                </span>
+              </th>
             </div>
-            <div style={{ color: "black", display: "flex" }}>
-              <th>Bollinger Bands</th>
-              <span>
-                <img
-                  style={{ paddingTop: "23px" }}
-                  id="bollingerBands"
-                  src={infoIcon}
-                  alt="info"
-                  width="17"
-                  height="28"
-                />
-              </span>
+            <div style={{ color: "black" , display: "flex"}}>
+              <th style={{ width: "450", display: "flex" }}>Bollinger Bands
+                <span>
+                  <img
+                    style={{ paddingTop: "10px", paddingLeft: "5px" }}
+                    id="bollingerBands"
+                    src={infoIcon}
+                    alt="info"
+                    width="17"
+                    height="28"
+                  />
+                </span>
+              </th>
             </div>
           </tr>
-          <tr>
+          <tr >
             <th>
               <p>
                 {/* <YouTubeVideo videoId='eKxxtYIU1iA'/> */}
@@ -308,32 +310,34 @@ class Education extends React.Component {
             </th>
           </tr>
           <tr></tr>
-          <tr>
+          <tr style={{ display: "flex" }}>
             <div style={{ color: "black", display: "flex" }}>
-              <th>Moving Average Convergence/Divergence (MACD)</th>
-              <span>
-                <img
-                  style={{ paddingTop: "23px" }}
-                  id="MACD"
-                  src={infoIcon}
-                  alt="info"
-                  width="17"
-                  height="28"
-                />
-              </span>
+              <th style={{ width: "450", display: "flex" }}>Moving Average Convergence/Divergence (MACD)
+                <span>
+                  <img
+                    style={{ paddingTop: "10px", paddingLeft: "5px" }}
+                    id="MACD"
+                    src={infoIcon}
+                    alt="info"
+                    width="17"
+                    height="28"
+                  />
+                </span>
+              </th>
             </div>
             <div style={{ color: "black", display: "flex" }}>
-              <th>Relative Strength Index (RSI)</th>
-              <span>
-                <img
-                  style={{ paddingTop: "23px" }}
-                  id="RSI"
-                  src={infoIcon}
-                  alt="info"
-                  width="17"
-                  height="28"
-                />
-              </span>
+              <th style={{ width: "450", display: "flex" }}>Relative Strength Index (RSI)
+                <span>
+                  <img
+                    style={{ paddingTop: "10px", paddingLeft:"5px" }}
+                    id="RSI"
+                    src={infoIcon}
+                    alt="info"
+                    width="17"
+                    height="28"
+                  />
+                </span>
+              </th>
             </div>
           </tr>
           <tr>
@@ -356,32 +360,34 @@ class Education extends React.Component {
               </p>
             </th>
           </tr>
-          <tr>
+          <tr style={{ display: "flex" }}>
             <div style={{ color: "black", display: "flex" }}>
-              <th>Gold </th>
-              <span>
-                <img
-                  style={{ paddingTop: "23px" }}
-                  id="Gold"
-                  src={infoIcon}
-                  alt="info"
-                  width="17"
-                  height="28"
-                />
-              </span>
+              <th style={{ width: "450", display: "flex" }}>Gold 
+                <span>
+                  <img
+                    style={{ paddingTop: "10px", paddingLeft: "5px" }}
+                    id="Gold"
+                    src={infoIcon}
+                    alt="info"
+                    width="17"
+                    height="28"
+                  />
+                </span>
+              </th>
             </div>
             <div style={{ color: "black", display: "flex" }}>
-              <th>Silver</th>
-              <span>
-                <img
-                  style={{ paddingTop: "23px" }}
-                  id="Silver"
-                  src={infoIcon}
-                  alt="info"
-                  width="17"
-                  height="28"
-                />
-              </span>
+              <th style={{ width: "450", display: "flex" }}>Silver
+                <span>
+                  <img
+                    style={{ paddingTop: "10px", paddingLeft: "5px" }}
+                    id="Silver"
+                    src={infoIcon}
+                    alt="info"
+                    width="17"
+                    height="28"
+                  />
+                </span>
+              </th>
             </div>
           </tr>
           <tr>
@@ -404,19 +410,20 @@ class Education extends React.Component {
               </p>
             </th>
           </tr>
-          <tr>
+          <tr style={{ display: "flex" }}>
             <div style={{ color: "black", display: "flex" }}>
-              <th>Bitcoin </th>
-              <span>
-                <img
-                  style={{ paddingTop: "23px" }}
-                  id="BitCoin"
-                  src={infoIcon}
-                  alt="info"
-                  width="17"
-                  height="28"
-                />
-              </span>
+              <th style={{ width: "250", display: "flex" }}>Bitcoin 
+                <span>
+                  <img
+                    style={{ paddingTop: "10px", paddingLeft: "5px" }}
+                    id="BitCoin"
+                    src={infoIcon}
+                    alt="info"
+                    width="17"
+                    height="28"
+                  />
+                </span>
+              </th>
             </div>
           </tr>
           <tr>
