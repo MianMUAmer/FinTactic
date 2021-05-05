@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, jsonify, send_file
 from flaskblog import app, db, bcrypt
-from flaskblog.models import User, Report, ReportData, Note, AAPL, AMZN, FB, GOOG, MSFT, BTC, ETH, GC, SI
+from flaskblog.models import User, Report, ReportData, Note, Bookmark, Video, AAPL, AMZN, FB, GOOG, MSFT, BTC, ETH, GC, SI
 from flask_login import login_user, current_user, logout_user, login_required
 from io import BytesIO
 import flask
@@ -337,3 +337,45 @@ def ml():
     for a in assets:
         result[a.getDate()] = a.get_close()
     return jsonify(result), 200
+
+@app.route("/addVideo", methods=['GET', 'POST'])
+def addVideo():
+    req = flask.request.get_json(force=True)
+    name = req.get('name', None)
+    url = req.get('url', None)
+    thumbnail = req.get('thumbnail', None)
+    video = Video(name=name, url=url, thumbnail=thumbnail)
+    db.session.add(video)
+    db.session.commit()
+    return {"success": 200}
+
+@app.route("/getVideos", methods=['GET', 'POST'])
+def getVideos():
+    rawVideos = Video.query.all()
+    videos = {}
+    for a in rawVideos:
+        videos[a.get_id()] = a.get_json()
+    return jsonify(videos), 200
+
+@app.route("/addBookmark", methods=['GET', 'POST'])
+def addBookmark():
+    req = flask.request.get_json(force=True)
+    user_id = req.get('user_id', None)
+    video_id = req.get('video_id', None)
+    bookmark = Bookmark(user_id=user_id, video_id=video_id)
+    db.session.add(bookmark)
+    db.session.commit()
+    return {"success": 200}
+
+@app.route("/getBookmarks", methods=['GET', 'POST'])
+def getBookmarks():
+    req = flask.request.get_json(force=True)
+    user_id = req.get('user_id', None)
+    bookmarks = {}
+    index = 0
+    rawBookmarks = Bookmark.query.filter_by(user_id=user_id).all()
+    for r in rawBookmarks:
+        bookmarks[index] = r.get_video_id()
+        index+=1
+    return jsonify(bookmarks), 200
+
