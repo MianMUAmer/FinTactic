@@ -45,10 +45,13 @@ class Correlate extends React.Component {
       pC: null,
       xSymbol: "AMZN",
       ySymbol: "AMZN",
+      m: null,
+      c: null,
       refreshX: false,
       refreshY: false,
       refreshCorr: false,
       lineYCordinates: [],
+      rel: "",
 
       assetXType: "Stocks",
       tickerX: "AMZN",
@@ -197,7 +200,7 @@ class Correlate extends React.Component {
               stockChartCloseValues: XapiStockCloseValues,
             },
             refreshX: true,
-            // refreshCorr: true,
+            refreshCorr: false,
           })
           // () => console.log(this.state.dataX)
         );
@@ -239,7 +242,7 @@ class Correlate extends React.Component {
               stockChartCloseValues: YapiStockCloseValues,
             },
             refreshY: true,
-            // refreshCorr: true,
+            refreshCorr: false,
           })
           // () => console.log(this.state.dataY)
         );
@@ -260,11 +263,41 @@ class Correlate extends React.Component {
         return response.json();
       })
       .then((data) => {
-        this.setState({
-          xSymbol: data.assetX,
-          ySymbol: data.assetY,
-          pC: data.pC,
-        });
+        console.log(data, "CorrDataaaa");
+        var mu = data.pC * data.ratio;
+        var b = data.meanY - data.meanX * this.state.m;
+        // Y = mX + c
+
+        this.setState(
+          {
+            xSymbol: data.assetX,
+            ySymbol: data.assetY,
+            pC: data.pC,
+            m: mu,
+            c: b,
+          },
+          () => {
+            if (this.state.pC === -1) {
+              this.setState({ rel: " a Very Strong Negative " });
+            } else if (this.state.pC > -1 && this.state.pC <= -0.5) {
+              this.setState({ rel: " a Strong Negative " });
+            } else if (this.state.pC > -0.5 && this.state.pC <= -0.3) {
+              this.setState({ rel: " a Moderate Negative " });
+            } else if (this.state.pC > -0.3 && this.state.pC <= -0.01) {
+              this.setState({ rel: " a Weak Negative " });
+            } else if (this.state.pC === 0) {
+              this.setState({ rel: " No " });
+            } else if (this.state.pC >= 0.01 && this.state.pC < 0.3) {
+              this.setState({ rel: " a Weak Postive " });
+            } else if (this.state.pC >= 0.3 && this.state.pC < 0.5) {
+              this.setState({ rel: " a Moderate Postive " });
+            } else if (this.state.pC >= 0.5 && this.state.pC < 1) {
+              this.setState({ rel: " a Strong Postive " });
+            } else if (this.state.pC === 1) {
+              this.setState({ rel: " a Very Strong Positive " });
+            }
+          }
+        );
       });
 
     var lineYCord = [];
@@ -286,7 +319,7 @@ class Correlate extends React.Component {
           corrApiXValues.push(key);
           XCorrCloseValues.push(data[key]["assetX"]);
           YCorrCloseValues.push(data[key]["assetY"]);
-          lineYCord.push(this.state.pC * data[key]["assetX"]);
+          lineYCord.push(this.state.m * data[key]["assetX"] + this.state.c);
         }
 
         this.setState(
@@ -378,6 +411,8 @@ class Correlate extends React.Component {
       refreshCorr,
       startRange,
       endRange,
+      pC,
+      rel,
     } = this.state;
     const {
       assetXTypeDropdownOpen,
@@ -859,6 +894,15 @@ class Correlate extends React.Component {
               height="28"
             />
           </span>
+          <p style={{ marginLeft: "10px", fontStyle: "italic" }}>
+            (Analysis): As <strong>r = {this.state.pC}</strong> it mean prices
+            of <strong>{this.state.xSymbol}</strong> and{" "}
+            <strong>{this.state.ySymbol}</strong> has a{" "}
+            <strong>
+              {rel}
+              relationship.
+            </strong>
+          </p>
         </div>
 
         <div

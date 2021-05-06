@@ -25,8 +25,7 @@ class CorrelationPlot extends React.Component {
       yStockChartCloseValues,
       lineYCord,
     } = this.state;
-    console.log(xStockChartCloseValues.map(Number), "x");
-    console.log(lineYCord, "y");
+    console.log(this.state, "stateeee");
     return (
       <div>
         <Plot
