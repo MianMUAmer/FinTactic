@@ -247,7 +247,7 @@ class Education extends React.Component {
     });
   }
 
-  bookmarkVideo = (e) => {
+  /* bookmarkVideo = (e) => {
     var videoValues = e.target.value.split(',');;
     console.log(videoValues);
     var user_id = localStorage.getItem("user_id");
@@ -257,7 +257,7 @@ class Education extends React.Component {
     var videoNAME = videoValues[1]
     localStorage.setItem("videoName", videoNAME);
     var videoTHMB = videoValues[2]
-    localStorage.setItem("VideoThmb", videoTHMB);
+    localStorage.setItem("VideoThmb", videoTHMB); */
     
     // fetch('/upNotes', {
     //   method: 'post',
@@ -266,7 +266,7 @@ class Education extends React.Component {
     // }).then(resp => resp.json())
     // .then(data => console.log(data))
     // .catch(err => console.error(err));
-  };
+  /* }; */
 
   render() {
     //     let url = window.location.href;
@@ -297,7 +297,7 @@ class Education extends React.Component {
                 <Button
                 style={{ marginLeft: "535px", width: "100px", backgroundColor: "gold", color: "black" }}
                 value="Jwzta8B1b9g,Stock Market 101,FINTACTIC/Client/fintactic/src/images/imgedu/STOCK MARKET 101.jpeg"
-                onClick={e => this.bookmarkVideo(e, "value")}
+                //onClick={e => this.bookmarkVideo(e, "value")}
                 >
                 Bookmark
               </Button>
@@ -315,7 +315,7 @@ class Education extends React.Component {
                 </span> */}
               <Button
                 style={{ marginLeft: "555px", width: "100px", backgroundColor: "gold", color: "black" }}
-                onClick={e => this.bookmarkVideo(e, "value")}
+                //onClick={e => this.bookmarkVideo(e, "value")}
                 value="ay0C36Yd20w,Bollinger Bands,FINTACTIC/Client/fintactic/src/images/imgedu/Bollinger Bands.jpeg"
                 >
                 Bookmark
@@ -355,7 +355,7 @@ class Education extends React.Component {
                 <Button
                 style={{ marginLeft: "165px", width: "100px", backgroundColor: "gold", color: "black" }}
                 value="-fdsp4l5e-E,Moving Average Convergence/Divergence (MACD),FINTACTIC/Client/fintactic/src/images/imgedu/MACD.jpeg"
-                onClick={e => this.bookmarkVideo(e, "value")}
+                //onClick={e => this.bookmarkVideo(e, "value")}
                 >
                 Bookmark
               </Button>
@@ -374,7 +374,7 @@ class Education extends React.Component {
                 <Button
                 style={{ marginLeft: "415px", width: "100px", backgroundColor: "gold", color: "black" }}
                 value="ut4coV2RuSI,Relative Strength Index (RSI),FINTACTIC/Client/fintactic/src/images/imgedu/RS.jpeg"
-                onClick={e => this.bookmarkVideo(e, "value")}
+                //onClick={e => this.bookmarkVideo(e, "value")}
                 >
                 Bookmark
               </Button>
@@ -415,7 +415,7 @@ class Education extends React.Component {
                 <Button
                 style={{ marginLeft: "685px", width: "100px", backgroundColor: "gold", color: "black" }}
                 value="-xHvJLvATmw,Gold,FINTACTIC/Client/fintactic/src/images/imgedu/Gold.jpeg"
-                onClick={e => this.bookmarkVideo(e, "value")}
+                //onClick={e => this.bookmarkVideo(e, "value")}
                 >
                 Bookmark
               </Button>
@@ -434,7 +434,7 @@ class Education extends React.Component {
                 <Button
                 style={{ marginLeft: "675px", width: "100px", backgroundColor: "gold", color: "black" }}
                 value="p61InB_dn8I,Silver,FINTACTIC/Client/fintactic/src/images/imgedu/SILVER.jpeg"
-                onClick={e => this.bookmarkVideo(e, "value")}
+                //onClick={e => this.bookmarkVideo(e, "value")}
                 >
                 Bookmark
               </Button>
@@ -475,7 +475,7 @@ class Education extends React.Component {
                 <Button
                 style={{ marginLeft: "655px", width: "100px", backgroundColor: "gold", color: "black" }}
                 value="XvB2RibLNWY,Bitcoin,FINTACTIC/Client/fintactic/src/images/imgedu/Bitcoin.jpeg"
-                onClick={e => this.bookmarkVideo(e, "value")}
+                //onClick={e => this.bookmarkVideo(e, "value")}
                 >
                 Bookmark
               </Button>
