@@ -295,14 +295,7 @@ class Education extends React.Component {
                     height="28"
                   />
                 </span> */}
-                <Button
-                style={{ marginLeft: "535px", width: "100px", backgroundColor: "gold", color: "black" }}
-                value="Jwzta8B1b9g,Stock Market 101,FINTACTIC/Client/fintactic/src/images/imgedu/STOCK MARKET 101.jpeg"
-                onClick={e => this.bookmarkVideo(e, "value")}
-
-                >
-                Bookmark
-              </Button>
+                
               </th>
               <th >Bollinger Bands
                 {/* <span>
@@ -315,29 +308,37 @@ class Education extends React.Component {
                     height="28"
                   />
                 </span> */}
-              <Button
-                style={{ marginLeft: "555px", width: "100px", backgroundColor: "gold", color: "black" }}
-                onClick={e => this.bookmarkVideo(e, "value")}
-                value="ay0C36Yd20w,Bollinger Bands,FINTACTIC/Client/fintactic/src/images/imgedu/Bollinger Bands.jpeg"
-                >
-                Bookmark
-              </Button></th>
+             </th>
           </tr>
           <tr >
             <th>
               <p>
                 {/* <YouTubeVideo videoId='eKxxtYIU1iA'/> */}
                 <a href="#/app/video/Jwzta8B1b9g" target="blank">
-                  <img src={StockMarket} />
+                  <img src={StockMarket} style={{ height: "300px"}} />
                 </a>
+                <Button
+                style={{ marginLeft: "220px", width: "100px", backgroundColor: "gold", color: "black" }}
+                value="Jwzta8B1b9g,Stock Market 101,FINTACTIC/Client/fintactic/src/images/imgedu/STOCK MARKET 101.jpeg"
+                onClick={e => this.bookmarkVideo(e, "value")}
+                >
+                Bookmark
+              </Button>
               </p>
             </th>
             <th>
               <p>
                 {/* <YouTubeVideo videoId='werjfC_vFf4'/> */}
                 <a href="#/app/video/ay0C36Yd20w" target="blank">
-                  <img src={BollingerBands} />
+                  <img src={BollingerBands} style={{ height: "300px"}} />
                 </a>
+                <Button
+                style={{ marginLeft: "220px", width: "100px", backgroundColor: "gold", color: "black" }}
+                onClick={e => this.bookmarkVideo(e, "value")}
+                value="ay0C36Yd20w,Bollinger Bands,FINTACTIC/Client/fintactic/src/images/imgedu/Bollinger Bands.jpeg"
+                >
+                Bookmark
+              </Button>
               </p>
             </th>
           </tr>
@@ -354,14 +355,7 @@ class Education extends React.Component {
                     height="28"
                   />
                 </span> */}
-                <Button
-                style={{ marginLeft: "165px", width: "100px", backgroundColor: "gold", color: "black" }}
-                value="-fdsp4l5e-E,Moving Average Convergence/Divergence (MACD),FINTACTIC/Client/fintactic/src/images/imgedu/MACD.jpeg"
-                onClick={e => this.bookmarkVideo(e, "value")}
-
-                >
-                Bookmark
-              </Button>
+                
               </th>
               <th >Relative Strength Index (RSI)
                 {/* <span>
@@ -374,14 +368,7 @@ class Education extends React.Component {
                     height="28"
                   />
                 </span> */}
-                <Button
-                style={{ marginLeft: "415px", width: "100px", backgroundColor: "gold", color: "black" }}
-                value="ut4coV2RuSI,Relative Strength Index (RSI),FINTACTIC/Client/fintactic/src/images/imgedu/RS.jpeg"
-                onClick={e => this.bookmarkVideo(e, "value")}
-
-                >
-                Bookmark
-              </Button>
+                
               </th>
           </tr>
           <tr>
@@ -390,8 +377,16 @@ class Education extends React.Component {
                 {/* <YouTubeVideo videoId='GfbdP6-RKuI'/> */}
                 <a href="#/app/video/-fdsp4l5e-E" target="blank">
                   {" "}
-                  <img src={MACD} />
+                  <img src={MACD} style={{ height: "300px"}} />
                 </a>
+                <Button
+                style={{ marginLeft: "220px", width: "100px", backgroundColor: "gold", color: "black" }}
+                value="-fdsp4l5e-E,Moving Average Convergence/Divergence (MACD),FINTACTIC/Client/fintactic/src/images/imgedu/MACD.jpeg"
+                onClick={e => this.bookmarkVideo(e, "value")}
+
+                >
+                Bookmark
+              </Button>
               </p>
             </th>
             <th>
@@ -399,8 +394,16 @@ class Education extends React.Component {
                 {/* <YouTubeVideo videoId='ut4coV2RuSI'/> */}
                 <a href="#/app/video/ut4coV2RuSI" target="blank">
                   {" "}
-                  <img src={RSI} />
+                  <img src={RSI} style={{ height: "300px"}}/>
                 </a>
+                <Button
+                style={{ marginLeft: "220px", width: "100px", backgroundColor: "gold", color: "black" }}
+                value="ut4coV2RuSI,Relative Strength Index (RSI),FINTACTIC/Client/fintactic/src/images/imgedu/RS.jpeg"
+                onClick={e => this.bookmarkVideo(e, "value")}
+
+                >
+                Bookmark
+              </Button>
               </p>
             </th>
           </tr>
@@ -416,14 +419,7 @@ class Education extends React.Component {
                     height="28"
                   />
                 </span> */}
-                <Button
-                style={{ marginLeft: "685px", width: "100px", backgroundColor: "gold", color: "black" }}
-                value="-xHvJLvATmw,Gold,FINTACTIC/Client/fintactic/src/images/imgedu/Gold.jpeg"
-                onClick={e => this.bookmarkVideo(e, "value")}
-
-                >
-                Bookmark
-              </Button>
+                
               </th>
               <th >Silver
                 {/* <span>
@@ -436,14 +432,7 @@ class Education extends React.Component {
                     height="28"
                   />
                 </span> */}
-                <Button
-                style={{ marginLeft: "675px", width: "100px", backgroundColor: "gold", color: "black" }}
-                value="p61InB_dn8I,Silver,FINTACTIC/Client/fintactic/src/images/imgedu/SILVER.jpeg"
-                onClick={e => this.bookmarkVideo(e, "value")}
-
-                >
-                Bookmark
-              </Button>
+                
               </th>
           </tr>
           <tr>
@@ -452,8 +441,16 @@ class Education extends React.Component {
                 {/* <YouTubeVideo videoId='vkLNygRMqR4'/> */}
                 <a href="#/app/video/-xHvJLvATmw" target="blank">
                   {" "}
-                  <img src={Gold} />
+                  <img src={Gold} style={{ height: "300px"}} />
                 </a>
+                <Button
+                style={{ marginLeft: "220px", width: "100px", backgroundColor: "gold", color: "black" }}
+                value="-xHvJLvATmw,Gold,FINTACTIC/Client/fintactic/src/images/imgedu/Gold.jpeg"
+                onClick={e => this.bookmarkVideo(e, "value")}
+
+                >
+                Bookmark
+              </Button>
               </p>
             </th>
             <th>
@@ -461,8 +458,16 @@ class Education extends React.Component {
                 {/* <YouTubeVideo videoId='kyMrn1Nctzc'/> */}
                 <a href="#/app/video/p61InB_dn8I" target="blank">
                   {" "}
-                  <img src={SILVER} />
+                  <img src={SILVER} style={{ height: "300px"}} />
                 </a>
+                <Button
+                style={{ marginLeft: "220px", width: "100px", backgroundColor: "gold", color: "black" }}
+                value="p61InB_dn8I,Silver,FINTACTIC/Client/fintactic/src/images/imgedu/SILVER.jpeg"
+                onClick={e => this.bookmarkVideo(e, "value")}
+
+                >
+                Bookmark
+              </Button>
               </p>
             </th>
           </tr>
@@ -478,14 +483,7 @@ class Education extends React.Component {
                     height="28"
                   />
                 </span> */}
-                <Button
-                style={{ marginLeft: "655px", width: "100px", backgroundColor: "gold", color: "black" }}
-                value="XvB2RibLNWY,Bitcoin,FINTACTIC/Client/fintactic/src/images/imgedu/Bitcoin.jpeg"
-                onClick={e => this.bookmarkVideo(e, "value")}
-
-                >
-                Bookmark
-              </Button>
+                
               </th>
           </tr>
           <tr>
@@ -494,8 +492,16 @@ class Education extends React.Component {
                 {/* <YouTubeVideo videoId='6PaiGP_VyU0'/> */}
                 <a href="#/app/video/XvB2RibLNWY" target="blank">
                   {" "}
-                  <img src={Bitcoin} />
+                  <img src={Bitcoin} style={{ height: "300px"}} />
                 </a>
+                <Button
+                style={{ marginLeft: "220px", width: "100px", backgroundColor: "gold", color: "black" }}
+                value="XvB2RibLNWY,Bitcoin,FINTACTIC/Client/fintactic/src/images/imgedu/Bitcoin.jpeg"
+                onClick={e => this.bookmarkVideo(e, "value")}
+
+                >
+                Bookmark
+              </Button>
               </p>
             </th>
           </tr>
