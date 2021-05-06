@@ -79,12 +79,11 @@ class Bookmarks extends React.Component {
     });
   }
   componentDidMount() {
-    console.log(moment())
     var user_id = localStorage.getItem("user_id");
     fetch('/getBookmarks', {
       method: 'post',
       headers: {'Content-Type':'application/json', 'Accept': 'application/json'},
-      body: JSON.stringify({id: user_id}),
+      body: JSON.stringify({user_id: user_id}),
     }).then(res => res.json()).catch(error => {
       console.error('Error:', error);
   })
@@ -96,22 +95,25 @@ class Bookmarks extends React.Component {
   }
 
    bookmarkVideo = (e) => {
-    var videoValues = e.target.value.split(',');;
+    var videoValues = e.target.value.split(',');
     console.log(videoValues);
     var user_id = localStorage.getItem("user_id");
-    
+    console.log(user_id)
     var videoURL = videoValues[0]
+    console.log(videoURL)
     localStorage.setItem("videoUrl", videoURL);
     var videoNAME = videoValues[1]
+    console.log(videoNAME)
     localStorage.setItem("videoName", videoNAME);
     var videoTHMB = videoValues[2]
+    console.log(videoTHMB)
     localStorage.setItem("VideoThmb", videoTHMB); 
 
 
     fetch('/toggleBookmark', {
       method: 'post',
-      body: JSON.stringify({id: user_id, videoUrl: videoURL}),
-      headers: {'Content-Type':  'application/json'},
+      body: JSON.stringify({user_id: user_id, video_url: videoURL}),
+      headers: {'Content-Type':  'application/json', 'Accept': 'application/json'},
     }).then(resp => resp.json())
     .then(data => console.log(data))
     .catch(err => console.error(err));
