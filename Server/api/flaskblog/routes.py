@@ -297,6 +297,10 @@ def corr():
         result["pC"] = pC[0,1]
         result["assetX"] = name1
         result["assetY"] = name2
+        result["meanX"] = np.mean(close1)
+        result["meanY"] = np.mean(close2)
+        result["ratio"] = np.std(close2) / np.std(close1)
+
         return jsonify(result), 200
     elif struct=="data":
         for day,c1, c2 in zip(dates, close1, close2):
