@@ -12,6 +12,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     reports = db.relationship('Report', backref='author', lazy=True)
     notes = db.relationship('Note', backref='author', lazy=True)
+    bookmarks = db.relationship('Bookmark', backref='author', lazy=True)
 
     name = db.Column(db.String(30))
     phone = db.Column(db.String(20))
@@ -70,6 +71,24 @@ class Note(db.Model):
         "indicator": self.indicator,"startDate": self.startDate,"endDate": self.endDate}
     def get_id(self):
         return self.id
+
+class Video(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(300))
+    url = db.Column(db.String(300))
+    thumbnail = db.Column(db.String(300))
+    def get_json(self):
+        return {"id": self.id, "name": self.name, "url": self.url, "thumbnail": self.thumbnail}
+    def get_id(self):
+        return self.id
+
+class Bookmark(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    video_id = db.Column(db.Integer, db.ForeignKey('video.id'), nullable=False)
+
+    def get_video_id(self):
+        return {"video_id": self.video_id}
 
 class AAPL(db.Model):
     date = db.Column(db.String(20), primary_key=True)
@@ -231,14 +250,13 @@ class SI(db.Model):
     close = db.Column(db.String(20), nullable=False)
     adjclose = db.Column(db.String(20), nullable=False)
     volume = db.Column(db.String(20), nullable=False)
+    
     def __repr__(self):
         return f'"{self.date}": {{"1. open": "{self.open}", "2. high": "{self.high}", "3. low": "{self.low}", "4. close": "{self.close}", "5. adjusted close": "{self.adjclose}", "6. volume": "{self.volume}", "7. dividend amout": "0.0000", "8. split coefficient": "1.0"}}'
-
     def getDate(self):
         return self.date
     def get_close(self):
         return self.close
-
     def to_json(self):
         return {"1. open": self.open, "2. high":self.high, "3. low":self.low, "4. close":self.close, "5. adjclose":self.adjclose, "6. volume":self.volume, "7. dividend amout": "0.0000", "8. split coefficient": "1.0" }
 

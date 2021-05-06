@@ -43,6 +43,8 @@ class Correlate extends React.Component {
       },
       dataCorr: {},
       pC: null,
+      xSymbol: "AMZN",
+      ySymbol: "AMZN",
       refreshX: false,
       refreshY: false,
       refreshCorr: false,
@@ -112,7 +114,7 @@ class Correlate extends React.Component {
       .then((data) => {
         const allData = data.query.pages;
         for (var n in allData) {
-          console.log(allData[n].extract);
+          // console.log(allData[n].extract);
           const paragraphs = allData[n].extract.split("</p>");
           const firstParagraph = paragraphs[1] + "</p>";
           this.setState({
@@ -131,52 +133,6 @@ class Correlate extends React.Component {
     this.fetchRangeStock();
     this.getWiki();
   }
-
-  // fetchStock = () => {
-  //   let stockSymbol = this.state.ticker;
-  //   let apiStockXValues = [];
-  //   let apiStockCloseValues = [];
-  //   let apiStockHighValues = [];
-  //   let apiStockLowValues = [];
-  //   let apiStockOpenValues = [];
-
-  //   this.setState({
-  //     refresh: false,
-  //   });
-
-  //   fetch("/assets", {
-  //     method: "post",
-  //     body: JSON.stringify({ name: stockSymbol }),
-  //   })
-  //     .then((response) => {
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       for (var key in data["Time Series (Daily)"]) {
-  //         apiStockXValues.push(key);
-  //         apiStockOpenValues.push(data["Time Series (Daily)"][key]["1. open"]);
-  //         apiStockHighValues.push(data["Time Series (Daily)"][key]["2. high"]);
-  //         apiStockLowValues.push(data["Time Series (Daily)"][key]["3. low"]);
-  //         apiStockCloseValues.push(
-  //           data["Time Series (Daily)"][key]["4. close"]
-  //         );
-  //       }
-
-  //       this.setState((oldDataState) => ({
-  //         ...oldDataState,
-  //         data: {
-  //           name: data["Meta Data"]["3. Name"],
-  //           symbol: data["Meta Data"]["2. Symbol"],
-  //           stockChartXValues: apiStockXValues,
-  //           stockChartOpenValues: apiStockOpenValues,
-  //           stockChartHighValues: apiStockHighValues,
-  //           stockChartLowValues: apiStockLowValues,
-  //           stockChartCloseValues: apiStockCloseValues,
-  //         },
-  //         refresh: true,
-  //       }));
-  //     });
-  // };
 
   fetchRangeStock = (apiSDate, apiEDate) => {
     let stockSymbolX = this.state.tickerX;
@@ -240,9 +196,9 @@ class Correlate extends React.Component {
               stockChartCloseValues: XapiStockCloseValues,
             },
             refreshX: true,
-            refreshCorr: true,
-          }),
-          () => console.log(this.state.dataX)
+            // refreshCorr: true,
+          })
+          // () => console.log(this.state.dataX)
         );
       });
 
@@ -282,9 +238,9 @@ class Correlate extends React.Component {
               stockChartCloseValues: YapiStockCloseValues,
             },
             refreshY: true,
-            refreshCorr: true,
-          }),
-          () => console.log(this.state.dataY)
+            // refreshCorr: true,
+          })
+          // () => console.log(this.state.dataY)
         );
       });
 
@@ -296,37 +252,53 @@ class Correlate extends React.Component {
         name2: stockSymbolY,
         startDate: apiSDate,
         endDate: apiEDate,
+        struct: "meta",
       }),
     })
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        console.log(stockSymbolX, stockSymbolY, apiSDate, apiEDate);
-        console.log(data);
-        // for (var key in data) {
-        // console.log(data[key]["assetX"]);
-        // corrApiXValues.push(key);
-        //   XCorrCloseValues.push(key["assetX"]);
-        //   YCorrCloseValues.push(key["assetY"]);
-        // }
+        this.setState({
+          xSymbol: data.assetX,
+          ySymbol: data.assetY,
+          pC: data.pC,
+        });
+      });
 
-        // this.setState(
-        //   (oldDataState) => ({
-        //     ...oldDataState,
-        //     dataCorr: {
-        //       xSymbol: "",
-        //       ySymbol: "",
-        //       xStockChartXValues: corrApiXValues,
-        //       xStockChartCloseValues: XCorrCloseValues,
-        //       yStockChartCloseValues: YCorrCloseValues,
-        //       pC: 0.21,
-        //     },
-        //     // refreshY: true,
-        //     refreshCorr: true,
-        //   }),
-        //   () => console.log(this.state.dataCorr)
-        // );
+    fetch("/correlation", {
+      method: "post",
+      body: JSON.stringify({
+        name1: stockSymbolX,
+        name2: stockSymbolY,
+        startDate: apiSDate,
+        endDate: apiEDate,
+        struct: "data",
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        for (var key in data) {
+          corrApiXValues.push(key);
+          XCorrCloseValues.push(data[key]["assetX"]);
+          YCorrCloseValues.push(data[key]["assetY"]);
+        }
+        console.log(this.state.XCorrCloseValues);
+        this.setState(
+          (oldDataState) => ({
+            ...oldDataState,
+            dataCorr: {
+              xStockChartXValues: corrApiXValues,
+              xStockChartCloseValues: XCorrCloseValues,
+              yStockChartCloseValues: YCorrCloseValues,
+            },
+            // refreshY: true,
+            refreshCorr: true,
+          }),
+          () => console.log(this.state.dataCorr)
+        );
       });
   };
 
@@ -895,7 +867,14 @@ class Correlate extends React.Component {
         >
           {dataY.stockChartXValues.length !== 0 &&
             dataX.stockChartXValues.length !== 0 &&
-            refreshCorr && <CorrelationPlot dataX={dataX} dataY={dataY} />}
+            refreshCorr && (
+              <CorrelationPlot
+                data={this.state.dataCorr}
+                pC={this.state.pC}
+                assetX={this.state.xSymbol}
+                assetY={this.state.ySymbol}
+              />
+            )}
         </div>
 
         <Tooltip

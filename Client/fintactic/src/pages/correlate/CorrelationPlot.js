@@ -4,16 +4,16 @@ import Plot from "react-plotly.js";
 class CorrelationPlot extends React.Component {
   constructor(props) {
     super(props);
+    console.log(this.props, "serer");
     this.state = {
-      xSymbol: this.props.dataX.symbol,
-      xStockChartXValues: this.props.dataX.stockChartXValues,
-      xStockChartCloseValues: this.props.dataX.stockChartCloseValues,
+      xSymbol: this.props.assetX ? this.props.assetX : "AMZN",
+      ySymbol: this.props.assetY ? this.props.assetY : "AMZN",
+      pC: this.props.pC ? this.props.pC : 1,
 
-      ySymbol: this.props.dataY.symbol,
-      yStockChartXValues: this.props.dataY.stockChartXValues,
-      yStockChartCloseValues: this.props.dataY.stockChartCloseValues,
+      xStockChartXValues: this.props.data.xStockChartXValues,
+      xStockChartCloseValues: this.props.data.xStockChartCloseValues,
+      yStockChartCloseValues: this.props.data.yStockChartCloseValues,
     };
-    console.log(this.props.dataY);
   }
 
   render() {
@@ -22,7 +22,6 @@ class CorrelationPlot extends React.Component {
       xStockChartXValues,
       xSymbol,
       ySymbol,
-      yStockChartXValues,
       yStockChartCloseValues,
     } = this.state;
     return (
@@ -41,18 +40,6 @@ class CorrelationPlot extends React.Component {
               },
               marker: { size: 8, color: "#f7653e" },
             },
-            // {
-            //   x: yStockChartXValues,
-            //   y: yStockChartCloseValues,
-            //   mode: "markers",
-            //   type: "scatter",
-            //   name: { ySymbol },
-            //   text: yStockChartXValues,
-            //   textfont: {
-            //     family: "Times New Roman",
-            //   },
-            //   marker: { size: 8 },
-            // },
           ]}
           layout={this.layout}
           config={{ displayModeBar: false }}
@@ -65,7 +52,7 @@ class CorrelationPlot extends React.Component {
     width: 1100,
     height: 410,
     title: {
-      text: `${this.props.dataX.name} & ${this.props.dataY.name} Correlation Plot`,
+      text: `${this.props.assetX} & ${this.props.assetY} Correlation Plot`,
       font: {
         color: "#e3e3e3",
       },
