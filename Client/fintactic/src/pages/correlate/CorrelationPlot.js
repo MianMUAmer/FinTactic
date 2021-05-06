@@ -9,7 +9,7 @@ class CorrelationPlot extends React.Component {
       xSymbol: this.props.assetX ? this.props.assetX : "AMZN",
       ySymbol: this.props.assetY ? this.props.assetY : "AMZN",
       pC: this.props.pC ? this.props.pC : 1,
-
+      lineYCord: this.props.lineYCord,
       xStockChartXValues: this.props.data.xStockChartXValues,
       xStockChartCloseValues: this.props.data.xStockChartCloseValues,
       yStockChartCloseValues: this.props.data.yStockChartCloseValues,
@@ -23,14 +23,17 @@ class CorrelationPlot extends React.Component {
       xSymbol,
       ySymbol,
       yStockChartCloseValues,
+      lineYCord,
     } = this.state;
+    console.log(xStockChartCloseValues.map(Number), "x");
+    console.log(lineYCord, "y");
     return (
       <div>
         <Plot
           data={[
             {
-              x: xStockChartCloseValues,
-              y: yStockChartCloseValues,
+              x: xStockChartCloseValues.map(Number),
+              y: yStockChartCloseValues.map(Number),
               mode: "markers",
               type: "scatter",
               name: { xSymbol },
@@ -39,6 +42,14 @@ class CorrelationPlot extends React.Component {
                 family: "Raleway, sans-serif",
               },
               marker: { size: 8, color: "#f7653e" },
+            },
+            {
+              type: "scatter",
+              mode: "lines",
+              name: `pC Corr`,
+              x: xStockChartCloseValues.map(Number),
+              y: lineYCord,
+              line: { color: "#26bf4e" },
             },
           ]}
           layout={this.layout}

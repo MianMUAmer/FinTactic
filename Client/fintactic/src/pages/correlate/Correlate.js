@@ -48,6 +48,7 @@ class Correlate extends React.Component {
       refreshX: false,
       refreshY: false,
       refreshCorr: false,
+      lineYCordinates: [],
 
       assetXType: "Stocks",
       tickerX: "AMZN",
@@ -266,6 +267,7 @@ class Correlate extends React.Component {
         });
       });
 
+    var lineYCord = [];
     fetch("/correlation", {
       method: "post",
       body: JSON.stringify({
@@ -284,8 +286,9 @@ class Correlate extends React.Component {
           corrApiXValues.push(key);
           XCorrCloseValues.push(data[key]["assetX"]);
           YCorrCloseValues.push(data[key]["assetY"]);
+          lineYCord.push(this.state.pC * data[key]["assetX"]);
         }
-        console.log(this.state.XCorrCloseValues);
+
         this.setState(
           (oldDataState) => ({
             ...oldDataState,
@@ -294,10 +297,10 @@ class Correlate extends React.Component {
               xStockChartCloseValues: XCorrCloseValues,
               yStockChartCloseValues: YCorrCloseValues,
             },
-            // refreshY: true,
+            lineYCordinates: lineYCord,
             refreshCorr: true,
           }),
-          () => console.log(this.state.dataCorr)
+          () => console.log(this.state.dataCorr, "crr")
         );
       });
   };
@@ -873,6 +876,7 @@ class Correlate extends React.Component {
                 pC={this.state.pC}
                 assetX={this.state.xSymbol}
                 assetY={this.state.ySymbol}
+                lineYCord={this.state.lineYCordinates}
               />
             )}
         </div>
