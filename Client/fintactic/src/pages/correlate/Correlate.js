@@ -278,23 +278,23 @@ class Correlate extends React.Component {
           },
           () => {
             if (this.state.pC === -1) {
-              this.setState({ rel: " a Very Strong Negative " });
+              this.setState({ rel: " a Very Strong Negative relationship." });
             } else if (this.state.pC > -1 && this.state.pC <= -0.5) {
-              this.setState({ rel: " a Strong Negative " });
+              this.setState({ rel: " a Strong Negative relationship." });
             } else if (this.state.pC > -0.5 && this.state.pC <= -0.3) {
-              this.setState({ rel: " a Moderate Negative " });
+              this.setState({ rel: " a Moderate Negative relationship." });
             } else if (this.state.pC > -0.3 && this.state.pC <= -0.01) {
-              this.setState({ rel: " a Weak Negative " });
+              this.setState({ rel: " a Weak Negative relationship." });
             } else if (this.state.pC === 0) {
               this.setState({ rel: " No " });
             } else if (this.state.pC >= 0.01 && this.state.pC < 0.3) {
-              this.setState({ rel: " a Weak Postive " });
+              this.setState({ rel: " a Weak Postive relationship." });
             } else if (this.state.pC >= 0.3 && this.state.pC < 0.5) {
-              this.setState({ rel: " a Moderate Postive " });
+              this.setState({ rel: " a Moderate Postive relationship." });
             } else if (this.state.pC >= 0.5 && this.state.pC < 1) {
-              this.setState({ rel: " a Strong Postive " });
+              this.setState({ rel: " a Strong Postive relationship." });
             } else if (this.state.pC === 1) {
-              this.setState({ rel: " a Very Strong Positive " });
+              this.setState({ rel: " a Very Strong Positive relationship." });
             }
           }
         );
@@ -897,11 +897,7 @@ class Correlate extends React.Component {
           <p style={{ marginLeft: "10px", fontStyle: "italic" }}>
             (Analysis): As <strong>r = {this.state.pC}</strong> it mean prices
             of <strong>{this.state.xSymbol}</strong> and{" "}
-            <strong>{this.state.ySymbol}</strong> has a{" "}
-            <strong>
-              {rel}
-              relationship.
-            </strong>
+            <strong>{this.state.ySymbol}</strong> has a <strong>{rel}</strong>
           </p>
         </div>
 
