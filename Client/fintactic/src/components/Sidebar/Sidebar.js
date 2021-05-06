@@ -49,7 +49,7 @@ class Sidebar extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.sidebarOpened !== this.props.sidebarOpened) {
       if (nextProps.sidebarOpened) {
-        //this.element.style.height = `${this.element.scrollHeight}px`;
+        this.element.style.height = `${this.element.scrollHeight}px`;
       } else {
         this.element.classList.remove(s.sidebarOpen);
         setTimeout(() => {
@@ -69,7 +69,6 @@ class Sidebar extends React.Component {
 
   render() {
     return (
-      
       <nav
         className={cx(s.root)}
         ref={(nav) => {
