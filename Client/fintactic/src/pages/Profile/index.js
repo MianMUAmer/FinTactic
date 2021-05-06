@@ -134,6 +134,7 @@ class Profile extends React.Component {
     e.preventDefault();
     this.setState({
       LpicName: e.target.files[0],
+      // picName: URL.createObjectURL(e.target.files[0])
     });
   };
 
@@ -201,7 +202,7 @@ class Profile extends React.Component {
         mobile: this.state.Lmobile,
         address: this.state.Laddress,
         designation: this.state.Ldesignation,
-        // picName: this.state.LpicName,
+        picName: URL.createObjectURL(this.state.LpicName),
         twitter: this.state.Ltwitter,
         instagram: this.state.Linstagram,
         facebook: this.state.Lfacebook,
