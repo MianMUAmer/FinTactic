@@ -45,7 +45,7 @@ class Education extends React.Component {
 
     this.checkAll = this.checkAll.bind(this);
   }
-
+  
   // getWiki = () => {
   //   const SMAPI =
   //     "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=Stock market";
@@ -247,40 +247,31 @@ class Education extends React.Component {
     });
   }
 
-
-  /* bookmarkVideo = (e) => {
-
+    bookmarkVideo = (e) => {
+      
     var videoValues = e.target.value.split(',');;
     console.log(videoValues);
     var user_id = localStorage.getItem("user_id");
-
     var videoURL = videoValues[0]
     localStorage.setItem("videoUrl", videoURL);
     var videoNAME = videoValues[1]
     localStorage.setItem("videoName", videoNAME);
     var videoTHMB = videoValues[2]
-
-    localStorage.setItem("VideoThmb", videoTHMB); */
-
+    localStorage.setItem("VideoThmb", videoTHMB); 
     
-    // fetch('/upNotes', {
-    //   method: 'post',
-    //   body: JSON.stringify({id: user_id, videoUrl: videoURL, videoName: videoNAME, VideoThmb: videoTHMB}),
-    //   headers: {'Content-Type':  'application/json'},
-    // }).then(resp => resp.json())
-    // .then(data => console.log(data))
-    // .catch(err => console.error(err));
+    fetch('/bookmarks', {
+      method: 'post',
+      body: JSON.stringify({id: user_id, videoUrl: videoURL}),
+      headers: {'Content-Type':  'application/json'},
+    }).then(resp => resp.json())
+    .then(data => console.log(data))
+    .catch(err => console.error(err));
 
-  /* }; */
+   }; 
 
 
   render() {
-    //     let url = window.location.href;
-    //     let param = window.location.pathname;
-    //     // react
-    //     let param1 = this.props.location.pathname;
-    // alert(param1);
-    // alert("param1");
+   
 
     return (
       <div className={s.root}>
@@ -303,8 +294,7 @@ class Education extends React.Component {
                 <Button
                 style={{ marginLeft: "535px", width: "100px", backgroundColor: "gold", color: "black" }}
                 value="Jwzta8B1b9g,Stock Market 101,FINTACTIC/Client/fintactic/src/images/imgedu/STOCK MARKET 101.jpeg"
-
-                //onClick={e => this.bookmarkVideo(e, "value")}
+                onClick={e => this.bookmarkVideo(e, "value")}
 
                 >
                 Bookmark
@@ -323,9 +313,7 @@ class Education extends React.Component {
                 </span> */}
               <Button
                 style={{ marginLeft: "555px", width: "100px", backgroundColor: "gold", color: "black" }}
-
-                //onClick={e => this.bookmarkVideo(e, "value")}
-
+                onClick={e => this.bookmarkVideo(e, "value")}
                 value="ay0C36Yd20w,Bollinger Bands,FINTACTIC/Client/fintactic/src/images/imgedu/Bollinger Bands.jpeg"
                 >
                 Bookmark
@@ -365,8 +353,7 @@ class Education extends React.Component {
                 <Button
                 style={{ marginLeft: "165px", width: "100px", backgroundColor: "gold", color: "black" }}
                 value="-fdsp4l5e-E,Moving Average Convergence/Divergence (MACD),FINTACTIC/Client/fintactic/src/images/imgedu/MACD.jpeg"
-
-                //onClick={e => this.bookmarkVideo(e, "value")}
+                onClick={e => this.bookmarkVideo(e, "value")}
 
                 >
                 Bookmark
@@ -386,8 +373,7 @@ class Education extends React.Component {
                 <Button
                 style={{ marginLeft: "415px", width: "100px", backgroundColor: "gold", color: "black" }}
                 value="ut4coV2RuSI,Relative Strength Index (RSI),FINTACTIC/Client/fintactic/src/images/imgedu/RS.jpeg"
-
-                //onClick={e => this.bookmarkVideo(e, "value")}
+                onClick={e => this.bookmarkVideo(e, "value")}
 
                 >
                 Bookmark
@@ -429,8 +415,7 @@ class Education extends React.Component {
                 <Button
                 style={{ marginLeft: "685px", width: "100px", backgroundColor: "gold", color: "black" }}
                 value="-xHvJLvATmw,Gold,FINTACTIC/Client/fintactic/src/images/imgedu/Gold.jpeg"
-
-                //onClick={e => this.bookmarkVideo(e, "value")}
+                onClick={e => this.bookmarkVideo(e, "value")}
 
                 >
                 Bookmark
@@ -450,8 +435,7 @@ class Education extends React.Component {
                 <Button
                 style={{ marginLeft: "675px", width: "100px", backgroundColor: "gold", color: "black" }}
                 value="p61InB_dn8I,Silver,FINTACTIC/Client/fintactic/src/images/imgedu/SILVER.jpeg"
-
-                //onClick={e => this.bookmarkVideo(e, "value")}
+                onClick={e => this.bookmarkVideo(e, "value")}
 
                 >
                 Bookmark
@@ -493,8 +477,7 @@ class Education extends React.Component {
                 <Button
                 style={{ marginLeft: "655px", width: "100px", backgroundColor: "gold", color: "black" }}
                 value="XvB2RibLNWY,Bitcoin,FINTACTIC/Client/fintactic/src/images/imgedu/Bitcoin.jpeg"
-
-                //onClick={e => this.bookmarkVideo(e, "value")}
+                onClick={e => this.bookmarkVideo(e, "value")}
 
                 >
                 Bookmark
