@@ -243,7 +243,9 @@ class Bookmarks extends React.Component {
     });
   }
 
-  bookmarkVideo = (e) => {
+
+  /* bookmarkVideo = (e) => {
+
     var favorite = true;
     var videoValues = e.target.value.split(',');;
     console.log(videoValues);
@@ -255,7 +257,9 @@ class Bookmarks extends React.Component {
       var videoNAME = videoValues[1]
       localStorage.setItem("videoName", videoNAME);
       var videoTHMB = videoValues[2]
-      localStorage.setItem("VideoThmb", videoTHMB);
+
+      localStorage.setItem("VideoThmb", videoTHMB); */
+
 
       // fetch('/upNotes', {
       //   method: 'post',
@@ -264,8 +268,10 @@ class Bookmarks extends React.Component {
       // }).then(resp => resp.json())
       // .then(data => console.log(data))
       // .catch(err => console.error(err));
-      favorite = false;
-    } else {
+
+      //favorite = false;
+    //} else {
+
       // deleteRepFromDb(row_id) {
       //   fetch('/deleteReports', {
       //     method: 'post',
@@ -278,9 +284,11 @@ class Bookmarks extends React.Component {
       //     console.log(response);
       // }) 
 
-    }
+
+    //}
     
-  };
+ // };
+
 
   render() {
 
@@ -289,14 +297,18 @@ class Bookmarks extends React.Component {
         <h1 className="page-title" style={{ color: "black" }}>
           Bookmarks
         </h1>
-        {Object.values(this.state.myArray).map((row, index) => (
+
+        {/* {Object.values(this.state.myArray).map((row, index) => (
+
           <table>
             <tr  key={row.id}>
                 <th>{row.name}
                   <Button
                   style={{ marginLeft: "535px", width: "100px", backgroundColor: "gold", color: "black" }}
                   value={(row.url),(row.name),(row.img)}
-                  onClick={e => this.bookmarkVideo(e, "value")}
+
+                  //onClick={e => this.bookmarkVideo(e, "value")}
+
                   >
                   Bookmark
                 </Button>
@@ -304,8 +316,10 @@ class Bookmarks extends React.Component {
             </tr>
             <tr >
               <th>
-                <p>
-                  {/* <YouTubeVideo videoId='eKxxtYIU1iA'/> */}
+
+                <p>*/}
+                  {/* <YouTubeVideo videoId='eKxxtYIU1iA'/> 
+
                   <a href={"#/app/video/"+row.url} target="blank">
                     <img src={row.img} />
                   </a>
@@ -313,7 +327,9 @@ class Bookmarks extends React.Component {
               </th>
             </tr>
             </table>
-          ))}
+
+          ))} */}
+
         
           
         {/* <Tooltip
