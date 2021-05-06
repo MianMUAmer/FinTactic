@@ -357,13 +357,18 @@ def getVideos():
         videos[a.get_id()] = a.get_json()
     return jsonify(videos), 200
 
-@app.route("/addBookmark", methods=['GET', 'POST'])
-def addBookmark():
+@app.route("/toggleBookmark", methods=['GET', 'POST'])
+def toggleBookmark():
     req = flask.request.get_json(force=True)
     user_id = req.get('user_id', None)
-    video_id = req.get('video_id', None)
-    bookmark = Bookmark(user_id=user_id, video_id=video_id)
-    db.session.add(bookmark)
+    video_url = req.get('video_url', None)
+    video_id = Video.query.filter_by(url=video_url).first().get_id()
+    if Bookmark.query.filter_by(user_id=user_id, video_id=video_id).first():
+        bookmark = Bookmark.query.filter_by(video_id=video_id).first()
+        db.session.delete(bookmark)
+    else:
+        bookmark = Bookmark(user_id=user_id, video_id=video_id)
+        db.session.add(bookmark)
     db.session.commit()
     return {"success": 200}
 
@@ -374,8 +379,8 @@ def getBookmarks():
     bookmarks = {}
     index = 0
     rawBookmarks = Bookmark.query.filter_by(user_id=user_id).all()
-    for r in rawBookmarks:
-        bookmarks[index] = r.get_video_id()
+    for b in rawBookmarks:
+        bookmarks[index] = Video.query.filter_by(id=b.get_video_id()).first().get_json()
         index+=1
     return jsonify(bookmarks), 200
 

@@ -88,7 +88,7 @@ class Bookmark(db.Model):
     video_id = db.Column(db.Integer, db.ForeignKey('video.id'), nullable=False)
 
     def get_video_id(self):
-        return {"video_id": self.video_id}
+        return self.video_id
 
 class AAPL(db.Model):
     date = db.Column(db.String(20), primary_key=True)
