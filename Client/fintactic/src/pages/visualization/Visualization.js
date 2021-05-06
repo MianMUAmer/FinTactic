@@ -21,8 +21,10 @@ import FibonacciRetracements from "./FibonacciRetracements";
 import MACD from "./MACD";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
-import { RotateCircleLoading  } from 'react-loadingg';
-import {toast} from 'react-toastify';
+import { RotateCircleLoading } from "react-loadingg";
+import { toast } from "react-toastify";
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Form } from "react-bootstrap";
 
 class Visualization extends React.Component {
   _isMounted = false;
@@ -48,8 +50,11 @@ class Visualization extends React.Component {
       },
       refresh: false,
 
+      isMLModalOpen: false,
+      rSelected: null,
+
       assetType: "Stocks",
-      ticker: "AMZN",
+      ticker: "FB",
       graphType: "Candle Stick",
       fIndicatorType: "Indicators",
       assetTypeDropdownOpen: false,
@@ -72,46 +77,51 @@ class Visualization extends React.Component {
     this.saveState = this.saveState.bind(this);
   }
 
-  saveState(){
-    var a = this.state.assetType
+  saveState() {
+    var a = this.state.assetType;
     localStorage.setItem("asset", a);
-    var t = this.state.ticker
+    var t = this.state.ticker;
     localStorage.setItem("ticker", t);
-    var g = this.state.graphType
+    var g = this.state.graphType;
     localStorage.setItem("graphType", g);
-    var i = this.state.fIndicatorType
+    var i = this.state.fIndicatorType;
     localStorage.setItem("indicator", i);
-    var s = this.state.apiSDate
+    var s = this.state.apiSDate;
     localStorage.setItem("startDate", s);
-    var e = this.state.apiEDate
+    var e = this.state.apiEDate;
     localStorage.setItem("endDate", e);
 
     var user_id = localStorage.getItem("user_id");
 
-    if(this.state.fIndicatorType == "Indicators"){
-      i = "None"
+    if (this.state.fIndicatorType == "Indicators") {
+      i = "None";
     }
 
-    if(this.state.apiSDate == "" && this.state.apiEDate == ""){
-      s = "None"
-      e = "None"
+    if (this.state.apiSDate == "" && this.state.apiEDate == "") {
+      s = "None";
+      e = "None";
     }
-    
 
-
-    fetch('/upNotes', {
-      method: 'post',
-      body: JSON.stringify({id: user_id, asset: a, ticker: t, graph: g, indicator: i, startDate: s, endDate: e}),
-      headers: {'Content-Type':  'application/json'},
-    }).then(resp => resp.json())
-    .then(data => console.log(data))
-    .catch(err => console.error(err));
+    fetch("/upNotes", {
+      method: "post",
+      body: JSON.stringify({
+        id: user_id,
+        asset: a,
+        ticker: t,
+        graph: g,
+        indicator: i,
+        startDate: s,
+        endDate: e,
+      }),
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((resp) => resp.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.error(err));
 
     toast.success("The state is saved successfully!");
   }
 
-  
-  
   screenshot() {
     window.scrollTo(0, 0);
     //console.log(this.state.title + "" + this.state.notes);
@@ -136,29 +146,26 @@ class Visualization extends React.Component {
       doc.text(y, 0.3, 8.3);
       //doc.save("beyza.pdf");
       //let file = doc;
-      var pdf = doc.output('blob');
+      var pdf = doc.output("blob");
 
       var user_id = localStorage.getItem("user_id");
-      var formData = new FormData()
-      formData.append('report', pdf)
-      formData.append('id', user_id)
-      formData.append('title', x)
+      var formData = new FormData();
+      formData.append("report", pdf);
+      formData.append("id", user_id);
+      formData.append("title", x);
 
-      fetch('/upReport', {
-        method: 'post',
+      fetch("/upReport", {
+        method: "post",
         body: formData,
         //headers: {'Content-Type':'multipart/form-data'},
-      }).then(resp => resp.json())
-      .then(data => console.log(data))
-      .catch(err => console.error(err));
-
+      })
+        .then((resp) => resp.json())
+        .then((data) => console.log(data))
+        .catch((err) => console.error(err));
     });
 
     toast.success("The captured report is saved successfully!");
   }
-
-  
-
 
   handleChange = (e) => {
     this.setState({
@@ -179,48 +186,51 @@ class Visualization extends React.Component {
       startRangeDropdownOpen: !this.state.startRangeDropdownOpen,
     });
 
-  
- componentDidMount() {
+  componentDidMount() {
     this._isMounted = true;
     if (this.multilineTextarea) {
       this.multilineTextarea.style.height = "auto";
       this.multilineTextarea.style.backgroundColor = "#Fs5F5AE";
       this.multilineTextarea.style.width = "500px";
     }
-    
-      if(this.props.location.state){
-        
-        this.setState(
-          {
-            fIndicatorType: this.props.location.state.indicator,
-            graphType: this.props.location.state.graph,
-            assetType: this.props.location.state.asset,
-            ticker: this.props.location.state.ticker,
-            startRange: this.props.location.state.startd == "Invalid date" ? "All" : this.props.location.state.startd,
-            endRange: this.props.location.state.end == "Invalid date" ? "" : this.props.location.state.end,
-            apiSDate: JSON.stringify(moment(this.props.location.state.startd).format("YYYY-MM-DD")),
-            apiEDate: JSON.stringify(moment(this.props.location.state.end).format("YYYY-MM-DD")),
-          },
-          () => {
-            if(this.state.apiSDate == JSON.stringify("Invalid date") && this.state.apiEDate == JSON.stringify("Invalid date")){
-              this.fetchStock()
-            }else{
-              this.applyFilters()
-            }
-            
-            
-          }
-        );
-      }
-      
-      
-      else{
-        this.fetchStock();
-      }
-  }
-  
 
-  
+    if (this.props.location.state) {
+      this.setState(
+        {
+          fIndicatorType: this.props.location.state.indicator,
+          graphType: this.props.location.state.graph,
+          assetType: this.props.location.state.asset,
+          ticker: this.props.location.state.ticker,
+          startRange:
+            this.props.location.state.startd == "Invalid date"
+              ? "All"
+              : this.props.location.state.startd,
+          endRange:
+            this.props.location.state.end == "Invalid date"
+              ? ""
+              : this.props.location.state.end,
+          apiSDate: JSON.stringify(
+            moment(this.props.location.state.startd).format("YYYY-MM-DD")
+          ),
+          apiEDate: JSON.stringify(
+            moment(this.props.location.state.end).format("YYYY-MM-DD")
+          ),
+        },
+        () => {
+          if (
+            this.state.apiSDate == JSON.stringify("Invalid date") &&
+            this.state.apiEDate == JSON.stringify("Invalid date")
+          ) {
+            this.fetchStock();
+          } else {
+            this.applyFilters();
+          }
+        }
+      );
+    } else {
+      this.fetchStock();
+    }
+  }
 
   componentWillUnmount() {
     this._isMounted = false;
@@ -230,20 +240,16 @@ class Visualization extends React.Component {
     this.multilineTextarea.style.height = "auto";
     this.multilineTextarea.style.color = "black";
     this.multilineTextarea.style.height =
-    this.multilineTextarea.scrollHeight + "px";
+      this.multilineTextarea.scrollHeight + "px";
   };
-  
 
   fetchStock = () => {
-    
-    
     let stockSymbol = this.state.ticker;
     let apiStockXValues = [];
     let apiStockCloseValues = [];
     let apiStockHighValues = [];
     let apiStockLowValues = [];
     let apiStockOpenValues = [];
-
 
     this.setState({
       refresh: false,
@@ -254,7 +260,7 @@ class Visualization extends React.Component {
       body: JSON.stringify({ name: stockSymbol }),
     })
       .then((response) => {
-        this.state.loading="false";
+        this.state.loading = "false";
         return response.json();
       })
       .then((data) => {
@@ -282,7 +288,6 @@ class Visualization extends React.Component {
           refresh: true,
         }));
       });
-
   };
 
   fetchRangeStock = (apiSDate, apiEDate) => {
@@ -306,7 +311,7 @@ class Visualization extends React.Component {
       }),
     })
       .then((response) => {
-        this.state.loading="false";
+        this.state.loading = "false";
         return response.json();
       })
       .then((data) => {
@@ -392,9 +397,35 @@ class Visualization extends React.Component {
     );
   };
 
+  openMLModal = () => {
+    this.setState({
+      isMLModalOpen: !this.state.isMLModalOpen,
+    });
+  };
+
+  handleRadioChange = (e) => {
+    e.persist();
+    this.setState({
+      rSelected: e.target.value,
+    });
+  };
+
+  CloseML = () => {
+    this.setState({
+      rSelected: null,
+      isMLModalOpen: false,
+    });
+  };
+
+  MLPredGraph = () => {
+    console.log(
+      "Pressed ML",
+      this.state.endRange,
+      this.state.startRange,
+      this.state.rSelected
+    );
+  };
   render() {
-    
-    
     const {
       data,
       graphType,
@@ -414,338 +445,390 @@ class Visualization extends React.Component {
       startRangeDropdownOpen,
     } = this.state;
 
-
-    return (
-      
-      this.state.loading=="true" ? <RotateCircleLoading /> : <div
-      style={{
-        marginLeft: 10,
-        marginRight: 10,
-        marginTop: 10,
-        marginBottom: 10,
-      }}
-      className={s.root}
-    >
-        
-          <h1 className="page-title" style={{ color: "black" }}>
-            Visualization - Market Analysis
-          </h1>
-          <div
+    return this.state.loading == "true" ? (
+      <RotateCircleLoading />
+    ) : (
+      <div
+        style={{
+          marginLeft: 10,
+          marginRight: 10,
+          marginTop: 10,
+          marginBottom: 10,
+        }}
+        className={s.root}
+      >
+        <h1 className="page-title" style={{ color: "black" }}>
+          Visualization - Market Analysis
+        </h1>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "70%",
+            marginBottom: 20,
+            alignItems: "baseline",
+          }}
+        >
+          <h5
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "70%",
-              marginBottom: 20,
-              alignItems: "baseline",
+              marginTop: 15,
+              color: "black",
             }}
           >
-            <h5
+            Filters :
+          </h5>
+          <Dropdown
+            isOpen={assetTypeDropdownOpen}
+            toggle={this.toggleAssetTypeDD}
+          >
+            <DropdownToggle caret color="dark">
+              {assetType}
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem header>Asset Type</DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  this.setState({ assetType: "Stocks", ticker: "AMZN" }, () => {
+                    this.fetchStock();
+                  });
+                }}
+              >
+                Stocks
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  this.setState(
+                    { assetType: "Currency", ticker: "BTC" },
+                    () => {
+                      this.fetchStock();
+                    }
+                  );
+                }}
+              >
+                Currency
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  this.setState(
+                    { assetType: "Commodity", ticker: "GC" },
+                    () => {
+                      this.fetchStock();
+                    }
+                  );
+                }}
+              >
+                Commodity
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+
+          {assetType === "Stocks" && (
+            <Dropdown isOpen={tickerDropdownOpen} toggle={this.toggleTickerDD}>
+              <DropdownToggle caret color="dark">
+                {ticker}
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem header>Ticker</DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState({ ticker: "AMZN" }, () => {
+                      this.fetchStock();
+                    });
+                  }}
+                >
+                  Amazon
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState({ ticker: "GOOGL" }, () => {
+                      this.fetchStock();
+                    });
+                  }}
+                >
+                  Google
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState({ ticker: "AAPL" }, () => {
+                      this.fetchStock();
+                    });
+                  }}
+                >
+                  Apple
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState({ ticker: "MSFT" }, () => {
+                      this.fetchStock();
+                    });
+                  }}
+                >
+                  Microsoft
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState({ ticker: "FB" }, () => {
+                      this.fetchStock();
+                    });
+                  }}
+                >
+                  Facebook
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          )}
+
+          {assetType === "Currency" && (
+            <Dropdown isOpen={tickerDropdownOpen} toggle={this.toggleTickerDD}>
+              <DropdownToggle caret color="dark">
+                {ticker}
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem header>Ticker</DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState({ ticker: "BTC" }, () => {
+                      this.fetchStock();
+                    });
+                  }}
+                >
+                  BitCoin
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState({ ticker: "ETH" }, () => {
+                      this.fetchStock();
+                    });
+                  }}
+                >
+                  Ethereum
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          )}
+
+          {assetType === "Commodity" && (
+            <Dropdown isOpen={tickerDropdownOpen} toggle={this.toggleTickerDD}>
+              <DropdownToggle caret color="dark">
+                {ticker}
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem header>Ticker</DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState({ ticker: "GC" }, () => {
+                      this.fetchStock();
+                    });
+                  }}
+                >
+                  Gold
+                </DropdownItem>
+                <DropdownItem
+                  onClick={() => {
+                    this.setState({ ticker: "SI" }, () => {
+                      this.fetchStock();
+                    });
+                  }}
+                >
+                  Silver
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          )}
+
+          <Dropdown isOpen={gTypeDropdownOpen} toggle={this.toggleGTypeDD}>
+            <DropdownToggle caret color="dark">
+              {graphType}
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem header>Graph Type</DropdownItem>
+              <DropdownItem
+                onClick={() => this.setState({ graphType: "Candle Stick" })}
+              >
+                Candle Stick
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => this.setState({ graphType: "Line Graph" })}
+              >
+                Line Graph
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+
+          <Dropdown isOpen={finIndiDropDownOpen} toggle={this.toggleFinIndiDD}>
+            <DropdownToggle caret color="dark">
+              {fIndicatorType}
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem header>Financial Indicators</DropdownItem>
+              <DropdownItem
+                onClick={() => this.setState({ fIndicatorType: "Indicators" })}
+              >
+                None
+              </DropdownItem>
+              <DropdownItem
+                onClick={() =>
+                  this.setState({ fIndicatorType: "Bollinger Bands" })
+                }
+              >
+                Bollinger Bands
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => this.setState({ fIndicatorType: "RSI" })}
+              >
+                Relative Strength Index
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => this.setState({ fIndicatorType: "MACD" })}
+              >
+                Moving Average Convergence Divergence
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => this.setState({ fIndicatorType: "Fib Retrace" })}
+              >
+                Fibonacci Retracements
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            // justifyContent: "space-between",
+            width: "70%",
+            marginBottom: 20,
+            alignItems: "baseline",
+          }}
+        >
+          <h5
+            style={{
+              marginRight: 12,
+              color: "black",
+            }}
+          >
+            Data Range :
+          </h5>
+          <div>
+            <Dropdown
+              isOpen={startRangeDropdownOpen}
+              toggle={this.toggleRangeStartDD}
               style={{
-                marginTop: 15,
-                color: "black",
+                marginRight: 15,
               }}
             >
-              Filters :
-            </h5>
-            <Dropdown
-              isOpen={assetTypeDropdownOpen}
-              toggle={this.toggleAssetTypeDD}
-            >
               <DropdownToggle caret color="dark">
-                {assetType}
+                {endRange === ""
+                  ? `Data Range:  ${startRange}`
+                  : `Data Range:  ${startRange} - ${endRange}`}
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem header>Asset Type</DropdownItem>
-                <DropdownItem
-                  onClick={() => {
-                    this.setState(
-                      { assetType: "Stocks", ticker: "AMZN" },
-                      () => {
-                        
-                        this.fetchStock();
-                      }
-                    );
-                  }}
-                >
-                  Stocks
-                </DropdownItem>
-                <DropdownItem
-                  onClick={() => {
-                    this.setState(
-                      { assetType: "Currency", ticker: "BTC" },
-                      () => {
-                        this.fetchStock();
-                      }
-                    );
-                  }}
-                >
-                  Currency
-                </DropdownItem>
-                <DropdownItem
-                  onClick={() => {
-                    this.setState(
-                      { assetType: "Commodity", ticker: "GC" },
-                      () => {
-                        this.fetchStock();
-                      }
-                    );
-                  }}
-                >
-                  Commodity
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-
-            {assetType === "Stocks" && (
-              <Dropdown
-                isOpen={tickerDropdownOpen}
-                toggle={this.toggleTickerDD}
-              >
-                <DropdownToggle caret color="dark">
-                  {ticker}
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem header>Ticker</DropdownItem>
-                  <DropdownItem
-                    onClick={() => {
-                      this.setState({ ticker: "AMZN" }, () => {
-                        this.fetchStock();
-                      });
-                    }}
-                  >
-                    Amazon
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => {
-                      this.setState({ ticker: "GOOGL" }, () => {
-                        this.fetchStock();
-                      });
-                    }}
-                  >
-                    Google
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => {
-                      this.setState({ ticker: "AAPL" }, () => {
-                        this.fetchStock();
-                      });
-                    }}
-                  >
-                    Apple
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => {
-                      this.setState({ ticker: "MSFT" }, () => {
-                        this.fetchStock();
-                      });
-                    }}
-                  >
-                    Microsoft
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => {
-                      this.setState({ ticker: "FB" }, () => {
-                        this.fetchStock();
-                      });
-                    }}
-                  >
-                    Facebook
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            )}
-
-            {assetType === "Currency" && (
-              <Dropdown
-                isOpen={tickerDropdownOpen}
-                toggle={this.toggleTickerDD}
-              >
-                <DropdownToggle caret color="dark">
-                  {ticker}
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem header>Ticker</DropdownItem>
-                  <DropdownItem
-                    onClick={() => {
-                      this.setState({ ticker: "BTC" }, () => {
-                        this.fetchStock();
-                      });
-                    }}
-                  >
-                    BitCoin
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => {
-                      this.setState({ ticker: "ETH" }, () => {
-                        this.fetchStock();
-                      });
-                    }}
-                  >
-                    Ethereum
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            )}
-
-            {assetType === "Commodity" && (
-              <Dropdown
-                isOpen={tickerDropdownOpen}
-                toggle={this.toggleTickerDD}
-              >
-                <DropdownToggle caret color="dark">
-                  {ticker}
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem header>Ticker</DropdownItem>
-                  <DropdownItem
-                    onClick={() => {
-                      this.setState({ ticker: "GC" }, () => {
-                        this.fetchStock();
-                      });
-                    }}
-                  >
-                    Gold
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={() => {
-                      this.setState({ ticker: "SI" }, () => {
-                        this.fetchStock();
-                      });
-                    }}
-                  >
-                    Silver
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            )}
-
-            <Dropdown isOpen={gTypeDropdownOpen} toggle={this.toggleGTypeDD}>
-              <DropdownToggle caret color="dark">
-                {graphType}
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem header>Graph Type</DropdownItem>
-                <DropdownItem
-                  onClick={() => this.setState({ graphType: "Candle Stick" })}
-                >
-                  Candle Stick
-                </DropdownItem>
-                <DropdownItem
-                  onClick={() => this.setState({ graphType: "Line Graph" })}
-                >
-                  Line Graph
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-
-            <Dropdown
-              isOpen={finIndiDropDownOpen}
-              toggle={this.toggleFinIndiDD}
-            >
-              <DropdownToggle caret color="dark">
-                {fIndicatorType}
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem header>Financial Indicators</DropdownItem>
-                <DropdownItem
-                  onClick={() =>
-                    this.setState({ fIndicatorType: "Indicators" })
-                  }
-                >
-                  None
-                </DropdownItem>
-                <DropdownItem
-                  onClick={() =>
-                    this.setState({ fIndicatorType: "Bollinger Bands" })
-                  }
-                >
-                  Bollinger Bands
-                </DropdownItem>
-                <DropdownItem
-                  onClick={() => this.setState({ fIndicatorType: "RSI" })}
-                >
-                  Relative Strength Index
-                </DropdownItem>
-                <DropdownItem
-                  onClick={() => this.setState({ fIndicatorType: "MACD" })}
-                >
-                  Moving Average Convergence Divergence
-                </DropdownItem>
-                <DropdownItem
-                  onClick={() =>
-                    this.setState({ fIndicatorType: "Fib Retrace" })
-                  }
-                >
-                  Fibonacci Retracements
-                </DropdownItem>
+                <DropdownItem header>Date Range</DropdownItem>
+                <DateRangePicker
+                  ranges={[this.state.selectionRange]}
+                  onChange={(range) => this.handleDateRangeSelect(range)}
+                  showSelectionPreview={true}
+                  moveRangeOnFirstSelection={false}
+                  months={2}
+                  direction="horizontal"
+                />
               </DropdownMenu>
             </Dropdown>
           </div>
-
-          <div
-            style={{
-              display: "flex",
-              // justifyContent: "space-between",
-              width: "70%",
-              marginBottom: 20,
-              alignItems: "baseline",
-            }}
-          >
-            <h5
-              style={{
-                marginRight: 12,
-                color: "black",
-              }}
+          <div style={{ display: "flex", width: "50%" }}>
+            <Button
+              color="success"
+              style={{ marginRight: 15, width: "30%" }}
+              onClick={() => this.applyFilters()}
             >
-              Data Range :
-            </h5>
-            <div>
-              <Dropdown
-                isOpen={startRangeDropdownOpen}
-                toggle={this.toggleRangeStartDD}
+              Apply
+            </Button>
+            <Button
+              color="danger"
+              style={{ marginRight: 15, width: "30%" }}
+              onClick={() => this.resetFilter()}
+            >
+              Reset
+            </Button>
+            <Button
+              color="success"
+              style={{ marginRight: 15, width: "40%" }}
+              onClick={() => this.openMLModal()}
+            >
+              ML Prediction
+            </Button>
+          </div>
+        </div>
+
+        <Modal
+          className="prof"
+          isOpen={this.state.isMLModalOpen}
+          toggle={this.openMLModal}
+        >
+          <ModalHeader className="prof" toggle={this.CloseML}>
+            <h4>Prediction Wizard</h4>
+          </ModalHeader>
+          <ModalBody className="prof">
+            <h5 style={{ marginBottom: "11px" }}>Predict: </h5>
+            <Form.Group controlId="rSelected">
+              <Form.Check
+                value="Future Data"
+                type="radio"
                 style={{
-                  marginRight: 15,
+                  fontSize: "1.2rem",
+                  marginBottom: "8px",
                 }}
-              >
-                <DropdownToggle caret color="dark">
+                aria-label="radio 1"
+                label="Future Data"
+                onChange={this.handleRadioChange}
+                checked={this.state.rSelected === "Future Data"}
+              />
+              <hr />
+              <div style={{ marginTop: "8px" }}>
+                <Form.Check
+                  value="Old Data"
+                  type="radio"
+                  style={{ fontSize: "1.2rem" }}
+                  aria-label="radio 2"
+                  label="Old Data"
+                  onChange={this.handleRadioChange}
+                  checked={this.state.rSelected === "Old Data"}
+                />
+                <p
+                  style={{
+                    marginTop: "8px",
+                    color:
+                      this.state.rSelected === "Old Data" ? "black" : "#a6a6a6",
+                  }}
+                >
                   {endRange === ""
                     ? `Data Range:  ${startRange}`
                     : `Data Range:  ${startRange} - ${endRange}`}
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem header>Date Range</DropdownItem>
-                  <DateRangePicker
-                    ranges={[this.state.selectionRange]}
-                    onChange={(range) => this.handleDateRangeSelect(range)}
-                    showSelectionPreview={true}
-                    moveRangeOnFirstSelection={false}
-                    months={2}
-                    direction="horizontal"
-                  />
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-            <div style={{ display: "flex", width: "30%" }}>
-              <Button
-                color="success"
-                style={{ marginRight: 15, width: "50%" }}
-                onClick={() => this.applyFilters()}
-              >
-                Apply
-              </Button>
-              <Button
-                color="danger"
-                style={{ marginRight: 15, width: "50%" }}
-                onClick={() => this.resetFilter()}
-              >
-                Reset
-              </Button>
-              
-              
-            </div>
-          </div>
-          
-          <div id={`capture`}>
+                </p>
+              </div>
+            </Form.Group>
+          </ModalBody>
+
+          <ModalFooter className="prof">
+            <Button
+              style={{ width: "15%" }}
+              color="danger"
+              onClick={this.CloseML}
+            >
+              Cancel
+            </Button>{" "}
+            <Button
+              style={{ width: "25%" }}
+              color="success"
+              type="submit"
+              onClick={this.MLPredGraph}
+            >
+              Predict!
+            </Button>{" "}
+          </ModalFooter>
+        </Modal>
+
+        <div id={`capture`}>
           {graphType === "Candle Stick" &&
             data.stockChartXValues.length !== 0 &&
             refresh &&
@@ -753,8 +836,8 @@ class Visualization extends React.Component {
           {graphType === "Line Graph" &&
             data.stockChartXValues.length !== 0 &&
             refresh && <LineGraph data={data} />}
-          {/* Indicators */}
 
+          {/* Indicators */}
           {graphType === "Candle Stick" &&
             data.stockChartXValues.length !== 0 &&
             refresh &&
@@ -790,11 +873,13 @@ class Visualization extends React.Component {
               />
             )}
         </div>
-        
+
         <form>
           <h4 style={{ color: "black" }}>
-          Take your notes, click on <b>Save Report</b> and save your capture on Reports tab!<br></br>
-          Click on <b>Save States</b> and you will be able to turn back where you left on States tab!
+            Take your notes, click on <b>Save Report</b> and save your capture
+            on Reports tab!<br></br>
+            Click on <b>Save States</b> and you will be able to turn back where
+            you left on States tab!
           </h4>
           <h4 style={{ color: "black" }}>Title: </h4>
           <textarea
@@ -820,14 +905,19 @@ class Visualization extends React.Component {
             onChange={this.handleChange}
           />
         </form>
-        <Button onClick={this.screenshot} style={{backgroundColor:"#2471A3"}} >
-                Save Report
-              </Button>
-        <Button onClick={this.saveState} style={{backgroundColor:"#7D3C98", marginLeft: "15px"}}>
-                Save State
-              </Button>
+        <Button
+          onClick={this.screenshot}
+          style={{ backgroundColor: "#2471A3" }}
+        >
+          Save Report
+        </Button>
+        <Button
+          onClick={this.saveState}
+          style={{ backgroundColor: "#7D3C98", marginLeft: "15px" }}
+        >
+          Save State
+        </Button>
       </div>
-      
     );
   }
 }
