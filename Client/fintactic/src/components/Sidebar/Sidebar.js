@@ -69,7 +69,6 @@ class Sidebar extends React.Component {
 
   render() {
     return (
-      
       <nav
         className={cx(s.root)}
         ref={(nav) => {

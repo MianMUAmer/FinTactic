@@ -3,6 +3,7 @@ import { Sparklines, SparklinesBars } from "react-sparklines";
 import Video from "../video";
 //import Widget from "../../components/Widget/Widget";
 import s from "./Static.module.scss";
+import Bookmark from 'react-bookmark';
 import YouTubeVideo from "../../components/YouTubeVideo/YouTubeVideo";
 
 import StockMarket from "../../images/people/STOCK MARKET 101.jpeg";
@@ -14,7 +15,7 @@ import BollingerBands from "../../images/imgedu/Bollinger Bands.jpeg";
 import Bitcoin from "../../images/imgedu/Bitcoin.jpeg";
 
 import Parser from "html-react-parser";
-import { Tooltip } from "reactstrap";
+import { Tooltip, Button } from "reactstrap";
 import infoIcon from "../../images/infoIcon.png";
 // import seconded from "../../images/imgedu/Bitcoin.jpeg";
 class Education extends React.Component {
@@ -26,185 +27,185 @@ class Education extends React.Component {
         { item1: "item1", id: 2 },
       ],
 
-      SMtooltip: "",
-      SMtooltipOpen: false,
-      BBtooltip: "",
-      BBtooltipOpen: false,
-      RSItooltip: "",
-      RSItooltipOpen: false,
-      MACDtooltip: "",
-      MACDtooltipOpen: false,
-      BitCointooltip: "",
-      BitCointooltipOpen: false,
-      GOLDtooltip: "",
-      GOLDtooltipOpen: false,
-      SILVERtooltip: "",
-      SILVERtooltipOpen: false,
+      // SMtooltip: "",
+      // SMtooltipOpen: false,
+      // BBtooltip: "",
+      // BBtooltipOpen: false,
+      // RSItooltip: "",
+      // RSItooltipOpen: false,
+      // MACDtooltip: "",
+      // MACDtooltipOpen: false,
+      // BitCointooltip: "",
+      // BitCointooltipOpen: false,
+      // GOLDtooltip: "",
+      // GOLDtooltipOpen: false,
+      // SILVERtooltip: "",
+      // SILVERtooltipOpen: false,
     };
 
     this.checkAll = this.checkAll.bind(this);
   }
 
-  getWiki = () => {
-    const SMAPI =
-      "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=Stock market";
+  // getWiki = () => {
+  //   const SMAPI =
+  //     "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=Stock market";
 
-    const SMbody = { method: "GET", dataType: "json" };
-    const SMmyRequest = new Request(SMAPI, SMbody);
-    fetch(SMmyRequest)
-      .then((response) => response.json())
-      .then((data) => {
-        const allData = data.query.pages;
-        for (var n in allData) {
-          const paragraphs = allData[n].extract.split("</p>");
-          const firstParagraph = paragraphs[1] + "</p>";
-          this.setState({
-            SMtooltip: firstParagraph,
-          });
-        }
-      });
+  //   const SMbody = { method: "GET", dataType: "json" };
+  //   const SMmyRequest = new Request(SMAPI, SMbody);
+  //   fetch(SMmyRequest)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       const allData = data.query.pages;
+  //       for (var n in allData) {
+  //         const paragraphs = allData[n].extract.split("</p>");
+  //         const firstParagraph = paragraphs[1] + "</p>";
+  //         this.setState({
+  //           SMtooltip: firstParagraph,
+  //         });
+  //       }
+  //     });
 
-    const BBAPI =
-      "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=Bollinger Bands";
+  //   const BBAPI =
+  //     "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=Bollinger Bands";
 
-    const BBbody = { method: "GET", dataType: "json" };
-    const BBmyRequest = new Request(BBAPI, BBbody);
-    fetch(BBmyRequest)
-      .then((response) => response.json())
-      .then((data) => {
-        const allData = data.query.pages;
-        for (var n in allData) {
-          const paragraphs = allData[n].extract.split("</p>");
-          const firstParagraph = paragraphs[0] + "</p>";
-          this.setState({
-            BBtooltip: firstParagraph,
-          });
-        }
-      });
+  //   const BBbody = { method: "GET", dataType: "json" };
+  //   const BBmyRequest = new Request(BBAPI, BBbody);
+  //   fetch(BBmyRequest)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       const allData = data.query.pages;
+  //       for (var n in allData) {
+  //         const paragraphs = allData[n].extract.split("</p>");
+  //         const firstParagraph = paragraphs[0] + "</p>";
+  //         this.setState({
+  //           BBtooltip: firstParagraph,
+  //         });
+  //       }
+  //     });
 
-    const MACDAPI =
-      "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=MACD";
+  //   const MACDAPI =
+  //     "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=MACD";
 
-    const MACDbody = { method: "GET", dataType: "json" };
-    const MACDmyRequest = new Request(MACDAPI, MACDbody);
-    fetch(MACDmyRequest)
-      .then((response) => response.json())
-      .then((data) => {
-        const allData = data.query.pages;
-        for (var n in allData) {
-          const paragraphs = allData[n].extract.split("</p>");
-          const firstParagraph = paragraphs[1] + "</p>";
-          this.setState({
-            MACDtooltip: firstParagraph,
-          });
-        }
-      });
+  //   const MACDbody = { method: "GET", dataType: "json" };
+  //   const MACDmyRequest = new Request(MACDAPI, MACDbody);
+  //   fetch(MACDmyRequest)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       const allData = data.query.pages;
+  //       for (var n in allData) {
+  //         const paragraphs = allData[n].extract.split("</p>");
+  //         const firstParagraph = paragraphs[1] + "</p>";
+  //         this.setState({
+  //           MACDtooltip: firstParagraph,
+  //         });
+  //       }
+  //     });
 
-    const RSIAPI =
-      "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=Relative strength index";
+  //   const RSIAPI =
+  //     "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=Relative strength index";
 
-    const RSIbody = { method: "GET", dataType: "json" };
-    const RSImyRequest = new Request(RSIAPI, RSIbody);
-    fetch(RSImyRequest)
-      .then((response) => response.json())
-      .then((data) => {
-        const allData = data.query.pages;
-        for (var n in allData) {
-          const paragraphs = allData[n].extract.split("</p>");
-          const firstParagraph = paragraphs[1] + "</p>";
-          this.setState({
-            RSItooltip: firstParagraph,
-          });
-        }
-      });
+  //   const RSIbody = { method: "GET", dataType: "json" };
+  //   const RSImyRequest = new Request(RSIAPI, RSIbody);
+  //   fetch(RSImyRequest)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       const allData = data.query.pages;
+  //       for (var n in allData) {
+  //         const paragraphs = allData[n].extract.split("</p>");
+  //         const firstParagraph = paragraphs[1] + "</p>";
+  //         this.setState({
+  //           RSItooltip: firstParagraph,
+  //         });
+  //       }
+  //     });
 
-    const GOLDAPI =
-      "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=Gold as an investment";
+  //   const GOLDAPI =
+  //     "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=Gold as an investment";
 
-    const GOLDbody = { method: "GET", dataType: "json" };
-    const GOLDmyRequest = new Request(GOLDAPI, GOLDbody);
-    fetch(GOLDmyRequest)
-      .then((response) => response.json())
-      .then((data) => {
-        const allData = data.query.pages;
-        for (var n in allData) {
-          const paragraphs = allData[n].extract.split("</p>");
-          const firstParagraph = paragraphs[1] + "</p>";
-          this.setState({
-            GOLDtooltip: firstParagraph,
-          });
-        }
-      });
+  //   const GOLDbody = { method: "GET", dataType: "json" };
+  //   const GOLDmyRequest = new Request(GOLDAPI, GOLDbody);
+  //   fetch(GOLDmyRequest)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       const allData = data.query.pages;
+  //       for (var n in allData) {
+  //         const paragraphs = allData[n].extract.split("</p>");
+  //         const firstParagraph = paragraphs[1] + "</p>";
+  //         this.setState({
+  //           GOLDtooltip: firstParagraph,
+  //         });
+  //       }
+  //     });
 
-    const SILVERAPI =
-      "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=Silver as an investment";
+  //   const SILVERAPI =
+  //     "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=Silver as an investment";
 
-    const SILVERbody = { method: "GET", dataType: "json" };
-    const SILVERmyRequest = new Request(SILVERAPI, SILVERbody);
-    fetch(SILVERmyRequest)
-      .then((response) => response.json())
-      .then((data) => {
-        const allData = data.query.pages;
-        for (var n in allData) {
-          const paragraphs = allData[n].extract.split("</p>");
-          const firstParagraph = paragraphs[1] + "</p>";
-          this.setState({
-            SILVERtooltip: firstParagraph,
-          });
-        }
-      });
+  //   const SILVERbody = { method: "GET", dataType: "json" };
+  //   const SILVERmyRequest = new Request(SILVERAPI, SILVERbody);
+  //   fetch(SILVERmyRequest)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       const allData = data.query.pages;
+  //       for (var n in allData) {
+  //         const paragraphs = allData[n].extract.split("</p>");
+  //         const firstParagraph = paragraphs[1] + "</p>";
+  //         this.setState({
+  //           SILVERtooltip: firstParagraph,
+  //         });
+  //       }
+  //     });
 
-    const BitCoinAPI =
-      "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=Bitcoin";
+  //   const BitCoinAPI =
+  //     "https://en.wikipedia.org/w/api.php?action=query&origin=*&prop=extracts&format=json&exintro=&titles=Bitcoin";
 
-    const BitCoinbody = { method: "GET", dataType: "json" };
-    const BitCoinmyRequest = new Request(BitCoinAPI, BitCoinbody);
-    fetch(BitCoinmyRequest)
-      .then((response) => response.json())
-      .then((data) => {
-        const allData = data.query.pages;
-        for (var n in allData) {
-          const paragraphs = allData[n].extract.split("</p>");
-          const firstParagraph = paragraphs[2] + "</p>";
-          this.setState({
-            BitCointooltip: firstParagraph,
-          });
-        }
-      });
-  };
+  //   const BitCoinbody = { method: "GET", dataType: "json" };
+  //   const BitCoinmyRequest = new Request(BitCoinAPI, BitCoinbody);
+  //   fetch(BitCoinmyRequest)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       const allData = data.query.pages;
+  //       for (var n in allData) {
+  //         const paragraphs = allData[n].extract.split("</p>");
+  //         const firstParagraph = paragraphs[2] + "</p>";
+  //         this.setState({
+  //           BitCointooltip: firstParagraph,
+  //         });
+  //       }
+  //     });
+  // };
 
-  toggleSM = () =>
-    this.setState({
-      SMtooltipOpen: !this.state.SMtooltipOpen,
-    });
-  toggleBB = () =>
-    this.setState({
-      BBtooltipOpen: !this.state.BBtooltipOpen,
-    });
-  toggleMACD = () =>
-    this.setState({
-      MACDtooltipOpen: !this.state.MACDtooltipOpen,
-    });
-  toggleRSI = () =>
-    this.setState({
-      RSItooltipOpen: !this.state.RSItooltipOpen,
-    });
-  toggleBitCoin = () =>
-    this.setState({
-      BitCointooltipOpen: !this.state.BitCointooltipOpen,
-    });
-  toggleGold = () =>
-    this.setState({
-      GOLDtooltipOpen: !this.state.GOLDtooltipOpen,
-    });
-  toggleSilver = () =>
-    this.setState({
-      SILVERtooltipOpen: !this.state.SILVERtooltipOpen,
-    });
+  // toggleSM = () =>
+  //   this.setState({
+  //     SMtooltipOpen: !this.state.SMtooltipOpen,
+  //   });
+  // toggleBB = () =>
+  //   this.setState({
+  //     BBtooltipOpen: !this.state.BBtooltipOpen,
+  //   });
+  // toggleMACD = () =>
+  //   this.setState({
+  //     MACDtooltipOpen: !this.state.MACDtooltipOpen,
+  //   });
+  // toggleRSI = () =>
+  //   this.setState({
+  //     RSItooltipOpen: !this.state.RSItooltipOpen,
+  //   });
+  // toggleBitCoin = () =>
+  //   this.setState({
+  //     BitCointooltipOpen: !this.state.BitCointooltipOpen,
+  //   });
+  // toggleGold = () =>
+  //   this.setState({
+  //     GOLDtooltipOpen: !this.state.GOLDtooltipOpen,
+  //   });
+  // toggleSilver = () =>
+  //   this.setState({
+  //     SILVERtooltipOpen: !this.state.SILVERtooltipOpen,
+  //   });
 
-  componentDidMount() {
-    this.getWiki();
-  }
+  // componentDidMount() {
+  //   this.getWiki();
+  // }
 
   handleClickSignIn() {
     console.log("come handle click fun");
@@ -246,6 +247,27 @@ class Education extends React.Component {
     });
   }
 
+  bookmarkVideo = (e) => {
+    var videoValues = e.target.value.split(',');;
+    console.log(videoValues);
+    var user_id = localStorage.getItem("user_id");
+
+    var videoURL = videoValues[0]
+    localStorage.setItem("videoUrl", videoURL);
+    var videoNAME = videoValues[1]
+    localStorage.setItem("videoName", videoNAME);
+    var videoTHMB = videoValues[2]
+    localStorage.setItem("VideoThmb", videoTHMB);
+    
+    // fetch('/upNotes', {
+    //   method: 'post',
+    //   body: JSON.stringify({id: user_id, videoUrl: videoURL, videoName: videoNAME, VideoThmb: videoTHMB}),
+    //   headers: {'Content-Type':  'application/json'},
+    // }).then(resp => resp.json())
+    // .then(data => console.log(data))
+    // .catch(err => console.error(err));
+  };
+
   render() {
     //     let url = window.location.href;
     //     let param = window.location.pathname;
@@ -260,10 +282,9 @@ class Education extends React.Component {
           Education
         </h1>
         <table>
-          <tr style={{ display: "flex" }}>
-            <div style={{ color: "black", display: "flex"}}>
-              <th style={{ width: "450", display: "flex" }}>Stock Market 101
-                <span>
+          <tr >
+              <th  >Stock Market 101
+                {/* <span>
                   <img
                     style={{paddingTop: "10px", paddingLeft: "5px"  }}
                     id="stockMarket"
@@ -272,12 +293,17 @@ class Education extends React.Component {
                     width="17"
                     height="28"
                   />
-                </span>
+                </span> */}
+                <Button
+                style={{ marginLeft: "535px", width: "100px", backgroundColor: "gold", color: "black" }}
+                value="Jwzta8B1b9g,Stock Market 101,FINTACTIC/Client/fintactic/src/images/imgedu/STOCK MARKET 101.jpeg"
+                onClick={e => this.bookmarkVideo(e, "value")}
+                >
+                Bookmark
+              </Button>
               </th>
-            </div>
-            <div style={{ color: "black" , display: "flex"}}>
-              <th style={{ width: "450", display: "flex" }}>Bollinger Bands
-                <span>
+              <th >Bollinger Bands
+                {/* <span>
                   <img
                     style={{ paddingTop: "10px", paddingLeft: "5px" }}
                     id="bollingerBands"
@@ -286,9 +312,14 @@ class Education extends React.Component {
                     width="17"
                     height="28"
                   />
-                </span>
-              </th>
-            </div>
+                </span> */}
+              <Button
+                style={{ marginLeft: "555px", width: "100px", backgroundColor: "gold", color: "black" }}
+                onClick={e => this.bookmarkVideo(e, "value")}
+                value="ay0C36Yd20w,Bollinger Bands,FINTACTIC/Client/fintactic/src/images/imgedu/Bollinger Bands.jpeg"
+                >
+                Bookmark
+              </Button></th>
           </tr>
           <tr >
             <th>
@@ -303,17 +334,15 @@ class Education extends React.Component {
               <p>
                 {/* <YouTubeVideo videoId='werjfC_vFf4'/> */}
                 <a href="#/app/video/ay0C36Yd20w" target="blank">
-                  
                   <img src={BollingerBands} />
                 </a>
               </p>
             </th>
           </tr>
           <tr></tr>
-          <tr style={{ display: "flex" }}>
-            <div style={{ color: "black", display: "flex" }}>
-              <th style={{ width: "450", display: "flex" }}>Moving Average Convergence/Divergence (MACD)
-                <span>
+          <tr >
+              <th>Moving Average Convergence/Divergence (MACD)
+                {/* <span>
                   <img
                     style={{ paddingTop: "10px", paddingLeft: "5px" }}
                     id="MACD"
@@ -322,12 +351,17 @@ class Education extends React.Component {
                     width="17"
                     height="28"
                   />
-                </span>
+                </span> */}
+                <Button
+                style={{ marginLeft: "165px", width: "100px", backgroundColor: "gold", color: "black" }}
+                value="-fdsp4l5e-E,Moving Average Convergence/Divergence (MACD),FINTACTIC/Client/fintactic/src/images/imgedu/MACD.jpeg"
+                onClick={e => this.bookmarkVideo(e, "value")}
+                >
+                Bookmark
+              </Button>
               </th>
-            </div>
-            <div style={{ color: "black", display: "flex" }}>
-              <th style={{ width: "450", display: "flex" }}>Relative Strength Index (RSI)
-                <span>
+              <th >Relative Strength Index (RSI)
+                {/* <span>
                   <img
                     style={{ paddingTop: "10px", paddingLeft:"5px" }}
                     id="RSI"
@@ -336,9 +370,15 @@ class Education extends React.Component {
                     width="17"
                     height="28"
                   />
-                </span>
+                </span> */}
+                <Button
+                style={{ marginLeft: "415px", width: "100px", backgroundColor: "gold", color: "black" }}
+                value="ut4coV2RuSI,Relative Strength Index (RSI),FINTACTIC/Client/fintactic/src/images/imgedu/RS.jpeg"
+                onClick={e => this.bookmarkVideo(e, "value")}
+                >
+                Bookmark
+              </Button>
               </th>
-            </div>
           </tr>
           <tr>
             <th>
@@ -360,10 +400,9 @@ class Education extends React.Component {
               </p>
             </th>
           </tr>
-          <tr style={{ display: "flex" }}>
-            <div style={{ color: "black", display: "flex" }}>
-              <th style={{ width: "450", display: "flex" }}>Gold 
-                <span>
+          <tr >
+              <th >Gold 
+                {/* <span>
                   <img
                     style={{ paddingTop: "10px", paddingLeft: "5px" }}
                     id="Gold"
@@ -372,12 +411,17 @@ class Education extends React.Component {
                     width="17"
                     height="28"
                   />
-                </span>
+                </span> */}
+                <Button
+                style={{ marginLeft: "685px", width: "100px", backgroundColor: "gold", color: "black" }}
+                value="-xHvJLvATmw,Gold,FINTACTIC/Client/fintactic/src/images/imgedu/Gold.jpeg"
+                onClick={e => this.bookmarkVideo(e, "value")}
+                >
+                Bookmark
+              </Button>
               </th>
-            </div>
-            <div style={{ color: "black", display: "flex" }}>
-              <th style={{ width: "450", display: "flex" }}>Silver
-                <span>
+              <th >Silver
+                {/* <span>
                   <img
                     style={{ paddingTop: "10px", paddingLeft: "5px" }}
                     id="Silver"
@@ -386,9 +430,15 @@ class Education extends React.Component {
                     width="17"
                     height="28"
                   />
-                </span>
+                </span> */}
+                <Button
+                style={{ marginLeft: "675px", width: "100px", backgroundColor: "gold", color: "black" }}
+                value="p61InB_dn8I,Silver,FINTACTIC/Client/fintactic/src/images/imgedu/SILVER.jpeg"
+                onClick={e => this.bookmarkVideo(e, "value")}
+                >
+                Bookmark
+              </Button>
               </th>
-            </div>
           </tr>
           <tr>
             <th>
@@ -410,10 +460,9 @@ class Education extends React.Component {
               </p>
             </th>
           </tr>
-          <tr style={{ display: "flex" }}>
-            <div style={{ color: "black", display: "flex" }}>
-              <th style={{ width: "250", display: "flex" }}>Bitcoin 
-                <span>
+          <tr >
+              <th >Bitcoin 
+                {/* <span>
                   <img
                     style={{ paddingTop: "10px", paddingLeft: "5px" }}
                     id="BitCoin"
@@ -422,9 +471,15 @@ class Education extends React.Component {
                     width="17"
                     height="28"
                   />
-                </span>
+                </span> */}
+                <Button
+                style={{ marginLeft: "655px", width: "100px", backgroundColor: "gold", color: "black" }}
+                value="XvB2RibLNWY,Bitcoin,FINTACTIC/Client/fintactic/src/images/imgedu/Bitcoin.jpeg"
+                onClick={e => this.bookmarkVideo(e, "value")}
+                >
+                Bookmark
+              </Button>
               </th>
-            </div>
           </tr>
           <tr>
             <th>
@@ -439,7 +494,7 @@ class Education extends React.Component {
           </tr>
         </table>
 
-        <Tooltip
+        {/* <Tooltip
           placement="right"
           isOpen={this.state.SMtooltipOpen}
           autohide={false}
@@ -536,7 +591,7 @@ class Education extends React.Component {
           }}
         >
           <div className="content">{Parser(this.state.SILVERtooltip)}</div>
-        </Tooltip>
+        </Tooltip> */}
       </div>
     );
   }
