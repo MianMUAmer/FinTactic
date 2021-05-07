@@ -367,6 +367,8 @@ def ml():
     res = {}
     for actual,predicted in zip(result.values(), df['forecast']):
         res[actual] = predicted
+    del res[next(iter(res))]
+    
     return jsonify(res), 200
 
 
