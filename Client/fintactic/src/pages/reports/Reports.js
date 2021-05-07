@@ -123,27 +123,26 @@ class Reports extends React.Component {
         <h2 className="page-title" style={{ color: "black" }}>
           Reports
         </h2>
-        
-
 
         <Row>
           <Col>
 
             <Widget
               bodyClass={s.mainTableWidget}
+              style={{backgroundColor: "#A7A0C3"}}
             >
               <Table striped>
                 <thead>
                   <tr className="fs-sm">
                     <th className="hidden-sm-down"></th>
-                    <th style={{color: "#602D76", fontFamily: "'Trebuchet MS', sans-serif"}}>Report</th>
-                    <th style={{color: "#602D76", fontFamily: "'Trebuchet MS', sans-serif"}}>Title</th>
-                    <th style={{color: "#602D76", fontFamily: "'Trebuchet MS', sans-serif"}}>Type</th>
-                    <th style={{color: "#602D76", fontFamily: "'Trebuchet MS', sans-serif"}}>Date</th>
-                    <th style={{color: "#602D76", fontFamily: "'Trebuchet MS', sans-serif"}}>Download</th>
+                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif"}}>Report</th>
+                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif"}}>Title</th>
+                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif"}}>Type</th>
+                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif"}}>Date</th>
+                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif"}}>Download</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody style={{backgroundColor: "#A0A2DA"}}>
                   {Object.values(this.state.myArray).map((row, index) => (
                     
                     <tr key={row.id}>
@@ -171,7 +170,7 @@ class Reports extends React.Component {
                           </small>
                       </td>
                       <td style={{color: "#000000", fontWeight: "500"}}>{(moment(row.date, "DD/MM/YYYY").format("MMMM D, dddd, YY"))}</td>
-                      <td><span className="glyphicon glyphicon-download-alt" style={{color: "#A30F0F", left: "60px", marginTop: "16px", cursor: "pointer"}} onClick={() => { this.downloadReport(row.id, row.date, index+1, row.title) }}/></td>
+                      <td><span className="glyphicon glyphicon-download-alt" style={{color: "#2D005A", left: "60px", marginTop: "16px", cursor: "pointer"}} onClick={() => { this.downloadReport(row.id, row.date, index+1, row.title) }}/></td>
                       <td className="width-150">
                       <td><span className="glyphicon glyphicon-trash" style={{color: "black", cursor: "pointer"}} onClick={() => {this.deleteRepFromDb(row.id)}}/></td>
                       </td>

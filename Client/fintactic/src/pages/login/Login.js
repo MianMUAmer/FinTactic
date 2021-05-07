@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Container, Alert, Button, FormGroup, Label, InputGroup, InputGroupAddon, Input, InputGroupText } from 'reactstrap';
 import Widget from '../../components/Widget';
 import { loginUser } from '../../actions/user';
+import Logo from '../../images/people/loginimg.jpg';
 
 class Login extends React.Component {
     static propTypes = {
@@ -57,8 +58,14 @@ class Login extends React.Component {
         }
 
         return (
-            <div className="auth-page">
-                <Container>
+            <div className="auth-page" style={{backgroundColor: "#6B5BAB"}}>
+                <Container id="containerRegistration" style={{marginTop: "100px"}}>
+                    <div className="wrapper" >
+                        <div className="wrapperFintactic">
+                        <img src={Logo} style={{opacity: "0.8"}}></img>
+                        </div>
+                    </div>
+                    <div className="wrapper">
                     <Widget className="widget-auth mx-auto" title={<h3 className="mt-0">Welcome to <b>FinTacTic!</b></h3>}>
                        
                         <form onSubmit={this.doLogin}>
@@ -106,15 +113,17 @@ class Login extends React.Component {
                                     Don't have an account? 
                                 </p>
                                 <Link className="d-block text-center mb-4" to="register">Sign up Now!</Link>
-                                
                             </div>
                         </form>
                     </Widget>
+                    </div>
                 </Container>
                 <footer className="auth-footer">
                 {new Date().getFullYear()} &copy; All rights reserved! <a href="" rel="noopener noreferrer" target="_blank">FinTacTic</a>.                    
+                
                 </footer>
             </div>
+            
         );
     }
 }
