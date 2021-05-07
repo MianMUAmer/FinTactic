@@ -5,6 +5,9 @@ from flask_login import login_user, current_user, logout_user, login_required
 from io import BytesIO
 import flask
 import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -314,16 +317,18 @@ def corr():
     elif struct=="data":
         for day,c1, c2 in zip(dates, close1, close2):
             result[day] = {"assetX":  str(c1), "assetY": str(c2)}
-        print(result)
         return jsonify(result), 200
     
 
 
 
-@app.route("/ml", methods=['GET', 'POST'])
+@app.route("/mlOld", methods=['GET', 'POST'])
 def ml():
     req = flask.request.get_json(force=True)
     name = req.get('name', None)
+    startDate = req.get('startDate', None)
+    endDate = req.get('endDate', None)
+
     if(name=='AAPL'):
         target = AAPL
     elif(name=="AMZN"):
@@ -345,11 +350,25 @@ def ml():
     else:
         return {'name': "invalid"}, 400
         
-    assets = target.query.all()
+    assets = target.query.filter(target.date.between(startDate, endDate)).all()
     result = {}
     for a in assets:
         result[a.getDate()] = a.get_close()
-    return jsonify(result), 200
+    
+    startValue=1000
+    endValue=1257
+    df = pd.DataFrame({'Date': result.keys(), 'Closing Price': result.values()})
+    df.index.name = 'index'
+
+    model=sm.tsa.statespace.SARIMAX(df['Closing Price'].astype(float) ,order=(1, 1, 1),seasonal_order=(1,1,1,12))
+    results=model.fit()
+    df['forecast']=results.predict(start=0,dynamic=False)
+
+    res = {}
+    for actual,predicted in zip(result.values(), df['forecast']):
+        res[actual] = predicted
+    return jsonify(res), 200
+
 
 @app.route("/addVideo", methods=['GET', 'POST'])
 def addVideo():
