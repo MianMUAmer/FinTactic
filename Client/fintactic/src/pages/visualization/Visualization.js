@@ -25,6 +25,7 @@ import { RotateCircleLoading } from "react-loadingg";
 import { toast } from "react-toastify";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Form } from "react-bootstrap";
+import MlPrediction from "./MlPrediction";
 
 class Visualization extends React.Component {
   _isMounted = false;
@@ -424,6 +425,11 @@ class Visualization extends React.Component {
       this.state.startRange,
       this.state.rSelected
     );
+    //fetch(/ml) data
+    this.setState({
+      isMLModalOpen: false,
+      graphType: "MlGraph",
+    });
   };
   render() {
     const {
@@ -766,7 +772,7 @@ class Visualization extends React.Component {
           toggle={this.openMLModal}
         >
           <ModalHeader className="prof" toggle={this.CloseML}>
-            <h4>Prediction Wizard</h4>
+            <h4>Prediction Wizard - {this.state.ticker}</h4>
           </ModalHeader>
           <ModalBody className="prof">
             <h5 style={{ marginBottom: "11px" }}>Predict: </h5>
@@ -836,6 +842,17 @@ class Visualization extends React.Component {
           {graphType === "Line Graph" &&
             data.stockChartXValues.length !== 0 &&
             refresh && <LineGraph data={data} />}
+          {graphType === "MlGraph" &&
+            data.stockChartXValues.length !== 0 &&
+            refresh &&
+            fIndicatorType === "Indicators" && (
+              <MlPrediction
+                data={data}
+                mlStartDate={100}
+                mlEndDate={251}
+                predType={this.state.rSelected}
+              />
+            )}
 
           {/* Indicators */}
           {graphType === "Candle Stick" &&
