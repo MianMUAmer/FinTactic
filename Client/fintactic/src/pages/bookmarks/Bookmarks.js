@@ -129,24 +129,43 @@ class Bookmarks extends React.Component {
         </h1>
         {Object.values(this.state.myArray).map((row, index) => (
 
-          <table>
+          <table style={{ float: "left"}}>
             <tr>
                 <th>{row.name}
-                  <Button
-                  style={{ marginLeft: "535px", width: "100px", backgroundColor: "gold", color: "black" }}
-                  value={(row.url),(row.name),(row.thumbnail)}
-                  onClick={e => this.bookmarkVideo(e, "value")}
-                  >
-                  Bookmark
-                </Button>
+                  
                 </th>
             </tr>
             <tr>
               <th>
                 <p>
                   <a href={"#/app/video/"+row.url} target="blank">
-                    <img src={row.thumbnail} />
+                    {
+                    (() => {
+                      if (row.name == "Silver") {
+                        return <img src={SILVER} style={{ height: "300px"}} />
+                      } else if (row.name == "Stock Market 101") {
+                        return <img src={StockMarket} style={{ height: "300px"}} />
+                      }else if (row.name == "Bollinger Bands") {
+                        return <img src={BollingerBands} style={{ height: "300px"}} />
+                      }else if (row.name == "Moving Average Convergence/Divergence (MACD)") {
+                        return <img src={MACD} style={{ height: "300px"}} />
+                      }else if (row.name == "Relative Strength Index (RSI)") {
+                        return <img src={RSI} style={{ height: "300px"}} />
+                      }else if (row.name == "Gold") {
+                        return <img src={Gold} style={{ height: "300px"}} />
+                      }
+                      else {
+                        return <img src={Bitcoin} style={{ height: "300px"}} />
+                      }
+                    })()}
                   </a>
+                  <Button
+                  style={{ marginLeft: "220px", width: "100px", backgroundColor: "gold", color: "black" }}
+                  value={(row.url),(row.name),(row.thumbnail)}
+                  onClick={e => this.bookmarkVideo(e, "value")}
+                  >
+                  Bookmark
+                </Button>
                 </p>
               </th>
             </tr>
