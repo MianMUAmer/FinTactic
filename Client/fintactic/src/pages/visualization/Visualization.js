@@ -425,11 +425,28 @@ class Visualization extends React.Component {
       this.state.startRange,
       this.state.rSelected
     );
+
+    fetch("/mlOld", {
+      method: "post",
+      body: JSON.stringify({
+        name: this.state.stockSymbol,
+        startDate: this.state.apiSDate,
+        endDate: this.state.apiEDate,
+      }),
+    })
+      .then((response) => {
+        this.state.loading = "false";
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+
     //fetch(/ml) data
-    this.setState({
-      isMLModalOpen: false,
-      graphType: "MlGraph",
-    });
+    // this.setState({
+    //   isMLModalOpen: false,
+    //   graphType: "MlGraph",
+    // });
   };
   render() {
     const {
