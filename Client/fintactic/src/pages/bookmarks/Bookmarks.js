@@ -154,13 +154,13 @@ class Bookmarks extends React.Component {
                       }
                     })()}
                   </a>
-                   <Button
+                    <Button
                   style={{ marginLeft: "220px", width: "100px", backgroundColor: "gold", color: "black" }}
                   value={(row.url),(row.name),(row.thumbnail)}
                   onClick={e => this.bookmarkVideo(e, "value")}
                   >
                   Bookmark
-                </Button> 
+                </Button>  
                 
                 </p>
               </th>
