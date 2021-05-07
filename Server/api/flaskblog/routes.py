@@ -214,6 +214,15 @@ def deleteReports():
     db.session.commit()
     return {"success": 200}
 
+@app.route("/deleteVideo", methods=['GET', 'POST'])
+def deleteVideo():
+    req = flask.request.get_json(force=True)
+    id = req.get('id', None)
+    video = Video.query.filter_by(id=id).first()
+    db.session.delete(video)
+    db.session.commit()
+    return {"success": 200}
+
 @app.route("/getDataReport", methods=['GET', 'POST'])
 def getData():
     req = flask.request.get_json(force=True)
@@ -351,6 +360,8 @@ def addVideo():
     db.session.add(video)
     db.session.commit()
     return {"success": 200}
+
+
 
 @app.route("/getVideos", methods=['GET', 'POST'])
 def getVideos():

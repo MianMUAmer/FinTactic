@@ -24,6 +24,7 @@ import Profile from "../../pages/Profile";
 
 import s from "./Header.module.scss";
 import "animate.css";
+import { RotateCircleLoading } from "react-loadingg";
 
 class Header extends React.Component {
   static propTypes = {
@@ -44,6 +45,7 @@ class Header extends React.Component {
     this.toggleSearchOpen = this.toggleSearchOpen.bind(this);
 
     this.state = {
+      loading: true,
       visible: true,
       messagesOpen: false,
       supportOpen: false,
@@ -57,11 +59,37 @@ class Header extends React.Component {
   }
 
   fetchUserData = () => {
-    //fetch data
-    this.setState({
-      userName: "Mian M Umair",
-      avatar: "https://bootdey.com/img/Content/avatar/avatar7.png",
-    });
+    //fetch name and pic
+    fetch("/getInfo", {
+      method: "post",
+      body: JSON.stringify({
+        id: localStorage.getItem("user_id"),
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        this.setState({ userName: data.name });
+      });
+
+    fetch("/getPic", {
+      method: "post",
+      headers: { responseType: "blob", "Content-Type": "application/json" },
+      mode: "cors",
+      body: JSON.stringify({
+        id: localStorage.getItem("user_id"),
+      }),
+    })
+      .then((response) => {
+        this.setState({ loading: false });
+        return response.blob();
+      })
+      .then((data) => {
+        this.setState({
+          avatar: URL.createObjectURL(data),
+        });
+      });
   };
 
   componentDidMount() {
@@ -131,7 +159,9 @@ class Header extends React.Component {
   }
 
   render() {
-    return (
+    return this.state.loading === true ? (
+      <RotateCircleLoading />
+    ) : (
       <Navbar className={`d-print-none main-navbar ${s.root}`}>
         <Nav className="ml-md-0 d-flex nav-responsive">
           <div

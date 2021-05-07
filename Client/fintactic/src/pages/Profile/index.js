@@ -45,7 +45,6 @@ class Profile extends React.Component {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         this.setState({
           name: data.name,
           email: data.email,
@@ -83,9 +82,9 @@ class Profile extends React.Component {
         return response.blob();
       })
       .then((data) => {
-        console.log(data);
         this.setState({
           picName: URL.createObjectURL(data),
+          LpicName: data,
         });
       });
   };
@@ -134,6 +133,7 @@ class Profile extends React.Component {
     e.preventDefault();
     this.setState({
       LpicName: e.target.files[0],
+      // picName: URL.createObjectURL(e.target.files[0])
     });
   };
 
@@ -189,25 +189,31 @@ class Profile extends React.Component {
     formData.append("instagram", this.state.Linstagram);
     formData.append("facebook", this.state.Lfacebook);
 
-    fetch("/updateUser", {
-      method: "post",
-      body: formData,
-    }).then((response) => {
-      console.log(this.state.LpicName);
-      this.setState({
+    // fetch("/updateUser", {
+    //   method: "post",
+    //   body: formData,
+    // }).then((response) => {
+    this.setState(
+      {
         name: this.state.Lname,
         email: this.state.Lemail,
         phone: this.state.Lphone,
         mobile: this.state.Lmobile,
         address: this.state.Laddress,
         designation: this.state.Ldesignation,
-        // picName: this.state.LpicName,
+        picName: URL.createObjectURL(this.state.LpicName),
         twitter: this.state.Ltwitter,
         instagram: this.state.Linstagram,
         facebook: this.state.Lfacebook,
         showModal: false,
-      });
-    });
+      },
+      () => {
+        fetch("/updateUser", {
+          method: "post",
+          body: formData,
+        });
+      }
+    );
   };
 
   render() {
@@ -247,7 +253,6 @@ class Profile extends React.Component {
                   <div className="d-flex flex-column align-items-center text-center">
                     <img
                       src={picName}
-                      // src="https://bootdey.com/img/Content/avatar/avatar7.png"
                       alt="Admin"
                       className="rounded-circle"
                       width={150}
