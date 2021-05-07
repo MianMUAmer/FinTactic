@@ -253,7 +253,6 @@ class Education extends React.Component {
   }
 
     bookmarkVideo = (e) => {
-      
 
       var videoValues = e.target.value.split(',');
       var user_id = localStorage.getItem("user_id");

@@ -135,11 +135,12 @@ class Reports extends React.Component {
                 <thead>
                   <tr className="fs-sm">
                     <th className="hidden-sm-down"></th>
-                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif"}}>Report</th>
-                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif"}}>Title</th>
-                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif"}}>Type</th>
-                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif"}}>Date</th>
-                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif"}}>Download</th>
+                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif", fontSize: "18px"}}>Report</th>
+                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif", fontSize: "18px"}}>Title</th>
+                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif", fontSize: "18px"}}>Type</th>
+                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif", fontSize: "18px"}}>Date</th>
+                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif", fontSize: "18px"}}>Download</th>
+                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif", fontSize: "18px"}}>Delete</th>
                   </tr>
                 </thead>
                 <tbody style={{backgroundColor: "#A0A2DA"}}>
@@ -170,9 +171,9 @@ class Reports extends React.Component {
                           </small>
                       </td>
                       <td style={{color: "#000000", fontWeight: "500"}}>{(moment(row.date, "DD/MM/YYYY").format("MMMM D, dddd, YY"))}</td>
-                      <td><span className="glyphicon glyphicon-download-alt" style={{color: "#2D005A", left: "60px", marginTop: "16px", cursor: "pointer"}} onClick={() => { this.downloadReport(row.id, row.date, index+1, row.title) }}/></td>
+                      <td><span className="glyphicon glyphicon-download-alt" style={{color: "#640303", left: "40px", marginTop: "16px", cursor: "pointer"}} onClick={() => { this.downloadReport(row.id, row.date, index+1, row.title) }}/></td>
                       <td className="width-150">
-                      <td><span className="glyphicon glyphicon-trash" style={{color: "black", cursor: "pointer"}} onClick={() => {this.deleteRepFromDb(row.id)}}/></td>
+                      <td><span className="glyphicon glyphicon-trash" style={{color: "black", left: "14px", cursor: "pointer"}} onClick={() => {this.deleteRepFromDb(row.id)}}/></td>
                       </td>
                     </tr>
                   ))}
