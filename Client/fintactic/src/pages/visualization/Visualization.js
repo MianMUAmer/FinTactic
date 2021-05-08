@@ -436,7 +436,7 @@ class Visualization extends React.Component {
         name: this.state.ticker,
         startDate: this.state.apiSDate,
         endDate: this.state.apiEDate,
-        rSelected: this.state.rSelected,
+        choice: this.state.rSelected,
       }),
     })
       .then((response) => {
