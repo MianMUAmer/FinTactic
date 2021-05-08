@@ -436,7 +436,7 @@ class Visualization extends React.Component {
         name: this.state.ticker,
         startDate: this.state.apiSDate,
         endDate: this.state.apiEDate,
-        // rSelected:this.state.rSelected
+        rSelected: this.state.rSelected,
       }),
     })
       .then((response) => {
@@ -446,26 +446,26 @@ class Visualization extends React.Component {
       })
       .then((data) => {
         console.log(data);
-        for (var key in data["data"]) {
-          apiStockXValues.push(key);
-          apiStockCloseValues.push(data["data"][key]["close"]);
-          apiStockPredValues.push(data["data"][key]["predict"]);
-        }
-        console.log(apiStockPredValues, "§§§§");
-        this.setState((oldDataState) => ({
-          ...oldDataState,
-          mlData: {
-            name: data["meta"]["Name"],
-            symbol: data["meta"]["Symbol"],
-            stockChartXValues: apiStockXValues,
-            stockChartCloseValues: apiStockCloseValues.map(Number),
-            stockPredictedValues: apiStockPredValues,
-          },
-          isMLModalOpen: false,
-          graphType: "MlGraph",
-          refresh: true,
-        }));
-        console.log(this.state.stockPredictedValues, "§§§§");
+        // for (var key in data["data"]) {
+        //   apiStockXValues.push(key);
+        //   apiStockCloseValues.push(data["data"][key]["close"]);
+        //   apiStockPredValues.push(data["data"][key]["predict"]);
+        // }
+        // console.log(apiStockPredValues, "§§§§");
+        // this.setState((oldDataState) => ({
+        //   ...oldDataState,
+        //   mlData: {
+        //     name: data["meta"]["Name"],
+        //     symbol: data["meta"]["Symbol"],
+        //     stockChartXValues: apiStockXValues,
+        //     stockChartCloseValues: apiStockCloseValues.map(Number),
+        //     stockPredictedValues: apiStockPredValues,
+        //   },
+        //   isMLModalOpen: false,
+        //   graphType: "MlGraph",
+        //   refresh: true,
+        // }));
+        // console.log(this.state.stockPredictedValues, "§§§§");
       });
   };
   render() {
