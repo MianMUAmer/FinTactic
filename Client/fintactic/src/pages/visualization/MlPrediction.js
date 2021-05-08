@@ -1,3 +1,4 @@
+import moment from "moment";
 import React from "react";
 import Plot from "react-plotly.js";
 
@@ -19,61 +20,10 @@ class MlPrediction extends React.Component {
       stockChartXValues,
       stockChartCloseValues,
       symbol,
-      mlStartDate,
-      mlEndData,
       predType,
       predictedValues,
     } = this.state;
     console.log(this.state, "ssssss");
-    // if (predType === "Old Data") {
-    //   var pD = [];
-    //   if (mlStartDate > 0) {
-    //     for (var k = 0; k < mlStartDate; k++) {
-    //       pD.push({});
-    //     }
-    //     if (mlEndData < stockChartCloseValues.length) {
-    //       for (
-    //         var l = mlStartDate, m = 0;
-    //         l < mlEndData - mlStartDate;
-    //         l++, m++
-    //       ) {
-    //         pD.push(predictedValues[m]);
-    //       }
-    //       for (var n = j; n < stockChartCloseValues.length - mlEndData; n++) {
-    //         pD.push({});
-    //       }
-    //     } else {
-    //       for (
-    //         var l = mlStartDate, m = 0;
-    //         l < stockChartCloseValues.length;
-    //         l++, m++
-    //       ) {
-    //         pD.push(predictedValues[m]);
-    //       }
-    //     }
-    //   } else {
-    //     if (mlEndData < stockChartCloseValues.length) {
-    //       for (var k = mlStartDate; k < mlEndData; k++) {
-    //         pD.push(predictedValues[k]);
-    //       }
-    //       for (var n = j; n < stockChartCloseValues.length; n++) {
-    //         pD.push({});
-    //       }
-    //     } else {
-    //       for (var i = mlStartDate; i < mlEndData; i++) {
-    //         pD.push(predictedValues[i]);
-    //       }
-    //     }
-    //   }
-    // } else if (predType === "Future Data") {
-    //   for (var i = 0; i < mlStartDate; i++) {
-    //     pD.push({});
-    //   }
-    //   for (var j = mlStartDate, m = 0; j < mlEndData; j++, m++) {
-    //     pD.push(predictedValues[m]);
-    //   }
-    // }
-    // console.log(pD, "pD");
 
     return (
       <Plot

@@ -322,6 +322,7 @@ def ml():
     name = req.get('name', None)
     startDate = req.get('startDate', None)
     endDate = req.get('endDate', None)
+    choice = req.get('choice', None)
 
     if(name=='AAPL'):
         target = AAPL
@@ -343,34 +344,81 @@ def ml():
         target = SI
     else:
         return {'name': "invalid"}, 400
-        
-    assets = target.query.filter(target.date.between(startDate, endDate)).all()
+
+    if choice=="Old Data":
+        assets = target.query.filter(target.date.between(startDate, endDate)).all()
+    elif choice=="Future Data":
+        assets = target.query.filter(target.date.between("2021-01-01", "2021-05-07")).all()
+
     result = {}
     for a in assets:
         result[a.getDate()] = a.get_close()
-
     df = pd.DataFrame({'Date': result.keys(), 'Closing Price': result.values()})
     df.index.name = 'index'
 
-    model=sm.tsa.statespace.SARIMAX(df['Closing Price'].astype(float) ,order=(1, 1, 1),seasonal_order=(1,1,1,12))
-    results=model.fit()
-    df['forecast']=results.predict(start=0,dynamic=False)
+    if choice=="Old Data":
+        model=sm.tsa.statespace.SARIMAX(df['Closing Price'].astype(float) ,order=(1, 1, 1),seasonal_order=(1,1,1,12))
+        results=model.fit()
+        df['forecast']=results.predict(start=0,dynamic=False)
+        res = {}
+        meta = {}
+        data = {}
+        meta["Symbol"]=name
+        meta["Name"]=symDict[name]
+        res["meta"] = meta
+        i=0
+        for date, actual,predicted in zip(result.keys(), result.values(), df['forecast']):
+            data[date] = {"close": actual, "predict": predicted}
+        del data[next(iter(data))]
+        res["data"] = data
+        return jsonify(res), 200
 
-    res = {}
-    meta = {}
-    data = {}
-    meta["Symbol"]=name
-    meta["Name"]=symDict[name]
-    res["meta"] = meta
-
-    i=0
-    for date, actual,predicted in zip(result.keys(), result.values(), df['forecast']):
-        data[date] = {"close": actual, "predict": predicted}
+    elif choice=="Future Data":
+        future_dates = []
+        for x in range(0,24):
+            future_dates.append(df.index[-1] + x)
+        future_datest_df=pd.DataFrame(index=future_dates[1:],columns=df.columns)
+        future_df=pd.concat([df,future_datest_df])
+        model=sm.tsa.statespace.SARIMAX(df['Closing Price'].astype(float),order=(1, 1, 1),seasonal_order=(1,1,1,30))
+        results=model.fit()
+        future_df['forecast'] = results.predict(start = len(df), end = len(df)+22, dynamic= False)
         
-    del data[next(iter(data))]
-    res["data"] = data
+        res = {}
+        meta = {}
+        future = []
+        data = []
+        dates = []
 
-    return jsonify(res), 200
+        meta["Symbol"]=name
+        meta["Name"]=symDict[name]
+        res["meta"] = meta
+       
+        for blank in range(0, len(df)):
+            future.append("{}")
+        for f in future_df[len(df)+1:]['forecast']:
+            future.append(f) 
+        res["future"] = future
+
+        for v in result.values():
+            data.append(v)
+        for blank in range(0,22):
+            data.append("{}")
+
+        for k in result.keys():
+            dates.append(k)
+        
+        dates.append("2021-05-08")
+        dates.append("2021-05-09")
+        d1 = "2021-05-"
+        postfix = 10
+        for day in range(0,20):
+            newDate = d1 + str(postfix)
+            dates.append(newDate)
+            postfix+=1
+        
+        res["dates"]=dates
+        res["data"] = data
+        return jsonify(res), 200
 
 
 @app.route("/addVideo", methods=['GET', 'POST'])
