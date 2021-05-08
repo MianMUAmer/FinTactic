@@ -26,6 +26,7 @@ import Widget from "../../components/Widget";
 import source from "../../images/reportimg.png";
 import { loginUser } from '../../actions/user';
 import download from 'downloadjs';
+import { bollingerbands } from "technicalindicators";
 
 class Bookmarks extends React.Component {
   constructor(props) {
@@ -119,7 +120,7 @@ class Bookmarks extends React.Component {
 
     return (
       <div className={s.root}>
-        <h1 className="page-title" style={{ color: "black" }}>
+        <h1 className="page-title" style={{ color: "black", fontWeight: "bold", fontFamily: "serif"}}>
           Bookmarks
         </h1>
         {Object.values(this.state.myArray).map((row, index) => (

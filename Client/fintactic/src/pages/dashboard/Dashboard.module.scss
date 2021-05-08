@@ -1,6 +1,7 @@
 @import "../../styles/app";
 
 .root {
+  flex-wrap: wrap;
   :global {
     .post-comments footer {
       margin: 0 (-$widget-padding-horizontal) (-$widget-padding-vertical);
@@ -19,6 +20,10 @@
       .x_label {
         background: $widget-bg-color !important;
       }
+    }
+    
+    @media (min-width: 1024px) {
+      flex-wrap: nowrap;
     }
   }
 }
@@ -71,4 +76,6 @@ p {
 
 .container {
   background-color: blueviolet;
+  
 }
+

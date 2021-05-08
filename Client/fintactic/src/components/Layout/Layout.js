@@ -68,7 +68,8 @@ class Layout extends React.Component {
           <Header />
           {/* <Chat chatOpen={this.state.chatOpen} /> */}
           {/* <Helper /> */}
-          <Sidebar />
+          <Sidebar style={{position: "fixed"}}/>
+          
           <Hammer onSwipe={this.handleSwipe}>
             <main className={s.content}>
               <BreadcrumbHistory url={this.props.location.pathname} />

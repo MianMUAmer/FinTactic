@@ -69,95 +69,95 @@ class Sidebar extends React.Component {
 
   render() {
     return (
-      <nav
-        className={cx(s.root)}
-        ref={(nav) => {
-          this.element = nav;
-        }}
-      >
-        <header className={s.logo}>
-          <h2>FinTacTic</h2>
-        </header>
-        <ul className={s.nav}>
-          <LinksGroup
-            onActiveSidebarItemChange={(activeItem) =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="Home"
-            isHeader
-            iconName="flaticon-home"
-            link="/app/main"
-            index="main"
-          />
-          <LinksGroup
-            onActiveSidebarItemChange={(activeItem) =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="Bookmarks"
-            isHeader
-            iconName="flaticon-bookmark"
-            link="/app/bookmarks"
-            index="core"
-          />
-          <LinksGroup
-            onActiveSidebarItemChange={(t) =>
-              this.props.dispatch(changeActiveSidebarItem(t))
-            }
-            activeItem={this.props.activeItem}
-            header="Education"
-            isHeader
-            iconName="flaticon-play-button-1"
-            link="/app/education"
-            index="tables"
-          />
-          <LinksGroup
-            onActiveSidebarItemChange={(activeItem) =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="Visualization"
-            isHeader
-            iconName="flaticon-view"
-            link="/app/visualization"
-            index="ui"
-          />
-          <LinksGroup
-            onActiveSidebarItemChange={(activeItem) =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="Correlate"
-            isHeader
-            iconName="flaticon-shuffle"
-            link="/app/correlate"
-            index="ui"
-          />
-          <LinksGroup
-            onActiveSidebarItemChange={(activeItem) =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="Reports"
-            isHeader
-            iconName="flaticon-notepad"
-            link="/app/reports"
-            index="ui"
-          />
-          <LinksGroup
-            onActiveSidebarItemChange={(activeItem) =>
-              this.props.dispatch(changeActiveSidebarItem(activeItem))
-            }
-            activeItem={this.props.activeItem}
-            header="States"
-            isHeader
-            iconName="flaticon-note"
-            link="/app/notes"
-            index="forms"
-          />
-        </ul>
-      </nav>
+        <nav 
+          className={cx(s.root)}
+          ref={(nav) => {
+            this.element = nav;
+          }}
+        >
+          <header className={s.logo}>
+            <h2>FinTacTic</h2>
+          </header>
+          <ul className={s.nav}>
+            <LinksGroup
+              onActiveSidebarItemChange={(activeItem) =>
+                this.props.dispatch(changeActiveSidebarItem(activeItem))
+              }
+              activeItem={this.props.activeItem}
+              header="Home"
+              isHeader
+              iconName="flaticon-home"
+              link="/app/main"
+              index="main"
+            />
+            <LinksGroup
+              onActiveSidebarItemChange={(activeItem) =>
+                this.props.dispatch(changeActiveSidebarItem(activeItem))
+              }
+              activeItem={this.props.activeItem}
+              header="Bookmarks"
+              isHeader
+              iconName="flaticon-bookmark"
+              link="/app/bookmarks"
+              index="core"
+            />
+            <LinksGroup
+              onActiveSidebarItemChange={(t) =>
+                this.props.dispatch(changeActiveSidebarItem(t))
+              }
+              activeItem={this.props.activeItem}
+              header="Education"
+              isHeader
+              iconName="flaticon-play-button-1"
+              link="/app/education"
+              index="tables"
+            />
+            <LinksGroup
+              onActiveSidebarItemChange={(activeItem) =>
+                this.props.dispatch(changeActiveSidebarItem(activeItem))
+              }
+              activeItem={this.props.activeItem}
+              header="Visualization"
+              isHeader
+              iconName="flaticon-view"
+              link="/app/visualization"
+              index="ui"
+            />
+            <LinksGroup
+              onActiveSidebarItemChange={(activeItem) =>
+                this.props.dispatch(changeActiveSidebarItem(activeItem))
+              }
+              activeItem={this.props.activeItem}
+              header="Correlate"
+              isHeader
+              iconName="flaticon-shuffle"
+              link="/app/correlate"
+              index="ui"
+            />
+            <LinksGroup
+              onActiveSidebarItemChange={(activeItem) =>
+                this.props.dispatch(changeActiveSidebarItem(activeItem))
+              }
+              activeItem={this.props.activeItem}
+              header="Reports"
+              isHeader
+              iconName="flaticon-notepad"
+              link="/app/reports"
+              index="ui"
+            />
+            <LinksGroup
+              onActiveSidebarItemChange={(activeItem) =>
+                this.props.dispatch(changeActiveSidebarItem(activeItem))
+              }
+              activeItem={this.props.activeItem}
+              header="States"
+              isHeader
+              iconName="flaticon-note"
+              link="/app/notes"
+              index="forms"
+            />
+          </ul>
+        </nav>
     );
   }
 }
