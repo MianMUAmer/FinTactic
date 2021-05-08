@@ -25,6 +25,7 @@ import { RotateCircleLoading } from "react-loadingg";
 import { toast } from "react-toastify";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { Form } from "react-bootstrap";
+import MlPrediction from "./MlPrediction";
 
 class Visualization extends React.Component {
   _isMounted = false;
@@ -50,6 +51,13 @@ class Visualization extends React.Component {
       },
       refresh: false,
 
+      mlData: {
+        name: "",
+        symbol: "",
+        stockChartXValues: [],
+        stockChartCloseValues: [],
+        stockPredictedValues: [],
+      },
       isMLModalOpen: false,
       rSelected: null,
 
@@ -418,12 +426,46 @@ class Visualization extends React.Component {
   };
 
   MLPredGraph = () => {
-    console.log(
-      "Pressed ML",
-      this.state.endRange,
-      this.state.startRange,
-      this.state.rSelected
-    );
+    let apiStockXValues = [];
+    let apiStockCloseValues = [];
+    let apiStockPredValues = [];
+
+    fetch("/mlOld", {
+      method: "post",
+      body: JSON.stringify({
+        name: this.state.ticker,
+        startDate: this.state.apiSDate,
+        endDate: this.state.apiEDate,
+      }),
+    })
+      .then((response) => {
+        console.log(response);
+        this.state.loading = "false";
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        for (var key in data["data"]) {
+          apiStockXValues.push(key);
+          apiStockCloseValues.push(data["data"][key]["close"]);
+          apiStockPredValues.push(data["data"][key]["predict"]);
+        }
+        console.log(apiStockPredValues, "§§§§");
+        this.setState((oldDataState) => ({
+          ...oldDataState,
+          mlData: {
+            name: data["meta"]["Name"],
+            symbol: data["meta"]["Symbol"],
+            stockChartXValues: apiStockXValues,
+            stockChartCloseValues: apiStockCloseValues.map(Number),
+            stockPredictedValues: apiStockPredValues,
+          },
+          isMLModalOpen: false,
+          graphType: "MlGraph",
+          refresh: true,
+        }));
+        console.log(this.state.stockPredictedValues, "§§§§");
+      });
   };
   render() {
     const {
@@ -766,7 +808,7 @@ class Visualization extends React.Component {
           toggle={this.openMLModal}
         >
           <ModalHeader className="prof" toggle={this.CloseML}>
-            <h4>Prediction Wizard</h4>
+            <h4>Prediction Wizard - {this.state.ticker}</h4>
           </ModalHeader>
           <ModalBody className="prof">
             <h5 style={{ marginBottom: "11px" }}>Predict: </h5>
@@ -836,6 +878,15 @@ class Visualization extends React.Component {
           {graphType === "Line Graph" &&
             data.stockChartXValues.length !== 0 &&
             refresh && <LineGraph data={data} />}
+          {graphType === "MlGraph" &&
+            data.stockChartXValues.length !== 0 &&
+            refresh &&
+            fIndicatorType === "Indicators" && (
+              <MlPrediction
+                data={this.state.mlData}
+                predType={this.state.rSelected}
+              />
+            )}
 
           {/* Indicators */}
           {graphType === "Candle Stick" &&
