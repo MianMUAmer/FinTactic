@@ -80,7 +80,7 @@ class Visualization extends React.Component {
         endDate: new Date(),
       },
     };
-    this.handleChange = this.handleChange.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
     this.screenshot = this.screenshot.bind(this);
     this.saveState = this.saveState.bind(this);
   }
@@ -131,6 +131,8 @@ class Visualization extends React.Component {
   }
 
   screenshot() {
+    console.log(this.state.notes, this.state.title, "232");
+
     window.scrollTo(0, 0);
     //console.log(this.state.title + "" + this.state.notes);
     var x = this.state.title;
@@ -168,16 +170,25 @@ class Visualization extends React.Component {
         //headers: {'Content-Type':'multipart/form-data'},
       })
         .then((resp) => resp.json())
-        .then((data) => console.log(data))
+        // .then((data) => console.log(data))
         .catch((err) => console.error(err));
     });
-
+    this.setState({
+      title: "",
+      notes: "",
+    });
     toast.success("The captured report is saved successfully!");
   }
 
-  handleChange = (e) => {
+  handleTitleChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value,
+      title: e.target.value,
+    });
+  };
+
+  handleNotesChange = (e) => {
+    this.setState({
+      notes: e.target.value,
     });
   };
 
@@ -969,7 +980,8 @@ class Visualization extends React.Component {
               height: "25px",
             }}
             name="title"
-            onChange={this.handleChange}
+            value={this.state.title}
+            onChange={this.handleTitleChange}
           ></textarea>
           <h4 style={{ color: "black" }}>Notes: </h4>
           <textarea
@@ -981,7 +993,8 @@ class Visualization extends React.Component {
               color: "black",
             }}
             name="notes"
-            onChange={this.handleChange}
+            value={this.state.notes}
+            onChange={this.handleNotesChange}
           />
         </form>
         <Button
