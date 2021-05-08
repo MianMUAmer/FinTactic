@@ -11,7 +11,7 @@ import statsmodels.api as sm
 
 symDict = {"AAPL":"Apple", "AMZN":"Amazon", "FB":"Facebook", "GOOGL":"Google", "MSFT":"Microsoft", "BTC":"Bitcoin", "ETH":"Ethereum", "GC":"Gold", "SI":"Silver"}
 
-@app.route("/register", methods=['GET', 'POST'])
+@app.route("/registerapi", methods=['GET', 'POST'])
 def register():
     req = flask.request.get_json(force=True)
     email = req.get('email', None)
@@ -29,7 +29,7 @@ def register():
         return {'success':'true'}, 200
     return jsonify(errors), 400
 
-@app.route("/login", methods=['GET', 'POST'])
+@app.route("/loginapi", methods=['GET', 'POST'])
 def login():
     req = flask.request.get_json(force=True)
     email = req.get('email', None)
