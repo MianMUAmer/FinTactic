@@ -398,6 +398,7 @@ class Visualization extends React.Component {
           startDate: new Date(),
           endDate: new Date(),
         },
+        graphType: "Candle Stick",
       },
       () => {
         this.fetchStock();
@@ -445,27 +446,53 @@ class Visualization extends React.Component {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
-        // for (var key in data["data"]) {
-        //   apiStockXValues.push(key);
-        //   apiStockCloseValues.push(data["data"][key]["close"]);
-        //   apiStockPredValues.push(data["data"][key]["predict"]);
-        // }
-        // console.log(apiStockPredValues, "§§§§");
-        // this.setState((oldDataState) => ({
-        //   ...oldDataState,
-        //   mlData: {
-        //     name: data["meta"]["Name"],
-        //     symbol: data["meta"]["Symbol"],
-        //     stockChartXValues: apiStockXValues,
-        //     stockChartCloseValues: apiStockCloseValues.map(Number),
-        //     stockPredictedValues: apiStockPredValues,
-        //   },
-        //   isMLModalOpen: false,
-        //   graphType: "MlGraph",
-        //   refresh: true,
-        // }));
-        // console.log(this.state.stockPredictedValues, "§§§§");
+        if (this.state.rSelected === "Future Data") {
+          console.log(data, "in Future");
+          for (var key in data["data"]) {
+            apiStockCloseValues.push(data["data"][key]);
+          }
+          for (var key in data["dates"]) {
+            apiStockXValues.push(data["dates"][key]);
+          }
+          for (var key in data["future"]) {
+            apiStockPredValues.push(data["future"][key]);
+          }
+
+          this.setState((oldDataState) => ({
+            ...oldDataState,
+            mlData: {
+              name: data["meta"]["Name"],
+              symbol: data["meta"]["Symbol"],
+              stockChartXValues: apiStockXValues,
+              stockChartCloseValues: apiStockCloseValues.map(Number),
+              stockPredictedValues: apiStockPredValues.map(Number),
+            },
+            isMLModalOpen: false,
+            graphType: "MlGraph",
+            refresh: true,
+          }));
+        } else if (this.state.rSelected === "Old Data") {
+          for (var key in data["data"]) {
+            apiStockXValues.push(key);
+            apiStockCloseValues.push(data["data"][key]["close"]);
+            apiStockPredValues.push(data["data"][key]["predict"]);
+          }
+          console.log(apiStockPredValues, "§§§§");
+          this.setState((oldDataState) => ({
+            ...oldDataState,
+            mlData: {
+              name: data["meta"]["Name"],
+              symbol: data["meta"]["Symbol"],
+              stockChartXValues: apiStockXValues,
+              stockChartCloseValues: apiStockCloseValues.map(Number),
+              stockPredictedValues: apiStockPredValues,
+            },
+            isMLModalOpen: false,
+            graphType: "MlGraph",
+            refresh: true,
+          }));
+        }
+        console.log(this.state.stockPredictedValues, "§§§§");
       });
   };
   render() {
@@ -809,7 +836,7 @@ class Visualization extends React.Component {
           toggle={this.openMLModal}
         >
           <ModalHeader className="prof" toggle={this.CloseML}>
-            <h4>Prediction Wizard - {this.state.ticker}</h4>
+            <h4>Forecast - {this.state.ticker}</h4>
           </ModalHeader>
           <ModalBody className="prof">
             <h5 style={{ marginBottom: "11px" }}>Predict: </h5>

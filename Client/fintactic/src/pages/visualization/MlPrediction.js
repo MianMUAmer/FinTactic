@@ -15,18 +15,6 @@ class MlPrediction extends React.Component {
     };
   }
 
-  componentDidMount() {
-    if (this.state.predType === "Future Data") {
-      var cp = this.state.stockChartXValues;
-      //   for (var i = 1; i < 24; i++) {
-      //     cp.push(
-      //       moment("07-05-2021", "DD-MM-YYYY").add(i, "day").format("YYYY-MM-DD")
-      //     );
-      //   }
-      console.log(this.state.stockChartXValues, "ccpp");
-    }
-  }
-
   render() {
     const {
       stockChartXValues,
@@ -36,16 +24,6 @@ class MlPrediction extends React.Component {
       predictedValues,
     } = this.state;
     console.log(this.state, "ssssss");
-
-    // if (predType === "Future Data") {
-    //   var cp = stockChartXValues;
-    //   for (var i = 1; i < 24; i++) {
-    //     cp.push(
-    //       moment("07-05-2021", "DD-MM-YYYY").add(i, "day").format("YYYY-MM-DD")
-    //     );
-    //   }
-    //   console.log(cp, "ccpp");
-    // }
 
     return (
       <Plot
