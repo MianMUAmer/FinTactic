@@ -110,7 +110,7 @@ class Visualization extends React.Component {
       e = "None";
     }
 
-    fetch("/upNotes", {
+    fetch("/api/upNotes", {
       method: "post",
       body: JSON.stringify({
         id: user_id,
@@ -164,7 +164,7 @@ class Visualization extends React.Component {
       formData.append("id", user_id);
       formData.append("title", x);
 
-      fetch("/upReport", {
+      fetch("/api/upReport", {
         method: "post",
         body: formData,
         //headers: {'Content-Type':'multipart/form-data'},
@@ -275,7 +275,7 @@ class Visualization extends React.Component {
       refresh: false,
     });
 
-    fetch("/assets", {
+    fetch("/api/assets", {
       method: "post",
       body: JSON.stringify({ name: stockSymbol }),
     })
@@ -322,7 +322,7 @@ class Visualization extends React.Component {
       refresh: false,
     });
 
-    fetch("/assets", {
+    fetch("/api/assets", {
       method: "post",
       body: JSON.stringify({
         name: stockSymbol,
@@ -443,7 +443,7 @@ class Visualization extends React.Component {
     let apiStockCloseValues = [];
     let apiStockPredValues = [];
 
-    fetch("/mlOld", {
+    fetch("/api/mlOld", {
       method: "post",
       body: JSON.stringify({
         name: this.state.ticker,

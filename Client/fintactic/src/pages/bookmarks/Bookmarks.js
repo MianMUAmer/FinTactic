@@ -81,7 +81,7 @@ class Bookmarks extends React.Component {
   }
   componentDidMount() {
     var user_id = localStorage.getItem("user_id");
-    fetch('/getBookmarks', {
+    fetch('/api/getBookmarks', {
       method: 'post',
       headers: {'Content-Type':'application/json', 'Accept': 'application/json'},
       body: JSON.stringify({user_id: user_id}),
@@ -106,7 +106,7 @@ class Bookmarks extends React.Component {
     localStorage.setItem("VideoThmb", videoTHMB); 
 
 
-    fetch('/toggleBookmark', {
+    fetch('/api/toggleBookmark', {
       method: 'post',
       body: JSON.stringify({user_id: user_id, video_url: videoURL}),
       headers: {'Content-Type':  'application/json', 'Accept': 'application/json'},

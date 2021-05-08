@@ -35,7 +35,7 @@ class Profile extends React.Component {
 
   loadData = () => {
     //fetch and set Local and api var
-    fetch("/getInfo", {
+    fetch("/api/getInfo", {
       method: "post",
       body: JSON.stringify({
         id: localStorage.getItem("user_id"),
@@ -70,7 +70,7 @@ class Profile extends React.Component {
         });
       });
 
-    fetch("/getPic", {
+    fetch("/api/getPic", {
       method: "post",
       headers: { responseType: "blob", "Content-Type": "application/json" },
       mode: "cors",
@@ -208,7 +208,7 @@ class Profile extends React.Component {
         showModal: false,
       },
       () => {
-        fetch("/updateUser", {
+        fetch("/api/updateUser", {
           method: "post",
           body: formData,
         });

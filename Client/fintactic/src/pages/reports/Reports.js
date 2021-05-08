@@ -42,7 +42,7 @@ class Reports extends React.Component {
   componentDidMount() {
     console.log(moment())
     var user_id = localStorage.getItem("user_id");
-    fetch('/getMetaReport', {
+    fetch('/api/getMetaReport', {
       method: 'post',
       headers: {'Content-Type':'application/json', 'Accept': 'application/json'},
       body: JSON.stringify({id: user_id}),
@@ -59,7 +59,7 @@ class Reports extends React.Component {
   
 
   deleteRepFromDb(row_id) {
-    fetch('/deleteReports', {
+    fetch('/api/deleteReports', {
       method: 'post',
       headers: {'Content-Type':'application/json', 'Accept': 'application/json'},
       body: JSON.stringify({id: row_id}),
@@ -77,7 +77,7 @@ class Reports extends React.Component {
 
   downloadReport(idx, date, index, title) {
 
-    let url = `http://localhost:5000/getDataReport?id=${idx}`;
+    let url = `http://localhost:5000/api/getDataReport?id=${idx}`;
     return fetch(url, {
       method: 'post',
       body: JSON.stringify({id: idx}),

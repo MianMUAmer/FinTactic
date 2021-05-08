@@ -263,7 +263,7 @@ class Education extends React.Component {
       var videoTHMB = videoValues[2]
       localStorage.setItem("VideoThmb", videoTHMB); 
     
-    fetch('/toggleBookmark', {
+    fetch('/api/toggleBookmark', {
       method: 'post',
       body: JSON.stringify({user_id: user_id, video_url: videoURL}),
       headers: {'Content-Type':  'application/json', 'Accept': 'application/json'},

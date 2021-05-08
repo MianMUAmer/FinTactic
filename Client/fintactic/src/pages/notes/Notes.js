@@ -43,7 +43,7 @@ class Notes extends React.Component {
 
   componentDidMount() {
     var user_id = localStorage.getItem("user_id");
-    fetch('/getNotes', {
+    fetch('/api/getNotes', {
       method: 'post',
       headers: {'Content-Type':'application/json', 'Accept': 'application/json'},
       body: JSON.stringify({id: user_id}),
@@ -77,7 +77,7 @@ class Notes extends React.Component {
   }
 
   deleteFromDb(row_id) {
-    fetch('/deleteNotes', {
+    fetch('/api/deleteNotes', {
       method: 'post',
       headers: {'Content-Type':'application/json', 'Accept': 'application/json'},
       body: JSON.stringify({id: row_id}),

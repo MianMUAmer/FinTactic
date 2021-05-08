@@ -25,7 +25,7 @@ export function registerUser(payload) {
         password: payload.creds.password,
       };
       console.log(opts);
-      fetch("/registerapi", {
+      fetch("/api/register", {
         method: "post",
         body: JSON.stringify(opts),
       })

@@ -249,7 +249,7 @@ class Correlate extends React.Component {
       });
 
     //fetch Correlation data
-    fetch("/correlation", {
+    fetch("/api/correlation", {
       method: "post",
       body: JSON.stringify({
         name1: stockSymbolX,
@@ -301,7 +301,7 @@ class Correlate extends React.Component {
       });
 
     var lineYCord = [];
-    fetch("/correlation", {
+    fetch("/api/correlation", {
       method: "post",
       body: JSON.stringify({
         name1: stockSymbolX,

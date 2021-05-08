@@ -11,7 +11,7 @@ import statsmodels.api as sm
 
 symDict = {"AAPL":"Apple", "AMZN":"Amazon", "FB":"Facebook", "GOOGL":"Google", "MSFT":"Microsoft", "BTC":"Bitcoin", "ETH":"Ethereum", "GC":"Gold", "SI":"Silver"}
 
-@app.route("/registerapi", methods=['GET', 'POST'])
+@app.route("/api/register", methods=['GET', 'POST'])
 def register():
     req = flask.request.get_json(force=True)
     email = req.get('email', None)
@@ -29,7 +29,7 @@ def register():
         return {'success':'true'}, 200
     return jsonify(errors), 400
 
-@app.route("/loginapi", methods=['GET', 'POST'])
+@app.route("/api/login", methods=['GET', 'POST'])
 def login():
     req = flask.request.get_json(force=True)
     email = req.get('email', None)
@@ -40,13 +40,13 @@ def login():
         return {'currentuser': current_user.to_json()}, 200
     return {'currentuser': "invalid"}, 400
     
-@app.route('/logout')
+@app.route('/api/logout')
 @login_required
 def logout():
     logout_user()
     return {"success": 200}
     
-@app.route("/assets", methods=['GET', 'POST'])
+@app.route("/api/assets", methods=['GET', 'POST'])
 def getAsset():
     req = flask.request.get_json(force=True)
     name = req.get('name', None)
@@ -95,7 +95,7 @@ def getAsset():
     result["Time Series (Daily)"] = date
     return jsonify(result), 200
 
-@app.route("/updateUser", methods=['GET', 'POST'])
+@app.route("/api/updateUser", methods=['GET', 'POST'])
 def update():
     pic = request.files["pic"]
     id = request.form.get('id')
@@ -121,14 +121,14 @@ def update():
     db.session.commit()
     return {"success": 200}
 
-@app.route("/getInfo", methods=['GET', 'POST'])
+@app.route("/api/getInfo", methods=['GET', 'POST'])
 def getInfo():
     req = flask.request.get_json(force=True)
     id = req.get('id', None)
     user = User.query.filter_by(id=id).first()
     return jsonify(user.get_info()), 200
 
-@app.route("/getPic", methods=['GET', 'POST'])
+@app.route("/api/getPic", methods=['GET', 'POST'])
 def getPic():
     req = flask.request.get_json(force=True)
     id = req.get('id', None)
@@ -136,7 +136,7 @@ def getPic():
     return send_file(BytesIO(user.get_image()), attachment_filename=str(user.id)+'.jpg', as_attachment=True)
 
 
-@app.route("/upReport", methods=["POST"])
+@app.route("/api/upReport", methods=["POST"])
 def report():
     if 'report' not in request.files:
         resp = jsonify({'message' : 'No file part in the request'})
@@ -153,7 +153,7 @@ def report():
     db.session.commit()
     return {"success": 200}
 
-@app.route("/getMetaReport", methods=['GET', 'POST'])
+@app.route("/api/getMetaReport", methods=['GET', 'POST'])
 def getReports():
     req = flask.request.get_json(force=True)
     user_id = req.get('id', None)
@@ -165,7 +165,7 @@ def getReports():
 
     return jsonify(metas), 200
 
-@app.route("/getNotes", methods=['GET', 'POST'])
+@app.route("/api/getNotes", methods=['GET', 'POST'])
 def getNotes():
     req = flask.request.get_json(force=True)
     user_id = req.get('id', None)
@@ -176,7 +176,7 @@ def getNotes():
 
     return jsonify(notes), 200
 
-@app.route("/upNotes", methods=['GET', 'POST'])
+@app.route("/api/upNotes", methods=['GET', 'POST'])
 def upNotes():
     req = flask.request.get_json(force=True)
     id = req.get('id', None)
@@ -191,7 +191,7 @@ def upNotes():
     db.session.commit()
     return {"success": 200}
     
-@app.route("/deleteNotes", methods=['GET', 'POST'])
+@app.route("/api/deleteNotes", methods=['GET', 'POST'])
 def deleteNotes():
     req = flask.request.get_json(force=True)
     id = req.get('id', None)
@@ -200,7 +200,7 @@ def deleteNotes():
     db.session.commit()
     return {"success": 200}
 
-@app.route("/deleteReports", methods=['GET', 'POST'])
+@app.route("/api/deleteReports", methods=['GET', 'POST'])
 def deleteReports():
     req = flask.request.get_json(force=True)
     id = req.get('id', None)
@@ -211,7 +211,7 @@ def deleteReports():
     db.session.commit()
     return {"success": 200}
 
-@app.route("/deleteVideo", methods=['GET', 'POST'])
+@app.route("/api/deleteVideo", methods=['GET', 'POST'])
 def deleteVideo():
     req = flask.request.get_json(force=True)
     id = req.get('id', None)
@@ -220,14 +220,14 @@ def deleteVideo():
     db.session.commit()
     return {"success": 200}
 
-@app.route("/getDataReport", methods=['GET', 'POST'])
+@app.route("/api/getDataReport", methods=['GET', 'POST'])
 def getData():
     req = flask.request.get_json(force=True)
     id = req.get('id', None)
     report = ReportData.query.filter_by(id=id).first()
     return send_file(BytesIO(report.get_data()), attachment_filename='report.pdf', as_attachment=True)
     
-@app.route("/correlation", methods=['GET', 'POST'])
+@app.route("/api/correlation", methods=['GET', 'POST'])
 def corr():
     req = flask.request.get_json(force=True)
     name1 = req.get('name1', None)
@@ -316,7 +316,7 @@ def corr():
 
 
 
-@app.route("/mlOld", methods=['GET', 'POST'])
+@app.route("/api/mlOld", methods=['GET', 'POST'])
 def ml():
     req = flask.request.get_json(force=True)
     name = req.get('name', None)
@@ -421,7 +421,7 @@ def ml():
         return jsonify(res), 200
 
 
-@app.route("/addVideo", methods=['GET', 'POST'])
+@app.route("/api/addVideo", methods=['GET', 'POST'])
 def addVideo():
     req = flask.request.get_json(force=True)
     name = req.get('name', None)
@@ -434,7 +434,7 @@ def addVideo():
 
 
 
-@app.route("/getVideos", methods=['GET', 'POST'])
+@app.route("/api/getVideos", methods=['GET', 'POST'])
 def getVideos():
     rawVideos = Video.query.all()
     videos = {}
@@ -442,7 +442,7 @@ def getVideos():
         videos[a.get_id()] = a.get_json()
     return jsonify(videos), 200
 
-@app.route("/toggleBookmark", methods=['GET', 'POST'])
+@app.route("/api/toggleBookmark", methods=['GET', 'POST'])
 def toggleBookmark():
     req = flask.request.get_json(force=True)
     user_id = req.get('user_id', None)
@@ -457,7 +457,7 @@ def toggleBookmark():
     db.session.commit()
     return {"success": 200}
 
-@app.route("/getBookmarks", methods=['GET', 'POST'])
+@app.route("/api/getBookmarks", methods=['GET', 'POST'])
 def getBookmarks():
     req = flask.request.get_json(force=True)
     user_id = req.get('user_id', None)
