@@ -51,6 +51,13 @@ class Visualization extends React.Component {
       },
       refresh: false,
 
+      mlData: {
+        name: "~",
+        symbol: "",
+        stockChartXValues: [],
+        stockChartCloseValues: [],
+        stockPredictedValues: [],
+      },
       isMLModalOpen: false,
       rSelected: null,
 
@@ -429,7 +436,7 @@ class Visualization extends React.Component {
     fetch("/mlOld", {
       method: "post",
       body: JSON.stringify({
-        name: this.state.stockSymbol,
+        name: this.state.ticker,
         startDate: this.state.apiSDate,
         endDate: this.state.apiEDate,
       }),
@@ -440,6 +447,29 @@ class Visualization extends React.Component {
       })
       .then((data) => {
         console.log(data);
+        // for (var key in data["Time Series (Daily)"]) {
+        //   apiStockXValues.push(key);
+        //   apiStockOpenValues.push(data["Time Series (Daily)"][key]["1. open"]);
+        //   apiStockHighValues.push(data["Time Series (Daily)"][key]["2. high"]);
+        //   apiStockLowValues.push(data["Time Series (Daily)"][key]["3. low"]);
+        //   apiStockCloseValues.push(
+        //     data["Time Series (Daily)"][key]["4. close"]
+        //   );
+        // }
+
+        // this.setState((oldDataState) => ({
+        //   ...oldDataState,
+        //   data: {
+        //     name: data["Meta Data"]["3. Name"],
+        //     symbol: data["Meta Data"]["2. Symbol"],
+        //     stockChartXValues: apiStockXValues,
+        //     stockChartOpenValues: apiStockOpenValues,
+        //     stockChartHighValues: apiStockHighValues,
+        //     stockChartLowValues: apiStockLowValues,
+        //     stockChartCloseValues: apiStockCloseValues,
+        //   },
+        //   refresh: true,
+        // }));
       });
 
     //fetch(/ml) data
