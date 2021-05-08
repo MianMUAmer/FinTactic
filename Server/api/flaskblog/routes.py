@@ -348,7 +348,7 @@ def ml():
     result = {}
     for a in assets:
         result[a.getDate()] = a.get_close()
-    
+
     df = pd.DataFrame({'Date': result.keys(), 'Closing Price': result.values()})
     df.index.name = 'index'
 
@@ -357,12 +357,18 @@ def ml():
     df['forecast']=results.predict(start=0,dynamic=False)
 
     res = {}
-    res["Symbol"]=name
-    res["Name"]=symDict[name]
+    meta = {}
+    data = {}
+    meta["Symbol"]=name
+    meta["Name"]=symDict[name]
+    res["meta"] = meta
 
     i=0
     for date, actual,predicted in zip(result.keys(), result.values(), df['forecast']):
-        res[date] = {"close": actual, "predict": predicted}
+        data[date] = {"close": actual, "predict": predicted}
+        
+    del data[next(iter(data))]
+    res["data"] = data
 
     return jsonify(res), 200
 
