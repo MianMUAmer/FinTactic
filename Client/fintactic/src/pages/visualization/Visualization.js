@@ -52,7 +52,7 @@ class Visualization extends React.Component {
       refresh: false,
 
       mlData: {
-        name: "~",
+        name: "",
         symbol: "",
         stockChartXValues: [],
         stockChartCloseValues: [],
@@ -426,12 +426,9 @@ class Visualization extends React.Component {
   };
 
   MLPredGraph = () => {
-    console.log(
-      "Pressed ML",
-      this.state.apiSDate,
-      this.state.apiEDate,
-      this.state.ticker
-    );
+    let apiStockXValues = [];
+    let apiStockCloseValues = [];
+    let apiStockPredValues = [];
 
     fetch("/mlOld", {
       method: "post",
@@ -448,36 +445,27 @@ class Visualization extends React.Component {
       })
       .then((data) => {
         console.log(data);
-        // for (var key in data["Time Series (Daily)"]) {
-        //   apiStockXValues.push(key);
-        //   apiStockOpenValues.push(data["Time Series (Daily)"][key]["1. open"]);
-        //   apiStockHighValues.push(data["Time Series (Daily)"][key]["2. high"]);
-        //   apiStockLowValues.push(data["Time Series (Daily)"][key]["3. low"]);
-        //   apiStockCloseValues.push(
-        //     data["Time Series (Daily)"][key]["4. close"]
-        //   );
-        // }
-
-        // this.setState((oldDataState) => ({
-        //   ...oldDataState,
-        //   data: {
-        //     name: data["Meta Data"]["3. Name"],
-        //     symbol: data["Meta Data"]["2. Symbol"],
-        //     stockChartXValues: apiStockXValues,
-        //     stockChartOpenValues: apiStockOpenValues,
-        //     stockChartHighValues: apiStockHighValues,
-        //     stockChartLowValues: apiStockLowValues,
-        //     stockChartCloseValues: apiStockCloseValues,
-        //   },
-        //   refresh: true,
-        // }));
+        for (var key in data["data"]) {
+          apiStockXValues.push(key);
+          apiStockCloseValues.push(data["data"][key]["close"]);
+          apiStockPredValues.push(data["data"][key]["predict"]);
+        }
+        console.log(apiStockPredValues, "§§§§");
+        this.setState((oldDataState) => ({
+          ...oldDataState,
+          mlData: {
+            name: data["meta"]["Name"],
+            symbol: data["meta"]["Symbol"],
+            stockChartXValues: apiStockXValues,
+            stockChartCloseValues: apiStockCloseValues.map(Number),
+            stockPredictedValues: apiStockPredValues,
+          },
+          isMLModalOpen: false,
+          graphType: "MlGraph",
+          refresh: true,
+        }));
+        console.log(this.state.stockPredictedValues, "§§§§");
       });
-
-    //fetch(/ml) data
-    // this.setState({
-    //   isMLModalOpen: false,
-    //   graphType: "MlGraph",
-    // });
   };
   render() {
     const {
@@ -895,9 +883,7 @@ class Visualization extends React.Component {
             refresh &&
             fIndicatorType === "Indicators" && (
               <MlPrediction
-                data={data}
-                mlStartDate={100}
-                mlEndDate={251}
+                data={this.state.mlData}
                 predType={this.state.rSelected}
               />
             )}

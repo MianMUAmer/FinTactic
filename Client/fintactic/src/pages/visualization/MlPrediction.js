@@ -5,12 +5,11 @@ class MlPrediction extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: this.props.data.name,
       symbol: this.props.data.symbol,
       stockChartXValues: this.props.data.stockChartXValues,
       stockChartCloseValues: this.props.data.stockChartCloseValues,
-      predictedValues: this.props.predValues,
-      mlStartDate: this.props.mlStartDate,
-      mlEndData: this.props.mlEndData,
+      predictedValues: this.props.data.stockPredictedValues,
       predType: this.props.predType,
     };
   }
@@ -25,6 +24,7 @@ class MlPrediction extends React.Component {
       predType,
       predictedValues,
     } = this.state;
+    console.log(this.state, "ssssss");
     // if (predType === "Old Data") {
     //   var pD = [];
     //   if (mlStartDate > 0) {
@@ -86,16 +86,16 @@ class MlPrediction extends React.Component {
             y: stockChartCloseValues,
             line: { color: "#fd8c38" },
           },
-          //   {
-          //     type: "scatter",
-          //     mode: "lines",
-          //     x: stockChartXValues,
-          //     y: bUpper,
-          //     line: {
-          //       color: "rgb(255, 98, 157)",
-          //     },
-          //     name: "UpperBound ( +2\u03C3 )",
-          //   },
+          {
+            type: "scatter",
+            mode: "lines",
+            name: `${symbol} Prediction`,
+            x: stockChartXValues,
+            y: predictedValues,
+            line: {
+              color: "#26bf4e",
+            },
+          },
         ]}
         layout={this.layout}
         config={{ displayModeBar: false }}
