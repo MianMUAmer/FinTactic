@@ -912,7 +912,7 @@ class Correlate extends React.Component {
           {dataY.stockChartXValues.length !== 0 &&
             dataX.stockChartXValues.length !== 0 &&
             refreshCorr && (
-              <CorrelationPlot style={{width: "1150px"}}
+              <CorrelationPlot  
                 data={this.state.dataCorr}
                 pC={this.state.pC}
                 assetX={this.state.xSymbol}
