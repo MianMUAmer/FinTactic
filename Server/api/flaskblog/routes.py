@@ -361,10 +361,9 @@ def ml():
     res["Name"]=symDict[name]
 
     i=0
-    for actual,predicted in zip(result.values(), df['forecast']):
-        res[i] = {"close":  str(actual), "predict": str(predicted)}
-        i+=1
-    del res[0]
+    for date, actual,predicted in zip(result.keys(), result.values(), df['forecast']):
+        res[date] = {"close": actual, "predict": predicted}
+
     return jsonify(res), 200
 
 
