@@ -9,6 +9,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
 
+symDict = {"AAPL":"Apple", "AMZN":"Amazon", "FB":"Facebook", "GOOGL":"Google", "MSFT":"Microsoft", "BTC":"Bitcoin", "ETH":"Ethereum", "GC":"Gold", "SI":"Silver"}
+
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     req = flask.request.get_json(force=True)
@@ -60,34 +62,26 @@ def getAsset():
 
     if(name=='AAPL'):
         target = AAPL
-        metadata["3. Name"] = "Apple"
     elif(name=="AMZN"):
-        metadata["3. Name"] = "Amazon"
         target = AMZN
     elif(name=="FB"):
-        metadata["3. Name"] = "Facebook"
         target = FB
     elif(name=="GOOGL"):
-        metadata["3. Name"] = "Google"
         target = GOOG
     elif(name=="MSFT"):
-        metadata["3. Name"] = "Microsoft"
         target = MSFT
     elif(name=="BTC"):
-        metadata["3. Name"] = "Bitcoin"
         target = BTC
     elif(name=="ETH"):
-        metadata["3. Name"] = "Ethereum"
         target = ETH
     elif(name=="GC"):
-        metadata["3. Name"] = "Gold"
         target = GC
     elif(name=="SI"):
-        metadata["3. Name"] = "Silver"
         target = SI
     else:
         return {'name': "invalid"}, 400
     
+    metadata["3. Name"] = symDict[name]
     result["Meta Data"] = metadata
 
     if startDate and endDate:
@@ -363,10 +357,14 @@ def ml():
     df['forecast']=results.predict(start=0,dynamic=False)
 
     res = {}
-    for actual,predicted in zip(result.values(), df['forecast']):
-        res[actual] = predicted
-    del res[next(iter(res))]
+    res["Symbol"]=name
+    res["Name"]=symDict[name]
 
+    i=0
+    for actual,predicted in zip(result.values(), df['forecast']):
+        res[i] = {"close":  str(actual), "predict": str(predicted)}
+        i+=1
+    del res[0]
     return jsonify(res), 200
 
 
