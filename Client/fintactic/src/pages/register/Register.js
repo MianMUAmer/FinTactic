@@ -16,7 +16,7 @@ import {
 import Widget from "../../components/Widget";
 import { registerUser, registerError } from "../../actions/register";
 import Login from "../login";
-import Logo from "../../images/Signup.jpeg";
+import Logo from "../../images/imgedu/112.jpg";
 
 class Register extends React.Component {
   static propTypes = {
@@ -102,16 +102,13 @@ class Register extends React.Component {
 
     return (
       <div
-        className="auth-page"
-        style={{
-          backgroundColor:
-            "#6B5BAB" /*backgroundImage: 'url(' + require('../../images/people/bgbg.jpg') + ')'*/,
-        }}
+        className="auth-page gradient3"
+        
       >
         <Container id="containerRegistration" style={{ marginTop: "60px" }}>
-          <div className="wrapper">
-            <div className="wrapperFintactic">
-              <img src={Logo}></img>
+          <div className="wrapper" >
+            <div className="wrapperFintacticRegister">
+              <img src={Logo} style={{marginTop: "35px"}}></img>
             </div>
           </div>
           <div className="wrapper">
@@ -199,10 +196,10 @@ class Register extends React.Component {
                   >
                     {this.props.isFetching ? "Loading..." : "Register"}
                   </Button>
-                  <p className="widget-auth-info mt-4">
+                  <p className="widget-auth-info mt-4" style={{color: "white", fontWeight: "500"}}>
                     Already have the account?
                   </p>
-                  <Link className="d-block text-center mb-4" to="login">
+                  <Link className="d-block text-center mb-4" to="login" style={{color: "white", fontWeight: "500",textDecorationLine: 'underline' }}>
                     Login Now!
                   </Link>
                 </div>
@@ -210,12 +207,12 @@ class Register extends React.Component {
             </Widget>
           </div>
         </Container>
-        <footer className="auth-footer">
+        <footer className="auth-footer" style={{color: "white", fontWeight: "500"}}>
           {new Date().getFullYear()} &copy; All rights reserved!{" "}
-          <a href="" rel="noopener noreferrer" target="_blank">
+          <a href="" rel="noopener noreferrer" target="_blank" style={{color: "white", fontWeight: "500", textDecorationLine: 'underline'}}>
             FinTacTic
           </a>
-          .
+          !
         </footer>
       </div>
     );

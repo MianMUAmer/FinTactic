@@ -861,7 +861,7 @@ class Correlate extends React.Component {
           }}
         >
           <div style={{ width: "50%" }}>
-            <h5 style={{ color: "black" }}>AssetX: {dataX.name}</h5>
+            <h5 style={{ color: "black", fontWeight: "500" }}>AssetX: {dataX.name}</h5>
             <div style={{ height: "92%" }}>
               {graphXType === "Candle Stick" &&
                 dataX.stockChartXValues.length !== 0 &&
@@ -872,7 +872,7 @@ class Correlate extends React.Component {
             </div>
           </div>
           <div style={{ width: "50%" }}>
-            <h5 style={{ color: "black" }}>AssetY: {dataY.name}</h5>
+            <h5 style={{ color: "black", fontWeight: "500" }}>AssetY: {dataY.name}</h5>
             <div style={{ height: "92%" }}>
               {graphYType === "Candle Stick" &&
                 dataY.stockChartXValues.length !== 0 &&
@@ -906,17 +906,19 @@ class Correlate extends React.Component {
             color: "black",
             display: "flex",
             height: 360,
+          
           }}
         >
           {dataY.stockChartXValues.length !== 0 &&
             dataX.stockChartXValues.length !== 0 &&
             refreshCorr && (
-              <CorrelationPlot
+              <CorrelationPlot style={{width: "1150px"}}
                 data={this.state.dataCorr}
                 pC={this.state.pC}
                 assetX={this.state.xSymbol}
                 assetY={this.state.ySymbol}
                 lineYCord={this.state.lineYCordinates}
+                
               />
             )}
         </div>

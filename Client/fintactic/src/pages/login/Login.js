@@ -15,7 +15,7 @@ import {
 } from "reactstrap";
 import Widget from "../../components/Widget";
 import { loginUser } from "../../actions/user";
-import Logo from "../../images/login.jpeg";
+import Logo from "../../images/imgedu/111.jpg";
 
 class Login extends React.Component {
   static propTypes = {
@@ -72,11 +72,11 @@ class Login extends React.Component {
     }
 
     return (
-      <div className="auth-page" style={{ backgroundColor: "#6B5BAB" }}>
+      <div className="auth-page gradient3" >
         <Container id="containerRegistration" style={{ marginTop: "100px" }}>
           <div className="wrapper">
-            <div className="wrapperFintactic">
-              <img src={Logo} style={{ opacity: "0.8" }}></img>
+            <div className="wrapperFintacticLogin">
+              <img src={Logo} ></img>
             </div>
           </div>
           <div className="wrapper">
@@ -153,10 +153,10 @@ class Login extends React.Component {
                     </span>
                     {this.props.isFetching ? "Loading..." : "Login"}
                   </Button>
-                  <p className="widget-auth-info mt-4">
+                  <p className="widget-auth-info mt-4" style={{color: "white", fontWeight: "500"}}>
                     Don't have an account?
                   </p>
-                  <Link className="d-block text-center mb-4" to="register">
+                  <Link className="d-block text-center mb-4" to="register" style={{color: "white", fontWeight: "500", textDecorationLine: 'underline'}}>
                     Sign up Now!
                   </Link>
                 </div>
@@ -164,9 +164,9 @@ class Login extends React.Component {
             </Widget>
           </div>
         </Container>
-        <footer className="auth-footer">
+        <footer className="auth-footer" style={{color: "white", fontWeight: "500"}}>
           {new Date().getFullYear()} &copy; All rights reserved!{" "}
-          <a href="" rel="noopener noreferrer" target="_blank">
+          <a href="" rel="noopener noreferrer" target="_blank" style={{color: "white", fontWeight: "500", textDecorationLine: 'underline'}}>
             FinTacTic
           </a>
           .

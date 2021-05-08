@@ -129,13 +129,12 @@ class Reports extends React.Component {
 
             <Widget
               bodyClass={s.mainTableWidget}
-              style={{backgroundColor: "#A7A0C3"}}
+              style={{backgroundColor: "#C5C3C7"}}
             >
               <Table striped>
                 <thead>
                   <tr className="fs-sm">
                     <th className="hidden-sm-down"></th>
-                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif", fontSize: "18px"}}>Report</th>
                     <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif", fontSize: "18px"}}>Title</th>
                     <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif", fontSize: "18px"}}>Type</th>
                     <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif", fontSize: "18px"}}>Date</th>
@@ -143,7 +142,7 @@ class Reports extends React.Component {
                     <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif", fontSize: "18px"}}>Delete</th>
                   </tr>
                 </thead>
-                <tbody style={{backgroundColor: "#A0A2DA"}}>
+                <tbody style={{backgroundColor: "#C5C3C7"}}>
                   {Object.values(this.state.myArray).map((row, index) => (
                     
                     <tr key={row.id}>
@@ -151,15 +150,7 @@ class Reports extends React.Component {
                         index + 1
                         }
                         </td>
-                      <td>
-                        <img
-                          className="img-rounded"
-                          src={source}
-                          alt=""
-                          height="50"
-                          width="50"
-                        />
-                      </td>
+                      
                       <td style={{color: "#000000", fontWeight: "500"}}>
                         {row.title}
                       </td>

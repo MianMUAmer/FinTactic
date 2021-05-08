@@ -59,7 +59,7 @@ class CorrelationPlot extends React.Component {
   }
 
   layout = {
-    width: 1100,
+    width: 1150,
     height: 410,
     title: {
       text: `${this.props.assetX} & ${this.props.assetY} Correlation Plot`,

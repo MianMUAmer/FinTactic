@@ -120,7 +120,7 @@ class Bookmarks extends React.Component {
 
     return (
       <div className={s.root}>
-        <h1 className="page-title" style={{ color: "black", fontWeight: "bold", fontFamily: "serif"}}>
+        <h1 className="page-title" style={{ color: "black"}}>
           Bookmarks
         </h1>
         {Object.values(this.state.myArray).map((row, index) => (
@@ -155,13 +155,7 @@ class Bookmarks extends React.Component {
                       }
                     })()}
                   </a>
-                    <Button
-                  style={{ marginLeft: "220px", width: "100px", backgroundColor: "gold", color: "black" }}
-                  value={(row.url),(row.name),(row.thumbnail)}
-                  onClick={e => this.bookmarkVideo(e, "value")}
-                  >
-                  Bookmark
-                </Button>  
+                    
                 
                 </p>
               </th>

@@ -137,13 +137,13 @@ class Notes extends React.Component {
         <h2 className="page-title" style={{color: "black"}}>
           States
         </h2>
-        <div style={{color: "black", fontSize: "17px"}}>Click on <span className="glyphicon glyphicon-step-backward" style={{color: "#640303", marginBottom: "3px"}}/> to go back to your work!</div>
+        <div style={{color: "black", fontSize: "17px", marginTop: "15px", marginBottom: "15px"}}>Click on <span className="glyphicon glyphicon-step-backward" style={{color: "#640303", marginBottom: "3px"}}/> to go back to your work!</div>
         
         <Row>
           <Col>
             <Widget
               bodyClass={s.mainTableWidget}
-              style={{backgroundColor: "#A7A0C3"}}
+              style={{backgroundColor: "#C5C3C7"}}
             >
               <Table striped>
                 <thead>
@@ -160,7 +160,7 @@ class Notes extends React.Component {
                   </tr>
                   
                 </thead>
-                <tbody style={{backgroundColor: "#A0A2DA"}}>
+                <tbody style={{backgroundColor: "#C5C3C7"}}>
 
                   {Object.values(this.state.myNotesArray).map((row, index)  => (
                     <tr key={row.id}>

@@ -135,7 +135,7 @@ class Visualization extends React.Component {
     //console.log(this.state.title + "" + this.state.notes);
     var x = this.state.title;
     var y = this.state.notes;
-    //console.log(x, y);
+    console.log(x, y);
     html2canvas(document.getElementById("capture")).then(function (canvas) {
       window.scrollTo(0, 0);
       //document.body.appendChild(canvas);
@@ -171,8 +171,9 @@ class Visualization extends React.Component {
         .then((data) => console.log(data))
         .catch((err) => console.error(err));
     });
-
+    
     toast.success("The captured report is saved successfully!");
+
   }
 
   handleChange = (e) => {
@@ -925,49 +926,54 @@ class Visualization extends React.Component {
             )}
         </div>
 
-        <form>
-          <h4 style={{ color: "black" }}>
-            Take your notes, click on <b>Save Report</b> and save your capture
-            on Reports tab!<br></br>
-            Click on <b>Save States</b> and you will be able to turn back where
-            you left on States tab!
-          </h4>
-          <h4 style={{ color: "black" }}>Title: </h4>
-          <textarea
-            style={{
-              color: "black",
-              backgroundColor: "#F5F5AE",
-              width: "1030px",
-              height: "25px",
-            }}
-            name="title"
-            onChange={this.handleChange}
-          ></textarea>
-          <h4 style={{ color: "black" }}>Notes: </h4>
-          <textarea
-            onChange={this.changeTextarea}
-            ref={(ref) => (this.multilineTextarea = ref)}
-            style={{
-              backgroundColor: "#F5F5AE",
-              width: "1030px",
-              color: "black",
-            }}
-            name="notes"
-            onChange={this.handleChange}
-          />
-        </form>
-        <Button
-          onClick={this.screenshot}
-          style={{ backgroundColor: "#2471A3" }}
-        >
-          Save Report
-        </Button>
-        <Button
-          onClick={this.saveState}
-          style={{ backgroundColor: "#7D3C98", marginLeft: "15px" }}
-        >
-          Save State
-        </Button>
+        <div style={{ border: '2px dashed black', width:"1030px", borderRadius: "15px"}}>
+          <form>
+            <h4 style={{ color: "black", marginTop: "40px", marginBottom: "40px", marginLeft: "10px", marginRight: "10px"  }}>
+              Take your notes, click on <b>Save Report</b> and save your capture
+              on Reports tab!<br></br>
+              Click on <b>Save States</b> and you will be able to turn back where
+              you left on States tab!
+            </h4>
+            <h4 style={{ color: "black",  marginLeft: "10px", fontWeight: "500" }}>Title: </h4>
+            <textarea
+              style={{
+                color: "black",
+                backgroundColor: "#C5C3C7",
+                width: "1010px",
+                height: "35px",
+                margin: "10px"
+              }}
+              name="title"
+              onChange={this.handleChange}
+            ></textarea>
+            <h4 style={{ color: "black",  marginLeft: "10px", fontWeight: "500" }}>Notes: </h4>
+            <textarea
+              onChange={this.changeTextarea}
+              ref={(ref) => (this.multilineTextarea = ref)}
+              style={{
+                backgroundColor: "#C5C3C7",
+                width: "1010px",
+                height: "100px",
+                color: "black",
+                margin: "10px"
+              }}
+              name="notes"
+              onChange={this.handleChange}
+            />
+          </form>
+          <Button
+            onClick={this.screenshot}
+            style={{ backgroundColor: "#2471A3", margin: "15px"}}
+          >
+            Save Report
+          </Button>
+          <Button
+            onClick={this.saveState}
+            style={{ backgroundColor: "#7D3C98", margin: "15px"}}
+          >
+            Save State
+          </Button>
+        </div>
       </div>
     );
   }

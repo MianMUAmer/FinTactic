@@ -130,29 +130,13 @@ class Home extends React.Component {
               <a
                 style={{
                   color: "black",
+                  fontWeight: "500",
                 }}
                 className="toggleColour text-black no-underline text-2xl lg:text-4xl"
                 href="#"
               >
                 {/*Icon from: http://www.potlabicons.com/ */}
-                <svg
-                  className="h-8 fill-current inline"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 512.005 512.005"
-                >
-                  <rect
-                    fill="#2a2a31"
-                    x="16.539"
-                    y="425.626"
-                    width="479.767"
-                    height="50.502"
-                    transform="matrix(1,0,0,1,0,0)"
-                  />
-                  <path
-                    className="plane-take-off"
-                    d=" M 510.7 189.151 C 505.271 168.95 484.565 156.956 464.365 162.385 L 330.156 198.367 L 155.924 35.878 L 107.19 49.008 L 211.729 230.183 L 86.232 263.767 L 36.614 224.754 L 0 234.603 L 45.957 314.27 L 65.274 347.727 L 105.802 336.869 L 240.011 300.886 L 349.726 271.469 L 483.935 235.486 C 504.134 230.057 516.129 209.352 510.7 189.151 Z "
-                  />
-                </svg>
+                
                 FinTacTic
               </a>
             </div>
@@ -164,6 +148,7 @@ class Home extends React.Component {
                 style={{
                   marginRight: 18,
                   color: "black",
+                  fontWeight: "500",
                 }}
               >
                 Product
@@ -174,6 +159,7 @@ class Home extends React.Component {
                 style={{
                   marginRight: 18,
                   color: "black",
+                  fontWeight: "500",
                 }}
               >
                 Features
@@ -184,6 +170,7 @@ class Home extends React.Component {
                 style={{
                   marginRight: 18,
                   color: "black",
+                  fontWeight: "500",
                 }}
               >
                 Contact
@@ -192,6 +179,7 @@ class Home extends React.Component {
                 style={{
                   marginRight: 20,
                   color: "black",
+                  fontWeight: "500",
                 }}
                 className="text-black no-underline text-1xl lg:text-1xl pl-4 flex items-center"
                 to="login"
@@ -207,6 +195,7 @@ class Home extends React.Component {
                   textAlign: "center",
                   color: "white",
                   backgroundColor: "#5f5bf5",
+                  fontWeight: "500",
                 }}
                 className="toggleColour text-black no-underline text-1xl lg:text-1xl items-center"
                 to="register"
@@ -221,15 +210,13 @@ class Home extends React.Component {
           <div className="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
             {/*Left Col*/}
             <div className="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
-              <p className="uppercase tracking-loose w-full">
-                Develop Financial TacTics
-              </p>
+              
               <h1 className="my-4 text-5xl font-bold leading-tight">
                 Learn, Implement and Invest Wisely!
               </h1>
-              <p className="leading-normal text-2xl mb-8">
-                Sub-hero message, not too long and not too short. Make it just
-                right!
+              <p className="leading-normal text-2xl mb-8" style={{fontWeight: "400", color: "white"}}>
+                Web-based ML enabled stock analysis tool with educational videos 
+                on various concepts in finance!
               </p>
               <Link
                 style={{
@@ -307,7 +294,7 @@ class Home extends React.Component {
                 <h3 className="text-3xl text-gray-800 font-bold leading-none mb-3">
                   Educational Videos
                 </h3>
-                <p className="text-gray-600 mb-8">
+                <p className="text-gray-600 mb-8" style={{fontWeight: "500"}}>
                   We have created whiteboard educational videos on various
                   financial concepts, indicators (Bollinger Bands, RSI, MACD,
                   etc) and popular graph types used in trading. You can learn
@@ -333,7 +320,7 @@ class Home extends React.Component {
                   <h3 className="text-3xl text-gray-800 font-bold leading-none mb-3">
                     Multiple Asset Data Visualization
                   </h3>
-                  <p className="text-gray-600 mb-8">
+                  <p className="text-gray-600 mb-8"  style={{fontWeight: "500"}}>
                     You can visualize mulitple asset's (Stocks, Digital Currency
                     & Comodity) data, all on one platform using popular graph
                     types. We have real time series data, for better prediction
@@ -353,7 +340,7 @@ class Home extends React.Component {
                 <h3 className="text-3xl text-gray-800 font-bold leading-none mb-3">
                   ML Model for Trend Prediction
                 </h3>
-                <p className="text-gray-600 mb-8">
+                <p className="text-gray-600 mb-8"  style={{fontWeight: "500"}}>
                   Machine learning model is used to make predictions about data
                   trend on old time series data, so you can compare your
                   analysis with it (and be sure) or can learn from your
@@ -380,7 +367,7 @@ class Home extends React.Component {
                   <h3 className="text-3xl text-gray-800 font-bold leading-none mb-3">
                     Correlation Between Asset Types
                   </h3>
-                  <p className="text-gray-600 mb-8">
+                  <p className="text-gray-600 mb-8"  style={{fontWeight: "500"}}>
                     Why put all eggs in one basket? Using correlation feature
                     you can inspect if market changes of one asset type effects
                     the other. It can help you make informed investment
@@ -415,7 +402,7 @@ class Home extends React.Component {
                 <div className="w-full font-bold text-xl text-gray-800 px-6">
                   Dashboard
                 </div>
-                <p className="text-gray-800 text-base px-6 mb-5">
+                <p className="text-gray-800 text-base px-6 mb-5"  style={{fontWeight: "500"}}>
                   All your saved reports, notes and recent saved graphs are
                   available on your dashboard.
                 </p>
@@ -435,7 +422,7 @@ class Home extends React.Component {
                 <div className="w-full font-bold text-xl text-gray-800 px-6">
                   Bookmarks
                 </div>
-                <p className="text-gray-800 text-base px-6 mb-5">
+                <p className="text-gray-800 text-base px-6 mb-5"  style={{fontWeight: "500"}}>
                   Notes and important timestamps of educational videos can be
                   saved and reviewed later.
                 </p>
@@ -455,7 +442,7 @@ class Home extends React.Component {
                 <div className="w-full font-bold text-xl text-gray-800 px-6">
                   Saved Notes & Reports
                 </div>
-                <p className="text-gray-800 text-base px-6 mb-5">
+                <p className="text-gray-800 text-base px-6 mb-5"  style={{fontWeight: "500"}}>
                   Snapshot of graphs and notes can be saved as Reports. You can
                   review and make changes to these reports at another time.
                 </p>
@@ -465,7 +452,7 @@ class Home extends React.Component {
         </section>
         <section id="form" className="contactForm bg-gray-100 py-8">
           <div className="container mx-auto px-2 pt-4 pb-12 text-gray-800">
-            <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
+            <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800"  style={{fontWeight: "500"}}>
               • Contact Us •
             </h1>
             <div className="w-full mb-4">
@@ -632,24 +619,7 @@ class Home extends React.Component {
                   href="#"
                 >
                   {/*Icon from: http://www.potlabicons.com/ */}
-                  <svg
-                    className="h-8 fill-current inline"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 512.005 512.005"
-                  >
-                    <rect
-                      fill="#2a2a31"
-                      x="16.539"
-                      y="425.626"
-                      width="479.767"
-                      height="50.502"
-                      transform="matrix(1,0,0,1,0,0)"
-                    />
-                    <path
-                      className="plane-take-off"
-                      d=" M 510.7 189.151 C 505.271 168.95 484.565 156.956 464.365 162.385 L 330.156 198.367 L 155.924 35.878 L 107.19 49.008 L 211.729 230.183 L 86.232 263.767 L 36.614 224.754 L 0 234.603 L 45.957 314.27 L 65.274 347.727 L 105.802 336.869 L 240.011 300.886 L 349.726 271.469 L 483.935 235.486 C 504.134 230.057 516.129 209.352 510.7 189.151 Z "
-                    />
-                  </svg>
+                  
                   FinTacTic
                 </a>
               </div>
@@ -661,6 +631,7 @@ class Home extends React.Component {
                       onClick={this.toggle}
                       style={{
                         color: "black",
+                        fontWeight: "500",
                       }}
                       className="no-underline hover:underline text-gray-800 hover:text-pink-500"
                     >
@@ -679,6 +650,7 @@ class Home extends React.Component {
                       className="no-underline text-gray-800 "
                       style={{
                         color: "black",
+                        fontWeight: "500",
                       }}
                     >
                       Youtube
@@ -694,6 +666,7 @@ class Home extends React.Component {
                       onClick={() => this.scrollToContactForm()}
                       style={{
                         color: "black",
+                        fontWeight: "500",
                       }}
                       className="no-underline hover:underline text-gray-800 hover:text-pink-500"
                     >
