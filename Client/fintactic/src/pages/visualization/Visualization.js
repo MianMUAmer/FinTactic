@@ -428,9 +428,9 @@ class Visualization extends React.Component {
   MLPredGraph = () => {
     console.log(
       "Pressed ML",
-      this.state.endRange,
-      this.state.startRange,
-      this.state.rSelected
+      this.state.apiSDate,
+      this.state.apiEDate,
+      this.state.ticker
     );
 
     fetch("/mlOld", {
@@ -442,6 +442,7 @@ class Visualization extends React.Component {
       }),
     })
       .then((response) => {
+        console.log(response);
         this.state.loading = "false";
         return response.json();
       })
