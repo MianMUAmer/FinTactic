@@ -356,7 +356,7 @@ def ml():
     df = pd.DataFrame({'Date': result.keys(), 'Closing Price': result.values()})
     df.index.name = 'index'
 
-    if choice=="old":
+    if choice=="Old Data":
         model=sm.tsa.statespace.SARIMAX(df['Closing Price'].astype(float) ,order=(1, 1, 1),seasonal_order=(1,1,1,12))
         results=model.fit()
         df['forecast']=results.predict(start=0,dynamic=False)
@@ -373,7 +373,7 @@ def ml():
         res["data"] = data
         return jsonify(res), 200
 
-    elif choice=="future":
+    elif choice=="Future Data":
         future_dates = []
         for x in range(0,24):
             future_dates.append(df.index[-1] + x)
