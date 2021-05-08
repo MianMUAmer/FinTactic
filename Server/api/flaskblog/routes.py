@@ -5,6 +5,11 @@ from flask_login import login_user, current_user, logout_user, login_required
 from io import BytesIO
 import flask
 import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
+
+symDict = {"AAPL":"Apple", "AMZN":"Amazon", "FB":"Facebook", "GOOGL":"Google", "MSFT":"Microsoft", "BTC":"Bitcoin", "ETH":"Ethereum", "GC":"Gold", "SI":"Silver"}
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -57,34 +62,26 @@ def getAsset():
 
     if(name=='AAPL'):
         target = AAPL
-        metadata["3. Name"] = "Apple"
     elif(name=="AMZN"):
-        metadata["3. Name"] = "Amazon"
         target = AMZN
     elif(name=="FB"):
-        metadata["3. Name"] = "Facebook"
         target = FB
     elif(name=="GOOGL"):
-        metadata["3. Name"] = "Google"
         target = GOOG
     elif(name=="MSFT"):
-        metadata["3. Name"] = "Microsoft"
         target = MSFT
     elif(name=="BTC"):
-        metadata["3. Name"] = "Bitcoin"
         target = BTC
     elif(name=="ETH"):
-        metadata["3. Name"] = "Ethereum"
         target = ETH
     elif(name=="GC"):
-        metadata["3. Name"] = "Gold"
         target = GC
     elif(name=="SI"):
-        metadata["3. Name"] = "Silver"
         target = SI
     else:
         return {'name': "invalid"}, 400
     
+    metadata["3. Name"] = symDict[name]
     result["Meta Data"] = metadata
 
     if startDate and endDate:
@@ -314,16 +311,18 @@ def corr():
     elif struct=="data":
         for day,c1, c2 in zip(dates, close1, close2):
             result[day] = {"assetX":  str(c1), "assetY": str(c2)}
-        print(result)
         return jsonify(result), 200
     
 
 
 
-@app.route("/ml", methods=['GET', 'POST'])
+@app.route("/mlOld", methods=['GET', 'POST'])
 def ml():
     req = flask.request.get_json(force=True)
     name = req.get('name', None)
+    startDate = req.get('startDate', None)
+    endDate = req.get('endDate', None)
+
     if(name=='AAPL'):
         target = AAPL
     elif(name=="AMZN"):
@@ -345,11 +344,34 @@ def ml():
     else:
         return {'name': "invalid"}, 400
         
-    assets = target.query.all()
+    assets = target.query.filter(target.date.between(startDate, endDate)).all()
     result = {}
     for a in assets:
         result[a.getDate()] = a.get_close()
-    return jsonify(result), 200
+
+    df = pd.DataFrame({'Date': result.keys(), 'Closing Price': result.values()})
+    df.index.name = 'index'
+
+    model=sm.tsa.statespace.SARIMAX(df['Closing Price'].astype(float) ,order=(1, 1, 1),seasonal_order=(1,1,1,12))
+    results=model.fit()
+    df['forecast']=results.predict(start=0,dynamic=False)
+
+    res = {}
+    meta = {}
+    data = {}
+    meta["Symbol"]=name
+    meta["Name"]=symDict[name]
+    res["meta"] = meta
+
+    i=0
+    for date, actual,predicted in zip(result.keys(), result.values(), df['forecast']):
+        data[date] = {"close": actual, "predict": predicted}
+        
+    del data[next(iter(data))]
+    res["data"] = data
+
+    return jsonify(res), 200
+
 
 @app.route("/addVideo", methods=['GET', 'POST'])
 def addVideo():

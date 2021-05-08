@@ -17,7 +17,11 @@ import Bitcoin from "../../images/imgedu/Bitcoin.jpeg";
 import Parser from "html-react-parser";
 import { Tooltip, Button } from "reactstrap";
 import infoIcon from "../../images/infoIcon.png";
+import { isThisSecond } from "date-fns";
 // import seconded from "../../images/imgedu/Bitcoin.jpeg";
+import FilledStar from "../../images/people/star_filled.png";
+import UnFilledStar from "../../images/people/star_unfilled.png";
+
 class Education extends React.Component {
   constructor(props) {
     super(props);
@@ -207,6 +211,7 @@ class Education extends React.Component {
   //   this.getWiki();
   // }
 
+
   handleClickSignIn() {
     console.log("come handle click fun");
     this.props.history.push({
@@ -248,19 +253,14 @@ class Education extends React.Component {
   }
 
     bookmarkVideo = (e) => {
-      
+
       var videoValues = e.target.value.split(',');
-      console.log(videoValues);
       var user_id = localStorage.getItem("user_id");
-      console.log(user_id)
       var videoURL = videoValues[0]
-      console.log(videoURL)
       localStorage.setItem("videoUrl", videoURL);
       var videoNAME = videoValues[1]
-      console.log(videoNAME)
       localStorage.setItem("videoName", videoNAME);
       var videoTHMB = videoValues[2]
-      console.log(videoTHMB)
       localStorage.setItem("VideoThmb", videoTHMB); 
     
     fetch('/toggleBookmark', {
@@ -322,8 +322,9 @@ class Education extends React.Component {
                 value="Jwzta8B1b9g,Stock Market 101,FINTACTIC/Client/fintactic/src/images/imgedu/STOCK MARKET 101.jpeg"
                 onClick={e => this.bookmarkVideo(e, "value")}
                 >
-                Bookmark
+                  Bookmark
               </Button>
+              
               </p>
             </th>
             <th>
@@ -337,7 +338,7 @@ class Education extends React.Component {
                 onClick={e => this.bookmarkVideo(e, "value")}
                 value="ay0C36Yd20w,Bollinger Bands,FINTACTIC/Client/fintactic/src/images/imgedu/Bollinger Bands.jpeg"
                 >
-                Bookmark
+               Bookmark
               </Button>
               </p>
             </th>

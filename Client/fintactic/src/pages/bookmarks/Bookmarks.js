@@ -97,17 +97,12 @@ class Bookmarks extends React.Component {
 
    bookmarkVideo = (e) => {
     var videoValues = e.target.value.split(',');
-    console.log(videoValues);
     var user_id = localStorage.getItem("user_id");
-    console.log(user_id)
     var videoURL = videoValues[0]
-    console.log(videoURL)
     localStorage.setItem("videoUrl", videoURL);
     var videoNAME = videoValues[1]
-    console.log(videoNAME)
     localStorage.setItem("videoName", videoNAME);
     var videoTHMB = videoValues[2]
-    console.log(videoTHMB)
     localStorage.setItem("VideoThmb", videoTHMB); 
 
 
@@ -160,13 +155,14 @@ class Bookmarks extends React.Component {
                       }
                     })()}
                   </a>
-                  <Button
+                    <Button
                   style={{ marginLeft: "220px", width: "100px", backgroundColor: "gold", color: "black" }}
                   value={(row.url),(row.name),(row.thumbnail)}
                   onClick={e => this.bookmarkVideo(e, "value")}
                   >
                   Bookmark
-                </Button>
+                </Button>  
+                
                 </p>
               </th>
             </tr>

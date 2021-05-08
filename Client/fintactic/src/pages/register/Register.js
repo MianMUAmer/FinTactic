@@ -86,9 +86,9 @@ class Register extends React.Component {
         }
 
         return (
-            <div className="auth-page">
+            <div className="auth-page" style={{backgroundColor: "#6B5BAB" /*backgroundImage: 'url(' + require('../../images/people/bgbg.jpg') + ')'*/}} >
                 
-                <Container id="containerRegistration">
+                <Container id="containerRegistration" style={{marginTop: "60px"}}>
                     <div className="wrapper">
                         <div className="wrapperFintactic">
                         <img src={Logo}></img>
@@ -149,7 +149,7 @@ class Register extends React.Component {
                                     <p className="widget-auth-info mt-4">
                                         Already have the account?
                                     </p>
-                                    <Link className="d-block text-center mb-4" to="login">Login Now!</Link>
+                                    <Link className="d-block text-center mb-4" to="login" >Login Now!</Link>
                                 </div>
                             </form>
                         </Widget>

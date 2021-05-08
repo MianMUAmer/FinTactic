@@ -131,35 +131,38 @@ class Notes extends React.Component {
 
   render() {
     var i = 1;
-    
     return (
       
       <div className={s.root}>
         <h2 className="page-title" style={{color: "black"}}>
           States
         </h2>
-        <div>Click on <span className="glyphicon glyphicon-step-backward" style={{color: "#A30F0F", marginBottom: "3px"}}/> to go back to your work!</div>
-
+        <div style={{color: "black", fontSize: "17px"}}>Click on <span className="glyphicon glyphicon-step-backward" style={{color: "#640303", marginBottom: "3px"}}/> to go back to your work!</div>
+        
         <Row>
           <Col>
             <Widget
               bodyClass={s.mainTableWidget}
+              style={{backgroundColor: "#A7A0C3"}}
             >
               <Table striped>
                 <thead>
                   <tr className="fs-sm">
                     <th className="hidden-sm-down"></th>
-                    <th style={{color: "#602D76", fontFamily: "'Trebuchet MS', sans-serif"}}>Asset Type</th>
-                    <th style={{color: "#602D76", fontFamily: "'Trebuchet MS', sans-serif"}}>Ticker</th>
-                    <th style={{color: "#602D76", fontFamily: "'Trebuchet MS', sans-serif"}}>Graph Type</th>
-                    <th style={{color: "#602D76", fontFamily: "'Trebuchet MS', sans-serif"}}>Indicator</th>
-                    <th style={{color: "#602D76", fontFamily: "'Trebuchet MS', sans-serif"}}>Date Range</th>
+                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif", fontSize: "18px"}}>Asset Type</th>
+                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif", fontSize: "18px"}}>Ticker</th>
+                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif", fontSize: "18px"}}>Graph Type</th>
+                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif", fontSize: "18px"}}>Indicator</th>
+                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif", fontSize: "18px"}}>Date Range</th>
+                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif", fontSize: "18px"}}>Date</th>
                     <th></th>
+                    <th style={{color: "#342F3C", fontFamily: "'Trebuchet MS', sans-serif", fontSize: "18px"}}>Actions</th>
                   </tr>
+                  
                 </thead>
-                <tbody>
+                <tbody style={{backgroundColor: "#A0A2DA"}}>
 
-                  {Object.values(this.state.myNotesArray).map((row, index) => (
+                  {Object.values(this.state.myNotesArray).map((row, index)  => (
                     <tr key={row.id}>
                       <td style={{color: "#000000", fontWeight: "500"}}>{index + 1}</td>
                       <td style={{color: "#000000", fontWeight: "500"}}>
@@ -178,9 +181,9 @@ class Notes extends React.Component {
                         {row.startDate == "None" && row.endDate == "None" ? "None" : moment(row.startDate).format("MMMM D, dddd, YY") +" - "+ moment(row.endDate).format("MMMM D, dddd, YY")}
                       </td>
                       <td style={{color: "#000000", fontWeight: "500"}}>{row.date}</td>
-                      <td><span className="glyphicon glyphicon-step-backward" style={{color: "#A30F0F", left: "80px", marginTop: "16px", cursor: "pointer"}}  onClick={() => {this.backToWork(row.asset, row.ticker, row.graph, row.indicator, row.startDate, row.endDate)}}/></td>
+                      <td><span className="glyphicon glyphicon-step-backward" style={{color: "#640303", left: "60px", marginTop: "16px", cursor: "pointer"}}  onClick={() => {this.backToWork(row.asset, row.ticker, row.graph, row.indicator, row.startDate, row.endDate)}}/></td>
                       <td className="width-150">
-                      <td><span className="glyphicon glyphicon-trash" style={{color: "black", left: "70px", cursor: "pointer"}} onClick={() => {this.deleteFromDb(row.id)}}/></td>
+                      <td><span className="glyphicon glyphicon-trash" style={{color: "black", left: "35px", cursor: "pointer"}} onClick={() => {this.deleteFromDb(row.id)}}/></td>
                       </td>
                     </tr>
                   ))}
