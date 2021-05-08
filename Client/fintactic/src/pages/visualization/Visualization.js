@@ -62,7 +62,7 @@ class Visualization extends React.Component {
       rSelected: null,
 
       assetType: "Stocks",
-      ticker: "FB",
+      ticker: "AMZN",
       graphType: "Candle Stick",
       fIndicatorType: "Indicators",
       assetTypeDropdownOpen: false,
@@ -436,6 +436,7 @@ class Visualization extends React.Component {
         name: this.state.ticker,
         startDate: this.state.apiSDate,
         endDate: this.state.apiEDate,
+        // rSelected:this.state.rSelected
       }),
     })
       .then((response) => {

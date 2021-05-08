@@ -1,3 +1,4 @@
+import moment from "moment";
 import React from "react";
 import Plot from "react-plotly.js";
 
@@ -14,66 +15,37 @@ class MlPrediction extends React.Component {
     };
   }
 
+  componentDidMount() {
+    if (this.state.predType === "Future Data") {
+      var cp = this.state.stockChartXValues;
+      //   for (var i = 1; i < 24; i++) {
+      //     cp.push(
+      //       moment("07-05-2021", "DD-MM-YYYY").add(i, "day").format("YYYY-MM-DD")
+      //     );
+      //   }
+      console.log(this.state.stockChartXValues, "ccpp");
+    }
+  }
+
   render() {
     const {
       stockChartXValues,
       stockChartCloseValues,
       symbol,
-      mlStartDate,
-      mlEndData,
       predType,
       predictedValues,
     } = this.state;
     console.log(this.state, "ssssss");
-    // if (predType === "Old Data") {
-    //   var pD = [];
-    //   if (mlStartDate > 0) {
-    //     for (var k = 0; k < mlStartDate; k++) {
-    //       pD.push({});
-    //     }
-    //     if (mlEndData < stockChartCloseValues.length) {
-    //       for (
-    //         var l = mlStartDate, m = 0;
-    //         l < mlEndData - mlStartDate;
-    //         l++, m++
-    //       ) {
-    //         pD.push(predictedValues[m]);
-    //       }
-    //       for (var n = j; n < stockChartCloseValues.length - mlEndData; n++) {
-    //         pD.push({});
-    //       }
-    //     } else {
-    //       for (
-    //         var l = mlStartDate, m = 0;
-    //         l < stockChartCloseValues.length;
-    //         l++, m++
-    //       ) {
-    //         pD.push(predictedValues[m]);
-    //       }
-    //     }
-    //   } else {
-    //     if (mlEndData < stockChartCloseValues.length) {
-    //       for (var k = mlStartDate; k < mlEndData; k++) {
-    //         pD.push(predictedValues[k]);
-    //       }
-    //       for (var n = j; n < stockChartCloseValues.length; n++) {
-    //         pD.push({});
-    //       }
-    //     } else {
-    //       for (var i = mlStartDate; i < mlEndData; i++) {
-    //         pD.push(predictedValues[i]);
-    //       }
-    //     }
+
+    // if (predType === "Future Data") {
+    //   var cp = stockChartXValues;
+    //   for (var i = 1; i < 24; i++) {
+    //     cp.push(
+    //       moment("07-05-2021", "DD-MM-YYYY").add(i, "day").format("YYYY-MM-DD")
+    //     );
     //   }
-    // } else if (predType === "Future Data") {
-    //   for (var i = 0; i < mlStartDate; i++) {
-    //     pD.push({});
-    //   }
-    //   for (var j = mlStartDate, m = 0; j < mlEndData; j++, m++) {
-    //     pD.push(predictedValues[m]);
-    //   }
+    //   console.log(cp, "ccpp");
     // }
-    // console.log(pD, "pD");
 
     return (
       <Plot
