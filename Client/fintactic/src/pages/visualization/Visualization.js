@@ -886,7 +886,7 @@ class Visualization extends React.Component {
             style={{
               color: "black",
               backgroundColor: "#F5F5AE",
-              width: "400px",
+              width: "1030px",
               height: "25px",
             }}
             name="title"
@@ -898,7 +898,7 @@ class Visualization extends React.Component {
             ref={(ref) => (this.multilineTextarea = ref)}
             style={{
               backgroundColor: "#F5F5AE",
-              width: "600px",
+              width: "1030px",
               color: "black",
             }}
             name="notes"

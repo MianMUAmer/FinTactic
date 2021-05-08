@@ -9,7 +9,6 @@ import App, { FuncComp } from "./components/App";
 import reducers from "./reducers";
 
 const store = createStore(reducers, applyMiddleware(ReduxThunk));
-
 ReactDOM.render(
   <Provider store={store}>
     <div>
