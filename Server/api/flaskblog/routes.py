@@ -345,9 +345,9 @@ def ml():
     else:
         return {'name': "invalid"}, 400
 
-    if choice=="old":
+    if choice=="Old Data":
         assets = target.query.filter(target.date.between(startDate, endDate)).all()
-    elif choice=="future":
+    elif choice=="Future Data":
         assets = target.query.filter(target.date.between("2021-01-01", "2021-05-07")).all()
 
     result = {}
